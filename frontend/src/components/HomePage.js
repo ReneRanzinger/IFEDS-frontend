@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
 import Navbar from './Navbar.js';
 import Table from './Table.js';
 
@@ -12,16 +11,10 @@ export class HomePage extends Component {
     return (
       <div>
         <Navbar/>
-        <h1 className='h'>MY Component</h1>
-        <div><Table/></div>
+        <div className = "h"><Table/></div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    datasets: state.datasets
-  }
-}
-export default connect(mapStateToProps) (HomePage);
+export default HomePage;
