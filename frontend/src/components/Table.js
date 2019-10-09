@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import DatasetContext from '../contexts/DatasetContext';
 
 function createData(name, author, advTech, description) {
   return { name, author, advTech, description };
@@ -208,7 +209,10 @@ const useFetch = (url) => {
     createData('Nougat', 360, 19.0, 9, 37.0),
     createData('Oreo', 437, 18.0, 63, 4.0),
   ]);
-
+// we can ristrict it if our any definite state changes for that we can pass
+// the state as second parameter
+// p.s initially it will change, so will set this whenever dataset is added
+// or deleted
   useEffect( () => {
     async function fetchData(url) {
      const response = await fetch(url);
@@ -231,6 +235,7 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const {data} = useFetch();
 
+  const {isDatasetModified} = useContext(DatasetContext);
 
 
   const handleRequestSort = (event, property) => {
