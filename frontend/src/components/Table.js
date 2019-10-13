@@ -16,27 +16,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DatasetContext from '../contexts/DatasetContext';
 
-function createData(name, author, advTech, description) {
-  return { name, author, advTech, description };
-}
-
-// Input json to be implemented to get row data
-// const rows = [
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Donut', 452, 25.0, 51, 4.9),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-//   createData('Honeycomb', 408, 3.2, 87, 6.5),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Jelly Bean', 375, 0.0, 94, 0.0),
-//   createData('KitKat', 518, 26.0, 65, 7.0),
-//   createData('Lollipop', 392, 0.2, 98, 0.0),
-//   createData('Marshmallow', 318, 0, 81, 2.0),
-//   createData('Nougat', 360, 19.0, 9, 37.0),
-//   createData('Oreo', 437, 18.0, 63, 4.0),
-// ];
-
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -195,35 +174,31 @@ const useStyles = makeStyles(theme => ({
 
 const useFetch = (url) => {
   const [data, setData] = useState([
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
+  {"datasetId":1,"datasetName":"Stem Cell Data 1","sampleName":"Differenciated smooth muscle cell","providerName":"CCRC","description":"Glycomics analysis performed with the stem cell data set 1."},
+  {"datasetId":2,"datasetName":"Stem Cell Data 2","sampleName":"Differenciated smooth muscle cell","providerName":"CCRC","description":"Glycomics analysis performed with the stem cell data set 2."}
   ]);
 // we can ristrict it if our any definite state changes for that we can pass
 // the state as second parameter
 // p.s initially it will change, so will set this whenever dataset is added
 // or deleted
   useEffect( () => {
-    async function fetchData(url) {
-     const response = await fetch(url);
-     const data = await response.json();
-     const [item] = data.results;
-     setData(item);
-   }
-   fetchData();
-  },[]);
+    fetch(
+          url,
+          {
+            method: "GET",
+            headers: new Headers({
+              Accept: "application/vnd.github.cloak-preview"
+            })
+          }
+        )
+          .then(res => res.json())
+          .then(response => {
+            setData(response);
+}).catch(error => console.log(error));
+} , []);
   return {data};
 }
+
 
 export default function EnhancedTable() {
   const classes = useStyles();
@@ -233,9 +208,9 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const {data} = useFetch();
+  const {data} = useFetch("http://localhost:8080/getDatasets");
 
-  const {isDatasetModified} = useContext(DatasetContext);
+
 
 
   const handleRequestSort = (event, property) => {
@@ -301,24 +276,24 @@ export default function EnhancedTable() {
               {stableSort(data, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.datasetName);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, row.name)}
+                      onClick={event => handleClick(event, row.datasetName)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.datasetId}
                       selected={isItemSelected}
                     >
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.name}
+                        {row.datasetName}
                       </TableCell>
-                      <TableCell align="left">{row.author}</TableCell>
-                      <TableCell align="left">{row.advTech}</TableCell>
+                      <TableCell align="left">{row.providerName}</TableCell>
+                      <TableCell align="left">{row.sampleName}</TableCell>
                       <TableCell align="left">{row.description}</TableCell>
                     </TableRow>
                   );
