@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import Navbar from './Navbar.js';
 import './login.sass';
 import { Row, FormGroup, FormControl, ControlLabel, Button, HelpBlock } from 'react-bootstrap';
 import { isEmpty, isLength, isContainWhiteSpace } from 'shared/validator';
