@@ -1,9 +1,9 @@
-import React from 'react'
-import './App.css'
+import React from 'react';
+import './App.css';
 import {BrowserRouter , Route} from 'react-router-dom';
 import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage';
-import DatasetContextProvider from './contexts/DatasetContext'
+import DatasetContextProvider from './contexts/DatasetContext';
 
 const App = () => (
   <div className="App">
@@ -18,3 +18,4 @@ const App = () => (
 
 
 export default App
+
