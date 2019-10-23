@@ -1,16 +1,20 @@
-import React, {Component} from 'react';
-import Navbar from './navbar1.js'; 
+import React, { Component } from 'react';  
+import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap'; 
+import Navbar1 from './Navbar1.js'; 
+import Sidebar from './Sidebar.js';
 
-export class dashboard extends React.Component {
-    render() {
-        console.log(this.props)
-        return <h1>Hello!</h1>
-        (
-            <div>
-              <navbar1/>
-            </div>
-          );
-    }
-}
 
-export default dashboard;
+
+  class Dashboard extends Component {  
+    render() {  
+  
+        return (  
+            <div class="row" className="mb-2 pageheading"> 
+                
+               <Sidebar/>  
+            </div>  
+        );  
+    }  
+}  
+  
+export default Dashboard; 

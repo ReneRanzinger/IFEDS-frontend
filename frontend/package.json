@@ -7,6 +7,9 @@
     "@material-ui/icons": "^4.5.1",
     "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
+    "bourbon": "^6.0.0",
+    "chart": "^0.1.2",
+    "mdbreact": "^4.21.1",
     "node-sass": "^4.12.0",
     "react": "^16.10.2",
     "react-bootstrap": "^1.0.0-beta.14",
@@ -14,7 +17,9 @@
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.1.2",
-    "redux": "^4.0.4"
+    "reactstrap": "^8.0.1",
+    "redux": "^4.0.4",
+    "redux-form": "^8.2.6"
   },
   "scripts": {
     "start": "react-scripts start",

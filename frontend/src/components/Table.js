@@ -177,7 +177,7 @@ const useFetch = (url) => {
   {"datasetId":1,"datasetName":"Stem Cell Data 1","sampleName":"Differenciated smooth muscle cell","providerName":"CCRC","description":"Glycomics analysis performed with the stem cell data set 1."},
   {"datasetId":2,"datasetName":"Stem Cell Data 2","sampleName":"Differenciated smooth muscle cell","providerName":"CCRC","description":"Glycomics analysis performed with the stem cell data set 2."}
   ]);
-// we can ristrict it if our any definite state changes for that we can pass
+// we can restrict it if our any definite state changes for that we can pass
 // the state as second parameter
 // p.s initially it will change, so will set this whenever dataset is added
 // or deleted
