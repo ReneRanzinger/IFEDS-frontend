@@ -185,15 +185,16 @@ const useFetch = (url) => {
     fetch(
           url,
           {
-            method: "GET",
-            headers: new Headers({
-              Accept: "application/vnd.github.cloak-preview"
-            })
+            method: "POST",
+            body: ({
+Username: "ccrc_user",
+Password: "ccrc_pwd"
+          })
           }
         )
           .then(res => res.json())
           .then(response => {
-            setData(response);
+            console.log(response);
 }).catch(error => console.log(error));
 } , []);
   return {data};
@@ -208,7 +209,7 @@ export default function EnhancedTable() {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const {data} = useFetch("http://localhost:8080/getDatasets");
+  const {data} = useFetch("http://localhost:8080/authenticate");
 
 
 

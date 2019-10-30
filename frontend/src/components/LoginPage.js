@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -43,13 +43,48 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const validate = () => {
+
+}
+
 export default function SignIn() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     const classes = useStyles();
-    function dash(e) {
+    async function dash(e) {
         e.preventDefault();
-        window.location.assign('/dashboard');
+
+        var response = await fetch("http://localhost:8080/authenticate", 
+        {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                "username": username,
+                "password": password
+            })
+        });
+
+        try {
+            if(response.ok) {
+                window.location.assign('/dashboard');
+            }
+            else {
+                alert("Invalid");
+            }
+        }
+        catch(error) {
+            alert("Something went wrong");
+        }
+        
+
+
+        
     }
-    
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -59,9 +94,10 @@ export default function SignIn() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Login
         </Typography>
-                <form className={classes.form} noValidate>
+                {}
+                <form className={classes.form} Validate>
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -69,9 +105,10 @@ export default function SignIn() {
                         fullWidth
                         id="username"
                         label="UserName"
-                        name="username"
+                        name="username" 
                         autoComplete="username"
                         autoFocus
+                        onChange={e => setUsername(e.target.value)}
                     />
                     <TextField
                         variant="outlined"
@@ -83,11 +120,9 @@ export default function SignIn() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={e => setPassword(e.target.value)}
                     />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
-                    />
+
                     <Button
                         type="submit"
                         fullWidth

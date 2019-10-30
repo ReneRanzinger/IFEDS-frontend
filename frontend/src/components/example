@@ -365,3 +365,701 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+  </body>
+</html>
+
+@charset "utf-8";
+@import "bourbon";
+
+
+$mainColor : #445b8311
+
+body
+  background-color:  #F2F2F2
+  color: white
+  font-family: 
+  margin: 0
+  box-sizing: border-box
+  
+
+//--------------------------
+// Menu Bar
+//--------------------------
+.menubar
+  display: block
+  height: 60px
+  background-color: $mainColor
+  box-shadow: 2px 5px 5px 0 rgba(0,0,0,.12)
+  text-align: center
+  
+.menubar span
+  display: inline-block
+  position: absolute
+  left: 50%
+  transform: translateX(-50%)
+  font-weight: 300
+  font-size: 2em
+  line-height: 60px
+
+//--------------------------
+// Hamburger Menu
+//--------------------------
+#hambmenu
+  position: relative
+  width: 40px
+  height: 45px
+  float: left
+  transition: .5s ease-in-out
+  cursor: pointer
+  & span
+    position: absolute
+    height: 5px
+    width: 100%
+    vertical-align: middle
+    margin: 20px 0 0 15px
+    background: white
+    border-radius: 8px
+    opacity: 1
+    left: 0
+    transform: rotate(0deg)
+    transition: .25s ease-in-out
+    padding: 0px
+.hambclicker
+  content: ''
+  height: 48px
+  width: 55px
+  position: absolute
+  top: 8px
+  left: 8px
+  cursor: pointer
+  z-index: 9
+#hambmenu  span:nth-child(1)
+  top: 0px
+#hambmenu  span:nth-child(2),#hambmenu  span:nth-child(3)
+  top: 10px
+#hambmenu  span:nth-child(4)
+  top: 20px
+#hambmenu.isopen span:nth-child(1)
+  top: 18px
+  width: 0%
+  left: 50%
+  opacity: 0
+#hambmenu.isopen span:nth-child(2)
+  transform: rotate(45deg)
+#hambmenu.isopen span:nth-child(3)
+  transform: rotate(-45deg)
+#hambmenu.isopen span:nth-child(4)
+  top: 18px
+  width: 0%
+  left: 50%
+  opacity: 0
+
+//--------------------------
+// Slide In Menu
+//--------------------------
+#menu
+  position: absolute
+  height: calc(100vh - 60px)
+  width: 210px
+  background-color: white
+  transform: translateX(-100%)
+  transition: transform 300ms
+  & ul
+    margin-top: 0px
+    padding: 0px
+    color: black
+    list-style-type: none
+    text-align: left
+  & li
+    padding: 30px 0 20px 20px
+    font-size: 1.5em
+    border-bottom: 1px solid rgba(0,0,0,.14)
+  & li:last-child
+    border-bottom: none
+.fa
+  color: black
+  padding-right: 8px
+li a
+  text-decoration: none
+  color: black
+
+#menu.isopen
+  transform: none
+
+@media screen and (max-width: 420px)
+  .menubar span
+    font-size: 1.2em
+
+
+
+
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import ReactDOM from 'react-dom';
+//import './index.css';
+import './index.sass';
+import App from './App';
+import './index.css';
+
+
+
+ReactDOM.render( <App /> , document.getElementById('root'));
+
+
+
+import React from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Navbar from './Navbar.js';
+import Dashboard from './Dashboard.js'
+
+
+
+
+const useStyles = makeStyles(theme => ({
+    '@global': {
+        body: {
+            backgroundColor: theme.palette.common.white,
+        },
+    },
+    paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+    },
+    form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
+
+const validate =()=> {
+
+}
+
+export default function SignIn() {
+    const classes = useStyles();
+    function dash(e) {
+        e.preventDefault();
+        window.location.assign('/dashboard');
+    }
+    
+    return (
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+                <Navbar />
+                <Avatar className={classes.avatar}>
+                    <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Login 
+        </Typography>
+        {}
+                <form className={classes.form} Validate>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="UserName"
+                        name="username"s
+                        autoComplete="username"
+                        autoFocus
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                    />
+                    
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={dash}
+                    >
+                        Sign In
+          </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Link href="#" variant="body2">
+                                Forgot password?
+              </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link href="#" variant="body2">
+                                {"Don't have an account? Sign Up"}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
+            <Box mt={8}>
+
+            </Box>
+        </Container>
+    );
+}
+
+
+import React from "react";
+import styled from "styled-components";
+
+const NavWrapper = styled.div`
+  width: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 60px;
+  padding: 0 1rem;
+  background-color: #2471A3;
+`;
+
+const BurgerMenu = styled.div`
+  cursor: pointer;
+  padding: 10px 35px 16px 0px;
+
+  & span,
+  & span:before,
+  & span:after {
+    cursor: pointer;
+    border-radius: 1px;
+    height: 5px;
+    width: 35px;
+    background: white;
+    position: absolute;
+    display: block;
+    content: "";
+  }
+
+  & span:before {
+    top: -10px;
+  }
+
+  & span:after {
+    bottom: -10px;
+  }
+`;
+
+const Navbar = ({ toggleMenu }) => {
+    return (
+        <NavWrapper>
+            <BurgerMenu
+                onClick={() => {
+                    toggleMenu(true);
+                    console.log("Hamburger menu clicked, toggle open");
+                }}
+            >
+                <span />
+            </BurgerMenu>
+            <p>Dashboard</p>
+        </NavWrapper>
+    );
+};
+
+export default Navbar;
+
+
+
+
+import React from "react";
+import styled from "styled-components";
+
+const NavWrapper = styled.div`
+  width: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 60px;
+  padding: 0 1rem;
+  background-color: #2471A3;
+`;
+
+const BurgerMenu = styled.div`
+  cursor: pointer;
+  padding: 10px 35px 16px 0px;
+
+  & span,
+  & span:before,
+  & span:after {
+    cursor: pointer;
+    border-radius: 1px;
+    height: 5px;
+    width: 35px;
+    background: white;
+    position: absolute;
+    display: block;
+    content: "";
+  }
+
+  & span:before {
+    top: -10px;
+  }
+
+  & span:after {
+    bottom: -10px;
+  }
+`;
+
+const Navbar = ({ toggleMenu }) => {
+    return (
+        <NavWrapper>
+            <BurgerMenu
+                onClick={() => {
+                    toggleMenu(true);
+                    console.log("Hamburger menu clicked, toggle open");
+                }}
+            >
+                <span />
+            </BurgerMenu>
+            <p>Dashboard</p>
+        </NavWrapper>
+    );
+};
+
+export default Navbar;
+
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+//import './styles.sass';
+
+
+
+
+class Sidebar1 extends React.Component {
+    constructor(props) {
+        super(props);
+        // Any number of links can be added here
+        this.state = {
+            links: [
+                {
+                    text: "Profile",
+                    link: "/dashboard",
+                    
+                },
+                {
+                    text: "List of Datasets",
+                    link: "/dashboard",
+                    
+                },
+                {
+                    text: "List of Samples",
+                    link: "/dashboard",
+                    
+                }
+            ]
+        };
+    }
+    render() {
+        const body ={
+        backgroundColor: "#F2F2F2",
+        color: "white"
+       };
+        let links = this.state.links.map((link, i) => (
+            <li ref={i + 1}>
+                <i aria-hidden="true" className={`fa ${link.icon}`} />
+                <a href={link.link} target="_blank">
+                    {link.text}
+                </a>
+            </li>
+        ));
+
+        return (
+            <div className={this.props.menuStatus} id="menu">
+                <ul>{links}</ul>
+            </div>
+        );
+    }
+}
+
+class Menu extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            isOpen: false
+        };
+        this._menuToggle = this._menuToggle.bind(this);
+        this._handleDocumentClick = this._handleDocumentClick.bind(this);
+    }
+    componentDidMount() {
+        document.addEventListener("click", this._handleDocumentClick, false);
+    }
+    componentWillUnmount() {
+        document.removeEventListener("click", this._handleDocumentClick, false);
+    }
+    _handleDocumentClick(e) {
+        if (!this.refs.root.contains(e.target) && this.state.isOpen === true) {
+            this.setState({
+                isOpen: false
+            });
+        }
+    }
+    _menuToggle(e) {
+        e.stopPropagation();
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
+    }
+    render() {
+        let menuStatus = this.state.isOpen ? "isopen" : "";
+
+        return (
+            <div ref="root">
+                <div className="menubar">
+                    <div className="hambclicker" onClick={this._menuToggle} />
+                    <div id="hambmenu" className={menuStatus}>
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                    </div>
+                    <div className="title">
+                        <span>{this.props.title}</span>
+                    </div>
+                </div>
+                <Sidebar menuStatus={menuStatus} />
+            </div>
+        );
+    }
+}
+
+
+export default Sidebar;
+
+
+import React, { Component } from 'react';
+
+
+export default class Content extends Component {
+    render() {
+        return (
+            <div className="content-wrapper">
+                <section className="content-header">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="box">
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Monthly Recap Report</h3>
+                                </div>
+                                <div className="box-body">
+                                    <div className="row">
+                                        <div className="col-md-8">
+                                            <p className="text-center">
+                                                <strong>This is text</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="box-footer">
+                                    <div className="row">
+                                        <div className="col-sm-3 col-xs-6">
+                                            <div className="description-block border-right">
+                                                <span className="description-percentage text-green"><i className="fa fa-caret-up"></i> 17%</span>
+                                                <h5 className="description-header">$35,210.43</h5>
+                                                <span className="description-text">TOTAL REVENUE</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        )
+    }
+}
+
+
+
+
+
+
+import React from "react";
+import styled from "styled-components";
+
+const SidebarStyled = styled.div`
+  position: fixed;
+  z-index: 555;
+  top: 0;
+  left: 0;
+  width: 80%;
+  background-color: #333;
+  padding: 1rem;
+  color: #fff;
+  max-width: 300px;
+  height: 100%;
+  transform: translateX(${props => (props.show ? "0" : "-100%")});
+  transition: all 0.3s ease-in-out;
+`;
+
+const SidebarWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Link = styled.a`
+  text-decoration: none;
+  color: #fff;
+  font-family: inherit;
+  padding: 1em 2rem;
+  font-size: 13px;
+
+  &:first-of-type {
+    margin-top: 50px;
+  }
+`;
+
+const CloseIcon = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  padding: 10px 35px 16px 0px;
+
+  & span,
+  & span:before,
+  & span:after {
+    cursor: pointer;
+    border-radius: 1px;
+    height: 3px;
+    width: 30px;
+    background: white;
+    position: absolute;
+    display: block;
+    content: "";
+  }
+
+  & span {
+    background-color: transparent;
+  }
+
+  & span:before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+
+  & span:after {
+    top: 0;
+    transform: rotate(-45deg);
+  }
+`;
+
+const Sidebar = ({ show, setIsOpened }) => {
+    return (
+        <SidebarStyled show={show ? 1 : 0}>
+            <SidebarWrapper>
+                <CloseIcon
+                    onClick={() => {
+                        setIsOpened(false);
+                        console.log("Close icon clicked, close sidebar");
+                    }}
+                >
+                    <span />
+                </CloseIcon>
+                <Link href="link here">User Profile</Link>
+                <Link href="link here">List of Datasets</Link>
+                <Link href="link here">List of Samples</Link>
+            </SidebarWrapper>
+        </SidebarStyled>
+    );
+};
+
+export default Sidebar;
+
+
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
+}
+
+.Content {
+  margin-top: 60px;
+  padding: 2rem;
+  text-align: center;
+}

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
  * Navbar component to display Navigation on HomePage
  */
 
-const  Navbar = () => (
+const  Navbar = (props) => (
  
   <header className="navbar">
     <nav className="navbar__navigation">
