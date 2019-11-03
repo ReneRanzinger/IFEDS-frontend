@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
@@ -12,9 +12,10 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DatasetContext from '../contexts/DatasetContext';
+import Link from '@material-ui/core/Link';
+import TextField from '@material-ui/core/TextField';
+import ReadMoreAndLess from 'react-read-more-less';
+
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -40,16 +41,8 @@ function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-const headCells = [
-  { id: 'name', numeric: false, disablePadding: false, label: 'Dataset Name' },
-  { id: 'author', numeric: false, disablePadding: false, label: 'Author' },
-  { id: 'advTech', numeric: false, disablePadding: false, label: 'Advance Technology' },
-  { id: 'description', numeric: false, disablePadding: false, label: 'Dataset Description' },
-];
-
-
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort } = props;
+  const { classes, order, orderBy, onRequestSort, headCells } = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -98,6 +91,7 @@ const useToolbarStyles = makeStyles(theme => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
+    textAlign: 'center'
   },
   highlight:
     theme.palette.type === 'light'
@@ -145,16 +139,27 @@ EnhancedTableToolbar.propTypes = {
 };
 
 const useStyles = makeStyles(theme => ({
+  super: {
+    overflow: 'visible'
+  },
   root: {
     width: '100%',
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1)
   },
   paper: {
-    width: '100%',
+    width: '99%',
+    padding: 10,
     marginBottom: theme.spacing(2),
   },
   table: {
     minWidth: 750,
+  },
+  tableComp:{
+    display : 'flex',
+    justifyContent : 'flex-end'
+  },
+  searchPage: {
+    marginLeft : theme.spacing(4)
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -174,43 +179,51 @@ const useStyles = makeStyles(theme => ({
 
 const useFetch = (url) => {
   const [data, setData] = useState([
-  {"datasetId":1,"datasetName":"Stem Cell Data 1","sampleName":"Differenciated smooth muscle cell","providerName":"CCRC","description":"Glycomics analysis performed with the stem cell data set 1."},
-  {"datasetId":2,"datasetName":"Stem Cell Data 2","sampleName":"Differenciated smooth muscle cell","providerName":"CCRC","description":"Glycomics analysis performed with the stem cell data set 2."}
+  {"datasetId":1,"datasetName":"Stem Cell Data 1","sampleName":"Differenciated smooth cell","providerName":"CCRC tr","description":"Glycomics analysis performed with the stem cell data set 1."},
+  {"datasetId":2,"datasetName":"Stem Cell Data 2","sampleName":"Differenciated smooth muscle cell","providerName":"CCRC ry","description":"Glycomics analysis performed with the stem cell data set 2."}
   ]);
 // we can ristrict it if our any definite state changes for that we can pass
 // the state as second parameter
 // p.s initially it will change, so will set this whenever dataset is added
 // or deleted
+
+const bearer = '';
+
   useEffect( () => {
     fetch(
           url,
           {
             method: "GET",
-            headers: new Headers({
-              Accept: "application/vnd.github.cloak-preview"
-            })
+            // mode: 'cors',
+            // credentials : 'include',
+            //  headers: new Headers({
+            //    'Authorization': bearer
+            //
+            //  })
           }
         )
           .then(res => res.json())
           .then(response => {
+            console.log(response)
             setData(response);
 }).catch(error => console.log(error));
-} , []);
-  return {data};
+}, [ url] );
+  return [data];
 }
 
 
-export default function EnhancedTable() {
+export default function EnhancedTable(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('datasetName');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const {data} = useFetch("http://localhost:8080/getDatasets");
+  const [data] = useFetch('http://localhost:8080/getDatasets');
 
 
+const [query, setQuery] = React.useState("");
 
 
   const handleRequestSort = (event, property) => {
@@ -248,32 +261,63 @@ export default function EnhancedTable() {
     setPage(0);
   };
 
-  const handleChangeDense = event => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = name => selected.indexOf(name) !== -1;
 // changed rows to data
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
+const lowerCaseQuery = query.toLowerCase();
   return (
+    <div className={classes.super}>
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <EnhancedTableToolbar />
+          <div className = {classes.tableComp}>
+
+                <TextField
+                  className = {classes.searchPage}
+                  hintText="Query"
+                  floatingLabelText="Query"
+                  label = "Search"
+                  value={query}
+                  onChange={e => setQuery(e.target.value )}
+                  floatingLabelFixed
+                />
+
+
+        <TablePagination
+          className = {classes.searchPage}
+          rowsPerPageOptions={[5, 10, 25]}
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          backIconButtonProps={{
+            'aria-label': 'previous page',
+          }}
+          nextIconButtonProps={{
+            'aria-label': 'next page',
+          }}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </div>
+
         <div className={classes.tableWrapper}>
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size={'medium'}
           >
             <EnhancedTableHead
               classes={classes}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
+              headCells = {props.headCell}
             />
             <TableBody>
-              {stableSort(data, getSorting(order, orderBy))
+              {stableSort(query ? data.filter(x => (((x["providerName"].toLowerCase().includes(lowerCaseQuery)) || x["sampleName"].toLowerCase().includes(lowerCaseQuery)) || x["datasetName"].toLowerCase().includes(lowerCaseQuery))): data
+
+                , getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.datasetName);
@@ -290,11 +334,17 @@ export default function EnhancedTable() {
                       selected={isItemSelected}
                     >
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.datasetName}
+                        <Link>{row.datasetName}</Link>
                       </TableCell>
                       <TableCell align="left">{row.providerName}</TableCell>
                       <TableCell align="left">{row.sampleName}</TableCell>
-                      <TableCell align="left">{row.description}</TableCell>
+                      <TableCell align="left"><ReadMoreAndLess className="read-more-content"
+                                                               charLimit={125}
+                                                               readMoreText="...read more"
+                                                               readLessText="...read less">
+                                              {row.description}
+                                                </ReadMoreAndLess>
+                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -322,10 +372,8 @@ export default function EnhancedTable() {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
+
     </div>
+  </div>
   );
 }

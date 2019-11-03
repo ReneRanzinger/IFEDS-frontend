@@ -1,20 +1,48 @@
 import React from 'react'
 import './App.css'
-import {BrowserRouter , Route} from 'react-router-dom';
-import HomePage from './components/HomePage';
-import LoginPage from './components/LoginPage';
-import DatasetContextProvider from './contexts/DatasetContext'
+import {Route} from 'react-router-dom';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import HomePage from './components/pages/HomePage';
+import LoginPage from './components/pages/LoginPage';
+import DashboardPage from './components/pages/DashBoard';
+import Navbar from './components/pages/Navbar';
+//import DatasetContextProvider from './contexts/DatasetContext'
+import UserRoute from "./components/routes/UserRoute";
+import GuestRoute from "./components/routes/GuestRoute";
 
-const App = () => (
-  <div className="App">
-    <BrowserRouter>
-      <DatasetContextProvider>
-        <Route exact path= '/' component= {HomePage}/>
-        <Route path = '/login'component= {LoginPage}/>
-      </DatasetContextProvider>
-    </BrowserRouter>
+
+
+const App = ({ location, isAuthenticated }) => (
+  <div >
+    {isAuthenticated && <Navbar />}
+    <GuestRoute location={location} path="/" exact component={HomePage} />
+
+    <GuestRoute location={location} path="/login" exact component={LoginPage} />
+
+    <UserRoute
+        location={location}
+        path="/dashboard"
+        exact
+        component={DashboardPage}
+      />
+
+
+
   </div>
 );
 
+App.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired
+  }).isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
+};
 
-export default App
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: !!state.user.email
+  };
+}
+
+export default connect(mapStateToProps)(App);
