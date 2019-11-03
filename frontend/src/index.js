@@ -1,7 +1,5 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
-<<<<<<< HEAD
 
 import App from './App';
 import { BrowserRouter, Route } from "react-router-dom";
@@ -18,13 +16,6 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
-=======
-//import './index.css';
-import './index.sass';
-import App from './App';
-import './index.css';
-
->>>>>>> 76d77c97a2349a9b6c6e04d5d5bbe4070c233bb1
 
 if (localStorage.appJWT) {
   const payload = decode(localStorage.appJWT);
