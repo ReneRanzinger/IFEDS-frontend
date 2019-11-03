@@ -193,7 +193,6 @@ const bearer = '';
     fetch(
           url,
           {
-<<<<<<< HEAD:frontend/src/components/pages/Table.js
             method: "GET",
             // mode: 'cors',
             // credentials : 'include',
@@ -201,23 +200,12 @@ const bearer = '';
             //    'Authorization': bearer
             //
             //  })
-=======
-            method: "POST",
-            body: ({
-Username: "ccrc_user",
-Password: "ccrc_pwd"
-          })
->>>>>>> 76d77c97a2349a9b6c6e04d5d5bbe4070c233bb1:frontend/src/components/Table.js
           }
         )
           .then(res => res.json())
           .then(response => {
-<<<<<<< HEAD:frontend/src/components/pages/Table.js
             console.log(response)
             setData(response);
-=======
-            console.log(response);
->>>>>>> 76d77c97a2349a9b6c6e04d5d5bbe4070c233bb1:frontend/src/components/Table.js
 }).catch(error => console.log(error));
 }, [ url] );
   return [data];
@@ -232,11 +220,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-<<<<<<< HEAD:frontend/src/components/pages/Table.js
-  const [data] = useFetch('http://localhost:8080/getDatasets');
-=======
   const {data} = useFetch("http://localhost:8080/authenticate");
->>>>>>> 76d77c97a2349a9b6c6e04d5d5bbe4070c233bb1:frontend/src/components/Table.js
 
 
 const [query, setQuery] = React.useState("");
