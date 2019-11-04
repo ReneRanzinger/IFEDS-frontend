@@ -1,9 +1,11 @@
-import axios from "axios";
 
 export default (token = null) => {
+  let bearer = 'Bearer '
   if (token) {
-    axios.defaults.headers.common.authorization = `Bearer ${token}`;
+    let meta = { "Content-Type": "application/json", 'Authorization': bearer+token, }
+  return  new Headers(meta)
   } else {
-    delete axios.defaults.headers.common.authorization;
+    let meta = {"Content-Type": "application/json"}
+  return  new Headers(meta)
   }
 };

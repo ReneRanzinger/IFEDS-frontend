@@ -10,13 +10,14 @@ import Navbar from './components/pages/Navbar';
 //import DatasetContextProvider from './contexts/DatasetContext'
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
+import AdminRoute from "./components/routes/AdminRoute";
 
 
 
 const App = ({ location, isAuthenticated }) => (
   <div >
     {isAuthenticated && <Navbar />}
-    <GuestRoute location={location} path="/" exact component={HomePage} />
+    <AdminRoute location={location} path="/" exact component={HomePage} />
 
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
 

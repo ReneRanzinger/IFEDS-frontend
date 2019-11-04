@@ -15,6 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
+import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 
 function desc(a, b, orderBy) {
@@ -177,29 +178,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const useFetch = (url) => {
+const useFetch = (url,props) => {
   const [data, setData] = useState([
   {"datasetId":1,"datasetName":"Stem Cell Data 1","sampleName":"Differenciated smooth cell","providerName":"CCRC tr","description":"Glycomics analysis performed with the stem cell data set 1."},
   {"datasetId":2,"datasetName":"Stem Cell Data 2","sampleName":"Differenciated smooth muscle cell","providerName":"CCRC ry","description":"Glycomics analysis performed with the stem cell data set 2."}
   ]);
-// we can restrict it if our any definite state changes for that we can pass
-// the state as second parameter
-// p.s initially it will change, so will set this whenever dataset is added
-// or deleted
-
-const bearer = '';
 
   useEffect( () => {
     fetch(
           url,
           {
             method: "GET",
-            // mode: 'cors',
-            // credentials : 'include',
-            //  headers: new Headers({
-            //    'Authorization': bearer
-            //
-            //  })
+            mode: 'cors',
+             headers: setAuthorizationHeader(props.prop.isAuthenticated)
           }
         )
           .then(res => res.json())
@@ -220,7 +211,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const {data} = useFetch("http://localhost:8080/authenticate");
+  const [data] = useFetch("http://localhost:8080/getDatasets",props);
 
 
 const [query, setQuery] = React.useState("");

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar.js';
 import Table from './Table.js';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 /**
  * HomePage
@@ -18,10 +20,19 @@ export class HomePage extends Component {
     return (
       <div>
         <div><Navbar to="yes"/></div>
-        <div><Table headCell ={headCells}/></div>
+        <div><Table headCell ={headCells} prop={this.props}/></div>
       </div>
     );
   }
 }
 
-export default HomePage;
+HomePage.propTypes = {
+  isAuthenticated: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.user.token
+  };
+}
+export default connect(mapStateToProps)(HomePage);
