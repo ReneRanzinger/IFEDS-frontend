@@ -7,6 +7,8 @@ import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashBoard';
 import Navbar from './components/pages/Navbar';
+import MenuAppBar from './components/pages/MenuAppBar';
+import InternalServer from './components/error_pages/InternalServer';
 //import DatasetContextProvider from './contexts/DatasetContext'
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
@@ -16,11 +18,11 @@ import AdminRoute from "./components/routes/AdminRoute";
 
 const App = ({ location, isAuthenticated }) => (
   <div >
-    {isAuthenticated && <Navbar />}
+
     <AdminRoute location={location} path="/" exact component={HomePage} />
 
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
-
+    <GuestRoute location={location} path="/500" exact component={InternalServer}/>
     <UserRoute
         location={location}
         path="/dashboard"
@@ -37,6 +39,10 @@ App.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired
   }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  logout:PropTypes.func,
   isAuthenticated: PropTypes.bool.isRequired
 };
 

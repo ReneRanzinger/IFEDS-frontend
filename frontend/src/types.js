@@ -1,2 +1,5 @@
 export const USER_LOGGED_IN = "USER_LOGGED_IN";
 export const USER_LOGGED_OUT = "USER_LOGGED_OUT";
+export const HTTP_404_ERROR = 'HTTP_404_ERROR';
+export const HTTP_500_ERROR = 'HTTP_500_ERROR';
+export const HTTP_OTHER_ERROR = 'HTTP_OTHER_ERROR';

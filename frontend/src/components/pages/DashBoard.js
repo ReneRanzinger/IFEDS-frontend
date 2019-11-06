@@ -6,16 +6,19 @@ import React, { Component } from 'react';
 //import Content from './Content';
 //import Background from './Background';
 import Navbar from './Navbar';
+import DatasetTable from './DatasetTable'
 
 
   class Dashboard extends Component {
     render() {
 
           return (
+<div className="Content">
+  <Navbar />
 
 
-                    <div className="Content">
-                      <Navbar />
+
+
 
                     </div>
 
@@ -25,4 +28,4 @@ import Navbar from './Navbar';
     }
 
 
-export default Dashboard; 
+export default Dashboard;

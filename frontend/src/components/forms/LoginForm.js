@@ -96,7 +96,7 @@ console.log(password);
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-                <Navbar />
+                
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>

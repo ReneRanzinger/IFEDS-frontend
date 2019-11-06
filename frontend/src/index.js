@@ -17,14 +17,14 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
-if (localStorage.appJWT) {
-  const payload = decode(localStorage.appJWT);
+if (localStorage.ifedsauthJWT) {
+  const payload = decode(localStorage.ifedsauthJWT);
   const user = {
-    token: localStorage.appJWT,
+    token: localStorage.ifedsauthJWT,
     email: payload.email,
     confirmed: payload.confirmed
   };
-  setAuthorizationHeader(localStorage.appJWT);
+  setAuthorizationHeader(localStorage.ifedsauthJWT);
   store.dispatch(userLoggedIn(user));
 }
 

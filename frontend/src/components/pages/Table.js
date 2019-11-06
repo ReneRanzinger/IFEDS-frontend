@@ -16,6 +16,7 @@ import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+import * as errorHandlerActions from '../../actions/auth';
 
 
 function desc(a, b, orderBy) {
@@ -185,23 +186,22 @@ const useFetch = (url,props) => {
   ]);
 
   useEffect( () => {
-    fetch(
-          url,
+  let response =  fetch( url,
           {
             method: "GET",
             mode: 'cors',
              headers: setAuthorizationHeader(props.prop.isAuthenticated)
           }
         )
-          .then(res => res.json())
-          .then(response => {
-            console.log(response)
-            setData(response);
-}).catch(error => console.log(error));
-}, [ url] );
+          .then(response => response.json())
+          .then(res => {
+            console.log(res)
+            setData(res);
+}).catch(error => console.log(response));
+}, [props.prop.isAuthenticated, url] );
   return [data];
 }
-
+// {props.prop.dispatch(errorHandlerActions.handleHTTPError(error, props.prop))}
 
 export default function EnhancedTable(props) {
   const classes = useStyles();

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Route} from "react-router-dom";
 
 const AdminRoute = ({ isAuthenticated, component: Component, ...rest }) => (
   <Route
@@ -12,7 +12,7 @@ const AdminRoute = ({ isAuthenticated, component: Component, ...rest }) => (
 );
 
 AdminRoute.propTypes = {
-  component: PropTypes.func.isRequired,
+  component: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 };
 
