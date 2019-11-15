@@ -1,40 +1,50 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import { connect } from "react-redux";
-import * as actions from "../../actions/auth";
-/**
- * Navbar component to display Navigation on HomePage
- */
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import Button from "@material-ui/core/Button";
+import { logout } from "../../actions/auth";
+import Sidebar from "./Sidebar";
 
-const  Navbar = ({user, logout}) => (
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  }
+}));
 
-  <header className="navbar">
-    <nav className="navbar__navigation">
-      <div />
-      <div className="navbar__logo">
-        <Link to='/'>IFEDS</Link>
-      </div>
-      <div className="spacer" />
-      <div className="navbar_navigation-items" >
-        <ul>
-          <li>
-            {
-             user === ""? <Link to="/login">Login</Link>:<Link to="/login">Login</Link>
-//onClick={() => logout()
-      }
+export default function Navbar({ props, submit, isDashBoard }) {
+  const classes = useStyles();
+  
+  
+  
 
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
-);
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-  };
+  return (
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar>
+          
+            
+         
+          <Typography variant="h6" className={classes.title}>
+            IFEDS
+          </Typography>
+          
+            
+          
+        </Toolbar>
+      </AppBar>
+    </div>
+  );
 }
-
-export default connect(mapStateToProps, { logout: actions.logout })(
-  Navbar
-);

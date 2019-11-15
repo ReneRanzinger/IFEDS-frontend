@@ -7,8 +7,10 @@ import React, { Component } from 'react';
 //import Background from './Background';
 import { connect } from "react-redux";
 import Navbar from './Navbar';
+import MenuAppBar from './MenuAppBar';
 import DatasetTable from './DatasetTable';
-import MenuAppBar from './MenuAppBar'
+import PropTypes  from 'prop-types';
+import {logout} from "../../actions/auth";
 
 
   class Dashboard extends Component {
@@ -16,8 +18,10 @@ import MenuAppBar from './MenuAppBar'
 
           return (
 <div className="Content">
-  <MenuAppBar props = {this.props} />
-<DatasetTable prop = {this.props}/>
+  <MenuAppBar props = {this.props} isDashBoard={"true"} />
+  {console.log(this.props)}
+  <DatasetTable prop={this.props} isDashBoard={"true"}/>
+  
 
 
 
@@ -28,6 +32,8 @@ import MenuAppBar from './MenuAppBar'
         }
 
     }
+    Dashboard.propTypes={
+      logout: PropTypes.func}
 
 
 function mapStateToProps(state) {
@@ -35,4 +41,4 @@ function mapStateToProps(state) {
         isAuthenticated: state.user.token
       };
     }
-export default connect (mapStateToProps)(Dashboard);
+export default connect (mapStateToProps,{logout})(Dashboard);

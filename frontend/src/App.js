@@ -13,6 +13,8 @@ import InternalServer from './components/error_pages/InternalServer';
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import AdminRoute from "./components/routes/AdminRoute";
+import DatasetTable from './components/pages/DatasetTable';
+import SampleTable from './components/pages/SampleTable';
 
 
 
@@ -20,7 +22,9 @@ const App = ({ location, isAuthenticated }) => (
   <div >
 
     <AdminRoute location={location} path="/" exact component={HomePage} />
+    <Route location={location} path="/dahsboard/datasettable" exact component={DatasetTable}/> 
 
+    <Route location={location} path="/dashboard/sampletable" exact component={SampleTable} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
     <UserRoute
@@ -49,6 +53,7 @@ App.propTypes = {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.email
+    
   };
 }
 

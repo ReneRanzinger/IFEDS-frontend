@@ -292,6 +292,7 @@ export default function EnhancedTable(props) {
 
   return (
     <div className={classes.root}>
+      {console.log(props)}
       <Paper className={classes.paper}>
         <EnhancedTableToolbar numSelected={selected.length}
           id = {selected}

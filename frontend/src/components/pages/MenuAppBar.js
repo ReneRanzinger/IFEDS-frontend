@@ -10,6 +10,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
 import { logout } from "../../actions/auth";
+import Sidebar from './Sidebar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function MenuAppBar({props,submit}) {
+export default function MenuAppBar({props,submit,isDashBoard}) {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -52,14 +53,20 @@ export default function MenuAppBar({props,submit}) {
     props.logout();
    props.history.push("/");
   }
+  
 
   return (
     <div className={classes.root}>
-
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            {console.log(isDashBoard)}
+            {isDashBoard &&<Sidebar />}
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             IFEDS
@@ -79,13 +86,13 @@ export default function MenuAppBar({props,submit}) {
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right"
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right"
                 }}
                 open={open}
                 onClose={handleClose}
@@ -96,7 +103,9 @@ export default function MenuAppBar({props,submit}) {
             </div>
           )}
           {!props.isAuthenticated && (
-            <Button onClick = {handleLogin}color="inherit">Login</Button>
+            <Button onClick={handleLogin} color="inherit">
+              Login
+            </Button>
           )}
         </Toolbar>
       </AppBar>
