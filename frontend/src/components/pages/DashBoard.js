@@ -9,17 +9,18 @@ import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import DatasetTable from './DatasetTable';
-import MenuAppBar from './MenuAppBar'
+import MenuAppBar from './MenuAppBar';
+import SampleList from './SampleList';
 
-
+//<DatasetTable prop = {this.props}/>
   class Dashboard extends Component {
     render() {
 
           return (
 <div className="Content">
   <MenuAppBar props = {this.props} />
-<DatasetTable prop = {this.props}/>
 
+<SampleList prop ={this.props}/>
 
 
 
