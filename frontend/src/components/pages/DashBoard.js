@@ -8,11 +8,12 @@ import React, { Component } from 'react';
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import DatasetTable from './DatasetTable';
+import CreateSampleForm from '../forms/CreateSampleForm';
 import MenuAppBar from './MenuAppBar';
 import SampleList from './SampleList';
 
 //<DatasetTable prop = {this.props}/>
+//<CreateSampleForm prop = {this.props}/>
   class Dashboard extends Component {
     render() {
 
