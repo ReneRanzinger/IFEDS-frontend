@@ -5,8 +5,10 @@ import React, { Component } from 'react';
 //import Header from './Header';
 //import Content from './Content';
 //import Background from './Background';
+import { connect } from "react-redux";
 import Navbar from './Navbar';
-import DatasetTable from './DatasetTable'
+import DatasetTable from './DatasetTable';
+import MenuAppBar from './MenuAppBar'
 
 
   class Dashboard extends Component {
@@ -14,8 +16,8 @@ import DatasetTable from './DatasetTable'
 
           return (
 <div className="Content">
-  <Navbar />
-
+  <MenuAppBar props = {this.props} />
+<DatasetTable prop = {this.props}/>
 
 
 
@@ -28,4 +30,9 @@ import DatasetTable from './DatasetTable'
     }
 
 
-export default Dashboard;
+function mapStateToProps(state) {
+      return {
+        isAuthenticated: state.user.token
+      };
+    }
+export default connect (mapStateToProps)(Dashboard);

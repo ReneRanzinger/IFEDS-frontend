@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import clsx from 'clsx';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -12,11 +13,13 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+import Link1 from '@material-ui/core/Link';
+
 import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import * as errorHandlerActions from '../../actions/auth';
+import Headcells from '../../utils/setTableHeader'
 
 
 function desc(a, b, orderBy) {
@@ -29,7 +32,7 @@ function desc(a, b, orderBy) {
   return 0;
 }
 
-function stableSort(array, cmp) {
+export function stableSort(array, cmp) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = cmp(a[0], b[0]);
@@ -39,12 +42,12 @@ function stableSort(array, cmp) {
   return stabilizedThis.map(el => el[0]);
 }
 
-function getSorting(order, orderBy) {
+export function getSorting(order, orderBy) {
   return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
-function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort, headCells } = props;
+export function EnhancedTableHead(props) {
+  const { classes, order, orderBy, onRequestSort} = props;
   const createSortHandler = property => event => {
     onRequestSort(event, property);
   };
@@ -52,7 +55,7 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        {headCells.map(headCell => (
+        {Headcells.map(headCell => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'left' : 'left'}
@@ -81,7 +84,7 @@ function EnhancedTableHead(props) {
 
 EnhancedTableHead.propTypes = {
   classes: PropTypes.object.isRequired,
-  //numSelected: PropTypes.number.isRequired,
+//  numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   //onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
@@ -266,12 +269,9 @@ const lowerCaseQuery = query.toLowerCase();
 
                 <TextField
                   className = {classes.searchPage}
-                  hintText="Query"
-                  floatingLabelText="Query"
                   label = "Search"
                   value={query}
                   onChange={e => setQuery(e.target.value )}
-                  floatingLabelFixed
                 />
 
 
@@ -303,7 +303,6 @@ const lowerCaseQuery = query.toLowerCase();
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              headCells = {props.headCell}
             />
             <TableBody>
               {stableSort(query ? data.filter(x => (((x["providerName"].toLowerCase().includes(lowerCaseQuery)) || x["sampleName"].toLowerCase().includes(lowerCaseQuery)) || x["datasetName"].toLowerCase().includes(lowerCaseQuery))): data
@@ -325,7 +324,7 @@ const lowerCaseQuery = query.toLowerCase();
                       selected={isItemSelected}
                     >
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Link>{row.datasetName}</Link>
+                        <Link to={'/login'}>{row.datasetName}</Link>
                       </TableCell>
                       <TableCell align="left">{row.providerName}</TableCell>
                       <TableCell align="left">{row.sampleName}</TableCell>

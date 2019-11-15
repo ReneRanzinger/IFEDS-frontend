@@ -17,10 +17,10 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk))
 );
 
-if (localStorage.ifedsauthJWT) {
-  const payload = decode(localStorage.ifedsauthJWT);
+if (localStorage.ifedsAuthJWT) {
+  const payload = decode(localStorage.ifedsAuthJWT);
   const user = {
-    token: localStorage.ifedsauthJWT,
+    token: localStorage.ifedsAuthJWT,
     email: payload.email,
     confirmed: payload.confirmed
   };
