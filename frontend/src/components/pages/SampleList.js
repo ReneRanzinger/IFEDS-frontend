@@ -241,8 +241,7 @@ export default function SampleList(props) {
         .map((row,index)=> {
         return(
       <ExpansionPanel
-        key={row.sampleId}
-        onClick={event => handleClick(event, row.sampleId)}>
+        key={row.sampleId}>
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-label="Expand"
