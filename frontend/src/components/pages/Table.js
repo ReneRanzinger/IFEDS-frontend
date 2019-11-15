@@ -14,7 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Link1 from '@material-ui/core/Link';
-
+import DatasetDetails from './DatasetDetails';
 import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
@@ -324,7 +324,7 @@ const lowerCaseQuery = query.toLowerCase();
                       selected={isItemSelected}
                     >
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Link to={'/login'}>{row.datasetName}</Link>
+                        <Link to={'/datasetdetails'}>{row.datasetName}</Link>
                       </TableCell>
                       <TableCell align="left">{row.providerName}</TableCell>
                       <TableCell align="left">{row.sampleName}</TableCell>
