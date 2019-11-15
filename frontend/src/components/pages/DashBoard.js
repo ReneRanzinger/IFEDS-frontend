@@ -5,8 +5,9 @@ import React, { Component } from 'react';
 //import Header from './Header';
 //import Content from './Content';
 //import Background from './Background';
+import { logout } from "../../actions/auth";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Navbar from './Navbar';
 import DatasetTable from './DatasetTable';
 import MenuAppBar from './MenuAppBar'
 
@@ -28,11 +29,13 @@ import MenuAppBar from './MenuAppBar'
         }
 
     }
-
+Dashboard.propTypes = {
+  logout: PropTypes.func
+}
 
 function mapStateToProps(state) {
       return {
         isAuthenticated: state.user.token
       };
     }
-export default connect (mapStateToProps)(Dashboard);
+export default connect (mapStateToProps,{logout})(Dashboard);
