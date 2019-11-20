@@ -9,8 +9,12 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Button from '@material-ui/core/Button';
+<<<<<<< HEAD
 import { logout } from "../../actions/auth";
 import Sidebar from './Sidebar';
+=======
+import {Link}  from "react-router-dom";
+>>>>>>> a02261dd43fbfa0a7f68933eafae93f0920e5de7
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,14 +30,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function MenuAppBar({props,submit,isDashBoard}) {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-
-  const handleChange = event => {
-    setAuth(event.target.checked);
-  };
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget);
@@ -68,8 +67,10 @@ export default function MenuAppBar({props,submit,isDashBoard}) {
             {console.log(isDashBoard)}
             {isDashBoard &&<Sidebar />}
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.title} >
+            <Link to="/">
             IFEDS
+          </Link>
           </Typography>
           {props.isAuthenticated && (
             <div>

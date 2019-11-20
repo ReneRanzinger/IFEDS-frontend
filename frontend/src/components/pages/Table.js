@@ -13,12 +13,16 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+<<<<<<< HEAD
 import Link1 from '@material-ui/core/Link';
 import DatasetDetails from './DatasetDetails';
+=======
+
+>>>>>>> a02261dd43fbfa0a7f68933eafae93f0920e5de7
 import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
-import * as errorHandlerActions from '../../actions/auth';
+//import * as errorHandlerActions from '../../actions/auth';
 import Headcells from '../../utils/setTableHeader'
 
 
@@ -212,7 +216,7 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState('datasetName');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [data] = useFetch("http://localhost:8080/getDatasets",props);
 

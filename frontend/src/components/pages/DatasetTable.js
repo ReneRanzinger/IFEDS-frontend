@@ -100,12 +100,14 @@ const useToolbarStyles = makeStyles(theme => ({
   },
 }));
 
-const handleDelete = (event,props,id,handlePostDelete) => {
+
+
+const handleDelete = (event,props,id,postDelete) => {
    alert("Are you sure you want to delete" + id);
   console.log(id);
 
 
-  let response =  fetch( `http://localhost:8080/datasets/${id}`,
+  let response =  fetch( `/datasets/${id}`,
           {
             method: "DELETE",
             mode: 'cors',
@@ -115,18 +117,18 @@ const handleDelete = (event,props,id,handlePostDelete) => {
           .then(response => response.json())
           .then(res => {
             console.log(res)
-          //  handlePostDelete(true);
+            postDelete(true);
 
 }).catch(error => {console.log(response);
-//handlePostDelete(true)
+postDelete(true)
 });
-
+postDelete(true)
 
 
 }
 const EnhancedTableToolbar = prop => {
   const classes = useToolbarStyles();
-  const { numSelected, id, props, handlePostDelete } = prop;
+  const { numSelected, id, props, postDelete } = prop;
 
   return (
     <Toolbar
@@ -143,11 +145,11 @@ const EnhancedTableToolbar = prop => {
           Dataset List
         </Typography>
       )}
-
+{console.log(prop)}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon  onClick={event => handleDelete(event,props, id,handlePostDelete)}/>
+          <IconButton aria-label="delete" onClick={event => handleDelete(event,props, id,postDelete)}>
+            <DeleteIcon  />
           </IconButton>
         </Tooltip>
       ) : (
@@ -220,7 +222,7 @@ const useFetch = (url,props) => {
             setData(res);
 }).catch(error => console.log(response));
 }, [props.prop.isAuthenticated, url] );
-  return [data];
+  return [data,setData];
 }
 
 export default function EnhancedTable(props) {
@@ -229,9 +231,9 @@ export default function EnhancedTable(props) {
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [data] = useFetch("/getProviderDatasets",props);
+  const [data,setData] = useFetch("/getProviderDatasets",props);
   const [query, setQuery] = React.useState("");
 
   const handleRequestSort = (event, property) => {
@@ -279,10 +281,23 @@ export default function EnhancedTable(props) {
   };
 
   const handlePostDelete = (isDeleted) => {
-    if (isDeleted=== true) {
-      setSelected();
-    }
+if(isDeleted){
+      setSelected([]);
+      let response =  fetch( "/getProviderDatasets",
+              {
+                method: "GET",
+                mode: 'cors',
+                 headers: setAuthorizationHeader(props.prop.isAuthenticated)
+              }
+            )
+              .then(response => response.json())
+              .then(res => {
+                console.log(res)
+                setData(res);
+    }).catch(error => console.log(response));
   }
+  setSelected([]);
+}
 
   const isSelected = name => selected.indexOf(name) !== -1;
 
