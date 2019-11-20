@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Navbar from './Navbar.js';
 import Table from './Table.js';
 import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
