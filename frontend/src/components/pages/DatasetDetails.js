@@ -6,7 +6,7 @@ import React, { Component } from "react";
 //import Content from './Content';
 //import Background from './Background';
 import { connect } from "react-redux";
-//import Navbar from "./Navbar";
+import Navbar from "./Navbar";
 import MenuAppBar from "./MenuAppBar";
 
 
@@ -15,7 +15,7 @@ class DatasetDetails extends Component {
   render() {
     return (
       <div className="Content">
-        <MenuAppBar props={this.props} />
+       <Navbar />
 
        
       </div>

@@ -324,7 +324,7 @@ const lowerCaseQuery = query.toLowerCase();
                       selected={isItemSelected}
                     >
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Link to={'/datasetdetails'}>{row.datasetName}</Link>
+                        <Link to={`/datasetdetails/${row.datasetId}`}>{row.datasetName}</Link>
                       </TableCell>
                       <TableCell align="left">{row.providerName}</TableCell>
                       <TableCell align="left">{row.sampleName}</TableCell>

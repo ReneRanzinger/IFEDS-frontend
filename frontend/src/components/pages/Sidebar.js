@@ -18,7 +18,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 //import InboxIcon from "@material-ui/icons/MoveToInbox";
 //import MailIcon from "@material-ui/icons/Mail";
 import DatasetTable from "./DatasetTable";
-import SampleTable from "./SampleTable";
+import SampleList from "./SampleList";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -135,7 +135,7 @@ export default function PersistentDrawerLeft() {
         <List>
           {[
             ["List of Datasets", "/dashboard/datasettable"],
-            ["List of Samples", "/dashboard/sampletable"]
+            ["List of Samples", "/dashboard/samplelist"]
           ].map((text, index) => (
             <ListItem
               button
