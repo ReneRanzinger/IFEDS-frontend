@@ -16,7 +16,7 @@ class DatasetDetails extends Component {
     return (
       <div className="Content">
        <Navbar />
-
+       <MenuAppBar/>
        
       </div>
     );
