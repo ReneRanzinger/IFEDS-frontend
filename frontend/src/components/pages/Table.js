@@ -199,14 +199,13 @@ const useFetch = (url, props) => {
   ]);
 
   useEffect(() => {
-    let response = fetch(url, {
+    fetch(url, {
       method: "GET",
       mode: 'cors',
       headers: setAuthorizationHeader(props.prop.isAuthenticated)
     }).then(response => response.json()).then(res => {
-      console.log(res)
       setData(res);
-    }).catch(error => console.log(response));
+    }).catch(error => console.log(error));
   }, [props.prop.isAuthenticated, url]);
   return [data];
 }
