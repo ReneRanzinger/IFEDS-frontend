@@ -10,7 +10,7 @@ class Dashboard extends Component {
 
     return (<div className="Content">
       <MenuAppBar props={this.props} isDashBoard={"true"}/>
-      <DatasetTable prop={this.props}/>
+      <DatasetTable props={this.props}/>
     </div>);
   }
 

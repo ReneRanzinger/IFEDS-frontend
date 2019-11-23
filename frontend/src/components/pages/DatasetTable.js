@@ -23,10 +23,11 @@ const useFetch = (url,isDeleted,props) => {
         ).then(response => response.json())
           .then(res => {
             if(res.status === 401) {
+              console.log("Pagal")
               props.props.logout();
             } else {
               setData(res);}
-}).catch(error => console.log("isAuthenticated"));
+}).catch(error => console.log(error));
 }, [isAuthenticated, url,isDeleted] );
   return [data,setData];
 }
