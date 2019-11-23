@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { lighten, makeStyles } from "@material-ui/core/styles";
+import {lighten, makeStyles} from "@material-ui/core/styles";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -24,16 +24,15 @@ const useToolbarStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1)
   },
-  highlight:
-    theme.palette.type === "light"
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85)
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark
-        },
+  highlight: theme.palette.type === "light"
+    ? {
+      color: theme.palette.secondary.main,
+      backgroundColor: lighten(theme.palette.secondary.light, 0.85)
+    }
+    : {
+      color: theme.palette.text.primary,
+      backgroundColor: theme.palette.secondary.dark
+    },
   title: {
     flex: "1 1 100%"
   }
@@ -47,61 +46,48 @@ const handleDelete = (event, props, id, postDelete) => {
     method: "DELETE",
     mode: "cors",
     headers: setAuthorizationHeader(props.prop.isAuthenticated)
-  })
-    .then(response => response.json())
-    .then(res => {
-      console.log(res);
-      postDelete(true);
-    })
-    .catch(error => {
-      console.log(response);
-      postDelete(true);
-    });
+  }).then(response => response.json()).then(res => {
+    console.log(res);
+    postDelete(true);
+  }).catch(error => {
+    console.log(response);
+    postDelete(true);
+  });
   postDelete(true);
 };
 
 const EnhancedTableToolbar = prop => {
   const classes = useToolbarStyles();
-  const { numSelected, id, props, postDelete } = prop;
+  const {numSelected, id, props, postDelete} = prop;
 
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle">
+  return (<Toolbar className={clsx(classes.root, {
+      [classes.highlight]: numSelected > 0
+    })}>
+    {
+      numSelected > 0
+        ? (<Typography className={classes.title} color="inherit" variant="subtitle1">
+          {numSelected}
+          selected
+        </Typography>)
+        : (<Typography className={classes.title} variant="h6" id="tableTitle">
           Sample List
-        </Typography>
-      )}
-      {console.log(prop)}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton
-            aria-label="delete"
-            onClick={event => handleDelete(event, props, id, postDelete)}
-          >
-            <DeleteIcon />
+        </Typography>)
+    }
+    {console.log(prop)}
+    {
+      numSelected > 0
+        ? (<Tooltip title="Delete">
+          <IconButton aria-label="delete" onClick={event => handleDelete(event, props, id, postDelete)}>
+            <DeleteIcon/>
           </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
+        </Tooltip>)
+        : (<Tooltip title="Filter list">
           <IconButton aria-label="filter list">
-            <FilterListIcon />
+            <FilterListIcon/>
           </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
+        </Tooltip>)
+    }
+  </Toolbar>);
 };
 
 EnhancedTableToolbar.propTypes = {
@@ -133,13 +119,10 @@ const useFetch = (url, props) => {
       method: "GET",
       mode: "cors",
       headers: setAuthorizationHeader(props.prop.isAuthenticated)
-    })
-      .then(response => response.json())
-      .then(res => {
-        console.log(res);
-        setData(res);
-      })
-      .catch(error => console.log(response));
+    }).then(response => response.json()).then(res => {
+      console.log(res);
+      setData(res);
+    }).catch(error => console.log(response));
   }, [props.prop.isAuthenticated, url]);
   return [data, setData];
 };
@@ -163,10 +146,7 @@ export default function SampleList(props) {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
+      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
     }
 
     setSelected(newSelected);
@@ -190,86 +170,48 @@ export default function SampleList(props) {
         method: "GET",
         mode: "cors",
         headers: setAuthorizationHeader(props.prop.isAuthenticated)
-      })
-        .then(response => response.json())
-        .then(res => {
-          console.log(res);
-          setData(res);
-        })
-        .catch(error => console.log(response));
+      }).then(response => response.json()).then(res => {
+        console.log(res);
+        setData(res);
+      }).catch(error => console.log(response));
     }
     setSelected([]);
   };
 
-  return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
-        <EnhancedTableToolbar
-          numSelected={selected.length}
-          id={selected}
-          props={props}
-          postDelete={handlePostDelete}
-        />
+  return (<div className={classes.root}>
+    <Paper className={classes.paper}>
+      <EnhancedTableToolbar numSelected={selected.length} id={selected} props={props} postDelete={handlePostDelete}/>
 
-        <div className={classes.tableComp}>
-          <TextField
-            className={classes.searchPage}
-            label="Search"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-          />
-          <TablePagination
-            className={classes.searchPage}
-            rowsPerPageOptions={[5, 10, 25]}
-            count={data.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            backIconButtonProps={{
-              "aria-label": "previous page"
-            }}
-            nextIconButtonProps={{
-              "aria-label": "next page"
-            }}
-            onChangePage={handleChangePage}
-            onChangeRowsPerPage={handleChangeRowsPerPage}
-          />
-        </div>
+      <div className={classes.tableComp}>
+        <TextField className={classes.searchPage} label="Search" value={query} onChange={e => setQuery(e.target.value)}/>
+        <TablePagination className={classes.searchPage} rowsPerPageOptions={[5, 10, 25]} count={data.length} rowsPerPage={rowsPerPage} page={page} backIconButtonProps={{
+            "aria-label" : "previous page"
+          }} nextIconButtonProps={{
+            "aria-label" : "next page"
+          }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage}/>
+      </div>
 
-        {(query
+      {
+        (
+          query
           ? data.filter(x => x["name"].toLowerCase().includes(lowerCaseQuery))
-          : data
-        )
-          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          .map((row, index) => {
-            return (
-              <ExpansionPanel key={row.sampleId}>
-                <ExpansionPanelSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-label="Expand"
-                  aria-controls="additional-actions1-content"
-                  id="additional-actions1-header"
-                >
-                  <FormControlLabel
-                    aria-label="Acknowledge"
-                    onClick={event => event.stopPropagation()}
-                    onFocus={event => event.stopPropagation()}
-                    control={
-                      <Checkbox
-                        onClick={event => handleClick(event, row.sampleId)}
-                      />
-                    }
-                    label={row.name}
-                  />
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                  <Typography color="textSecondary">
-                    {row.description}
-                  </Typography>
-                </ExpansionPanelDetails>
-              </ExpansionPanel>
-            );
-          })}
-      </Paper>
-    </div>
-  );
+          : data).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+          return (<ExpansionPanel key={row.sampleId}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-label="Expand" aria-controls="additional-actions1-content" id="additional-actions1-header">
+              <FormControlLabel aria-label="Acknowledge" onClick={event => event.stopPropagation()} onFocus={event => event.stopPropagation()} control={<Checkbox
+                onClick = {
+                  event => handleClick(event, row.sampleId)
+                }
+                />} label={row.name}/>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography color="textSecondary">
+                {row.description}
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>);
+        })
+      }
+    </Paper>
+  </div>);
 }
