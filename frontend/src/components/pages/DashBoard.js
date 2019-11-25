@@ -4,7 +4,7 @@ import MenuAppBar from './MenuAppBar';
 import DatasetTable from './DatasetTable';
 import PropTypes from 'prop-types';
 import {logout} from "../../actions/auth";
-import SampleList from './SampleLis1'
+import SampleList from './SampleList'
 
 class Dashboard extends Component {
   render() {
