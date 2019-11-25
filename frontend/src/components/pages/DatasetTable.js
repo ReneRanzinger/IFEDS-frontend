@@ -1,27 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MaterialTable from 'material-table';
+import {Link} from 'react-router-dom';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 const useFetch = (url, isDeleted, props) => {
   const isAuthenticated = useSelector(state => state.user.token);
 
-  const [data, setData] = useState([
-    {
-      "datasetId": 1,
-      "datasetName": "Stem Cell Data 1",
-      "sampleName": "Differenciated smooth cell",
-      "providerName": "CCRC tr",
-      "description": "Glycomics analysis performed with the stem cell data set 1."
-    }, {
-      "datasetId": 2,
-      "datasetName": "Stem Cell Data 2",
-      "sampleName": "Differenciated smooth muscle cell",
-      "providerName": "CCRC ry",
-      "description": "Glycomics analysis performed with the stem cell data set 2."
-    }
-  ]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch(url, {
@@ -63,10 +50,16 @@ export default function MaterialTableDemo(props) {
     </ReadMoreAndLess>);
   }
 
+  const handleDatasetName = (id, name) => {
+    return (<Link to={`/dataset/${id}`}>{name}
+    </Link>);
+  }
+
   const headCells = [
     {
       field: 'datasetName',
-      title: 'Dataset Name'
+      title: 'Dataset Name',
+      render: rowData => handleDatasetName(rowData.datasetId, rowData.datasetName)
     }, {
       field: 'providerName',
       title: 'Author'
@@ -97,7 +90,7 @@ export default function MaterialTableDemo(props) {
       onRowDelete: oldData => new Promise(resolve => {
         setTimeout(() => {
           resolve();
-          fetchDelete(oldData.description, isAuthenticated, props);
+          fetchDelete(oldData.datasetId, isAuthenticated, props);
           setDeleted(!isDeleted);
         }, 300);
       })

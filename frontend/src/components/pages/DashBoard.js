@@ -4,6 +4,7 @@ import MenuAppBar from './MenuAppBar';
 import DatasetTable from './DatasetTable';
 import PropTypes from 'prop-types';
 import {logout} from "../../actions/auth";
+import SampleList from './SampleLis1'
 
 class Dashboard extends Component {
   render() {
@@ -11,6 +12,7 @@ class Dashboard extends Component {
     return (<div className="Content">
       <MenuAppBar props={this.props} isDashBoard={"true"}/>
       <DatasetTable props={this.props}/>
+      <SampleList props = {this.props}/>
     </div>);
   }
 
