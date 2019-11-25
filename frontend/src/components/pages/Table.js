@@ -218,7 +218,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [data] = useFetch("http://localhost:8080/getDatasets", props);
+  const [data] = useFetch("/datasets", props);
 
   const [query, setQuery] = React.useState("");
 
