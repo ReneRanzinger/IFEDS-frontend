@@ -214,7 +214,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [data] = useFetch("http://localhost:8080/getDatasets",props);
+  const [data] = useFetch("/datasets",props);
 
 
 const [query, setQuery] = React.useState("");
@@ -324,7 +324,7 @@ const lowerCaseQuery = query.toLowerCase();
                       selected={isItemSelected}
                     >
                       <TableCell component="th" id={labelId} scope="row" padding="none">
-                        <Link to={`/datasetdetails/${row.datasetId}`}>{row.datasetName}</Link>
+                        <Link to={`/datasetDetail/${row.datasetId}`}>{row.datasetName}</Link>
                       </TableCell>
                       <TableCell align="left">{row.providerName}</TableCell>
                       <TableCell align="left">{row.sampleName}</TableCell>

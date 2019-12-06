@@ -16,6 +16,8 @@ import AdminRoute from "./components/routes/AdminRoute";
 import DatasetTable from './components/pages/DatasetTable';
 import SampleList from './components/pages/SampleList';
 import DatasetDetails from "./components/pages/DatasetDetails";
+import DatasetDisplay from './components/pages/DatasetDisplay';
+import SampleDisplay from './components/pages/SampleDisplay';
 
 
 
@@ -23,9 +25,9 @@ const App = ({ location, isAuthenticated }) => (
   <div >
 
     <AdminRoute location={location} path="/" exact component={HomePage} />
-    <Route location={location} path="/dahsboard/datasettable" exact component={DatasetTable}/> 
-    <Route location={location} path="/datasetdetails" exact component={DatasetDetails} />
-    <Route location={location} path="/dashboard/samplelist" exact component={SampleList} />
+    <Route location={location} path="/datasettable" exact component={DatasetDisplay}/> 
+    <Route location={location} path="/datasetDetail" component={DatasetDetails} />
+    <Route location={location} path="/samplelist" exact component={SampleDisplay} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
     <UserRoute

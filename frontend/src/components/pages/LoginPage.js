@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import MenuAppBar from "./MenuAppBar"; 
-
 import LoginForm from "../forms/LoginForm";
 import { login } from "../../actions/auth";
 import Navbar from "./Navbar";

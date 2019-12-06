@@ -151,3 +151,9 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, { logout: actions.logout })(
   Navbar
 );
+
+
+
+{datasetDetail.map((key, index) => {
+        {<h1 align="center">{key.datasetName}</h1>
+                <p align="center">{key.description}</p>})}

@@ -8,9 +8,10 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Navbar from './Navbar';
 import MenuAppBar from './MenuAppBar';
-import DatasetTable from './DatasetTable';
+// import DatasetTable from './DatasetTable';
 import PropTypes  from 'prop-types';
 import {logout} from "../../actions/auth";
+import Sidebar from './Sidebar';
 
 
   class Dashboard extends Component {
@@ -18,10 +19,11 @@ import {logout} from "../../actions/auth";
 
           return (
 <div className="Content">
-  <MenuAppBar props = {this.props} isDashBoard={"true"} />
+  <Sidebar props={this.props} isDashBoard={"true"}/>
+  {/* <MenuAppBar props = {this.props} isDashBoard={"false"} /> */}
   {console.log(this.props)}
-  <DatasetTable prop={this.props} isDashBoard={"true"}/>
-  
+  {/* <DatasetTable prop={this.props} isDashBoard={"true"}/> */}
+      <h1 align="center">User Profile</h1> 
 
 
 
