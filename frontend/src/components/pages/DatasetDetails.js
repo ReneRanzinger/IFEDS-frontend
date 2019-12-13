@@ -18,7 +18,7 @@ class DatasetDetails extends Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost:8080/dataset/1")
+    fetch("http://localhost:8080/dataset/3")
       .then(res => res.json())
       .then(data => {
         this.setState({ dataset: data });
@@ -38,15 +38,15 @@ class DatasetDetails extends Component {
             {this.state.dataset.datasetName}
             <br />
             {this.state.dataset.description}
-            <br />
-            {this.state.dataset.sample.name}
+           
+            
             })} 
           </p>
         </div>
       </div>
     );
   }
-  
+
 
   // <div className="Content">
   //   <MenuAppBar props={this.props} />
