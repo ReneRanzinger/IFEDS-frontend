@@ -290,30 +290,36 @@ export default function EnhancedTable(props) {
                   const isItemSelected = isSelected(row.datasetName);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (<TableRow hover="hover" onClick={event => handleClick(event, row.datasetName)} role="checkbox" aria-checked={isItemSelected} tabIndex={-1} key={row.datasetId} selected={isItemSelected}>
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
-                      <Link to={`/datasetdetails/${row.datasetId}`}>{row.datasetName}</Link>
-                    </TableCell>
-                    <TableCell align="left">{row.providerName}</TableCell>
-                    <TableCell align="left">{row.sampleName}</TableCell>
-                    <TableCell align="left">
-                      <ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
-                        {row.description}
-                      </ReadMoreAndLess>
-                    </TableCell>
-                  </TableRow>);
-                })
-              }
-              {
-                emptyRows > 0 && (<TableRow style={{
-                    height: (
-                      dense
-                      ? 33
-                      : 53) * emptyRows
-                  }}>
-                  <TableCell colSpan={6}/>
-                </TableRow>)
-              }
+                  return (
+                    <TableRow
+                      hover
+                      onClick={event => handleClick(event, row.datasetName)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.datasetId}
+                      selected={isItemSelected}
+                    >
+                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                        <Link to={`/datasetDetail/${row.datasetId}`}>{row.datasetName}</Link>
+                      </TableCell>
+                      <TableCell align="left">{row.providerName}</TableCell>
+                      <TableCell align="left">{row.sampleName}</TableCell>
+                      <TableCell align="left"><ReadMoreAndLess className="read-more-content"
+                                                               charLimit={125}
+                                                               readMoreText="...read more"
+                                                               readLessText="...read less">
+                                              {row.description}
+                                                </ReadMoreAndLess>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </div>

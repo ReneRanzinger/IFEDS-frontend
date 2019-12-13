@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector} from 'react-redux';
-import MaterialTable from 'material-table';
-import ReadMoreAndLess from 'react-read-more-less';
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import MaterialTable from "material-table";
+import ReadMoreAndLess from "react-read-more-less";
+import { Link } from "react-router-dom";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 const useFetch = (url, isDeleted, props) => {
@@ -13,19 +13,21 @@ const useFetch = (url, isDeleted, props) => {
   useEffect(() => {
     fetch(url, {
       method: "GET",
-      mode: 'cors',
+      mode: "cors",
       headers: setAuthorizationHeader(isAuthenticated)
-    }).then(response => response.json()).then(res => {
-      if (res.status === 401) {
-        props.props.logout();
-      } else {
-        setData(res);
-      }
-    }).catch(error => console.log(error));
+    })
+      .then(response => response.json())
+      .then(res => {
+        if (res.status === 401) {
+          // props.props.logout();
+        } else {
+          setData(res);
+        }
+      })
+      .catch(error => console.log(error));
   }, [isAuthenticated, url, isDeleted]);
   return [data, setData];
-}
-
+};
 const fetchDelete = (id, isAuthenticated, props) => {
   fetch(`/samples/${id}`, {
     method: "DELETE",

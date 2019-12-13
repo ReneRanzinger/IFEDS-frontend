@@ -87,48 +87,66 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-  return (<div className={classes.root}>
-    <CssBaseline/>
-    <AppBar position="fixed" className={clsx(classes.appBar, {
-        [classes.appBarShift]: open
-      })}>
-      <Toolbar>
-        <IconButton color="inherit" aria-label="open drawer" onClick={handleDrawerOpen} edge="start" className={clsx(classes.menuButton, open && classes.hide)}>
-          <MenuIcon/>
-        </IconButton>
-      </Toolbar>
-    </AppBar>
-    <Drawer className={classes.drawer} variant="persistent" anchor="left" open={open} classes={{
-        paper: classes.drawerPaper
-      }}>
-      <div className={classes.drawerHeader}>
-        <IconButton onClick={handleDrawerClose}>
-          {
-            theme.direction === "ltr"
-              ? (<ChevronLeftIcon/>)
-              : (<ChevronRightIcon/>)
-          }
-        </IconButton>
-      </div>
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open
+        })}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </div>
 
-      <List>
-        {
-          [
-            [
-              "List of Datasets", "/dashboard/datasettable"
-            ],
-            [
-              "List of Samples", "/dashboard/samplelist"
-            ]
-          ].map((text, index) => (<ListItem button="button" key={index} component="a" href={text[1]}>{text[0]}</ListItem>))
-        }
-      </List>
-    </Drawer>
-    <main className={clsx(classes.content, {
-        [classes.contentShift]: open
-      })}>
-      <div/>
-      <h1>WELCOME</h1>
-    </main>
-  </div>);
+        <List>
+          {[
+            ["Home", "http://localhost:3000/dashboard"],
+            ["List of Datasets", "http://localhost:3000/datasettable"],
+            ["List of Samples", "http://localhost:3000/samplelist"]
+          ].map((text, index) => (
+            <ListItem button="button" key={index} component="a" href={text[1]}>
+              {text[0]}
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: open
+        })}
+      >
+        <div />
+        {/* <h1>WELCOME</h1> */}
+      </main>
+    </div>
+  );
 }
