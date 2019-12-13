@@ -218,14 +218,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-<<<<<<< HEAD
-  const [data] = useFetch("/datasets",props);
-
-
-const [query, setQuery] = React.useState("");
-=======
   const [data] = useFetch("/datasets", props);
->>>>>>> origin/master-backup
 
   const [query, setQuery] = React.useState("");
 
@@ -297,7 +290,6 @@ const [query, setQuery] = React.useState("");
                   const isItemSelected = isSelected(row.datasetName);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
-<<<<<<< HEAD
                   return (
                     <TableRow
                       hover
@@ -328,32 +320,6 @@ const [query, setQuery] = React.useState("");
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
-=======
-                  return (<TableRow hover="hover" onClick={event => handleClick(event, row.datasetName)} role="checkbox" aria-checked={isItemSelected} tabIndex={-1} key={row.datasetId} selected={isItemSelected}>
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
-                      <Link to={`/datasetdetails/${row.datasetId}`}>{row.datasetName}</Link>
-                    </TableCell>
-                    <TableCell align="left">{row.providerName}</TableCell>
-                    <TableCell align="left">{row.sampleName}</TableCell>
-                    <TableCell align="left">
-                      <ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
-                        {row.description}
-                      </ReadMoreAndLess>
-                    </TableCell>
-                  </TableRow>);
-                })
-              }
-              {
-                emptyRows > 0 && (<TableRow style={{
-                    height: (
-                      dense
-                      ? 33
-                      : 53) * emptyRows
-                  }}>
-                  <TableCell colSpan={6}/>
-                </TableRow>)
-              }
->>>>>>> origin/master-backup
             </TableBody>
           </Table>
         </div>
