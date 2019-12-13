@@ -36,11 +36,11 @@ class DatasetDetails extends Component {
         <div>
           <p>
             {this.state.dataset.datasetName}
-            <br />
+            {/* <br />
             {this.state.dataset.description}
             <br />
-            {this.state.dataset.sample.name}
-            })} 
+            {this.state.dataset.sample.name} */}
+            {/* })}  */}
           </p>
         </div>
       </div>
