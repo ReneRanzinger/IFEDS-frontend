@@ -11,16 +11,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
-<<<<<<< HEAD
-//import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-//import InboxIcon from "@material-ui/icons/MoveToInbox";
-//import MailIcon from "@material-ui/icons/Mail";
-import datasettable from "./DatasetTable";
-import samplelist from "./SampleList";
-import { Link } from "react-router-dom";
-=======
->>>>>>> origin/master-backup
 
 const drawerWidth = 240;
 
@@ -97,70 +87,6 @@ export default function PersistentDrawerLeft() {
     setOpen(false);
   };
 
-<<<<<<< HEAD
-  return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open
-        })}
-      >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </div>
-
-        <List>
-          {[
-            ["Home", "http://localhost:3000/dashboard"],
-            ["List of Datasets", "http://localhost:3000/datasettable"
-            ],
-            ["List of Samples", "http://localhost:3000/samplelist"]
-          ].map((text, index) => (
-            <ListItem button key={index} component="a" href={text[1]}>
-              {text[0]}
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open
-        })}
-      >
-        <div />
-      </main>
-    </div>
-  );
-=======
   return (<div className={classes.root}>
     <CssBaseline/>
     <AppBar position="fixed" className={clsx(classes.appBar, {
@@ -205,5 +131,4 @@ export default function PersistentDrawerLeft() {
       <h1>WELCOME</h1>
     </main>
   </div>);
->>>>>>> origin/master-backup
 }
