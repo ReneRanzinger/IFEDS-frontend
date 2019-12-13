@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 //import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
@@ -10,6 +11,12 @@ import { connect } from "react-redux";
 import MenuAppBar from "./MenuAppBar";
 import datasetDetail from '../../datasetDetail.json';
 
+=======
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import Navbar from "./Navbar";
+import MenuAppBar from "./MenuAppBar";
+>>>>>>> origin/master-backup
 
 class DatasetDetails extends Component {
   
@@ -28,6 +35,7 @@ class DatasetDetails extends Component {
 
 
   render() {
+<<<<<<< HEAD
     
     console.log(this.state.dataset);
     return (
@@ -45,6 +53,12 @@ class DatasetDetails extends Component {
         </div>
       </div>
     );
+=======
+    return (<div className="Content">
+      <Navbar/>
+
+    </div>);
+>>>>>>> origin/master-backup
   }
   
 
@@ -84,8 +98,6 @@ class DatasetDetails extends Component {
 // }
 
 function mapStateToProps(state) {
-  return {
-    isAuthenticated: state.user.token
-  };
+  return {isAuthenticated: state.user.token};
 }
 export default connect(mapStateToProps)(DatasetDetails);

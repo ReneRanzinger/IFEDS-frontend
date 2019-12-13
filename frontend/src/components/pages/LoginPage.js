@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import MenuAppBar from "./MenuAppBar"; 
+=======
+>>>>>>> origin/master-backup
 import LoginForm from "../forms/LoginForm";
 import { login } from "../../actions/auth";
 import Navbar from "./Navbar";
@@ -29,11 +32,5 @@ LoginPage.propTypes = {
   login: PropTypes.func.isRequired,
   dispatch: PropTypes.func
 };
-
-function mapStateToProps(state) {
-  return {
-    isAuthenticated: state.user.token
-  };
-}
 
 export default connect(null, { login })(LoginPage);
