@@ -11,6 +11,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -106,6 +108,10 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            <Link to="/">IFEDS</Link>
+          </Typography>
+          
         </Toolbar>
       </AppBar>
       <Drawer

@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MenuAppBar({props, submit, isDashBoard}) {
+export default function MenuAppBar({props,isDashBoard}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);

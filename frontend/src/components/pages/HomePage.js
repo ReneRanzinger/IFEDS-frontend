@@ -11,12 +11,13 @@ import MenuAppBar from './MenuAppBar.js';
 
 
 class HomePage extends Component {
-  submit = () => this.props.logout().then(() => this.props.history.push("/"));
+  //submit = () => this.props.logout().then(() => this.props.history.push("/"));
   render() {
     console.log(this.props)
     return (
       <div>
-        <div><MenuAppBar props ={this.props} submit={this.submit}/></div>
+        <div><MenuAppBar props ={this.props} /></div>
+        
         <div><Table prop={this.props}/></div>
       </div>
     );
