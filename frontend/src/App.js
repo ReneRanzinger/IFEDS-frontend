@@ -18,6 +18,7 @@ import SampleList from './components/pages/SampleList';
 import DatasetDetails from "./components/pages/DatasetDetails";
 import DatasetDisplay from './components/pages/DatasetDisplay';
 import SampleDisplay from './components/pages/SampleDisplay';
+import AddSample from "./components/pages/AddSample"
 
 
 
@@ -25,11 +26,12 @@ const App = ({ location, isAuthenticated }) => (
   <div >
 
     <AdminRoute location={location} path="/" exact component={HomePage} />
-    <Route location={location} path="/datasettable" exact component={DatasetDisplay}/> 
+    <Route location={location} path="/datasettable" exact component={DatasetDisplay}/>
     <Route location={location} path="/datasetDetail" component={DatasetDetails} />
     <Route location={location} path="/samplelist" exact component={SampleDisplay} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
+    <UserRoute location={location} path="/addsample" exact component={AddSample}/>
     <UserRoute
         location={location}
         path="/dashboard"
@@ -56,7 +58,7 @@ App.propTypes = {
 function mapStateToProps(state) {
   return {
     isAuthenticated: !!state.user.email
-    
+
   };
 }
 
