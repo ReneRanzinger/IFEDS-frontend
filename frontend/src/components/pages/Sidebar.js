@@ -151,7 +151,7 @@ export default function PersistentDrawerLeft({props}) {
                 vertical: "top",
                 horizontal: "right"
               }} open={open1} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>DashBoard</MenuItem>
+              {/* <MenuItem onClick={handleClose}>DashBoard</MenuItem> */}
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>)
