@@ -6,7 +6,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
-import SampleList from './SampleList';
 import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
 import Tooltip from '@material-ui/core/Tooltip';
 import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
@@ -45,12 +44,10 @@ const useFormInput = (initialValue) => {
 export default function AddSample(props) {
   const classes = useToolbarStyles();
   const name = useFormInput();
-  const url = useFormInput();
-  const description = useFormInput();
-//  const value = useFormInput();
+  const url = useFormInput(null);
+  const description = useFormInput(null);
   const sType = useFormInput();
   const sDescriptor = useFormInput();
-  //const measurement = useFormInput();
   const [value,setValue] = useState();
   const [measurement, setMeasurement] = useState();
   const [sampleDesc, setSampleDesc] = useState({data: []});
@@ -58,37 +55,34 @@ export default function AddSample(props) {
   const [isThereAnySampleDesc,setIsThereAnySampleDesc] = useState(false);
   const [sampleDescriptor] = useFetch("/SampleDescriptors");
   const [sampleType] = useFetch("/SampleTypes");
-  let set = new Set();
+  const isAuthenticated = useSelector(state => state.user.token);
+  let bearer = 'Bearer '
 
   const handleClose = () => {
-    console.log(sDescriptor);
-    console.log(sType);
-    console.log(name);
-    console.log(sampleDesc);
     props.history.push("/dashboard");
   }
 
   const handleAddDescriptor = (e) => {
     e.preventDefault();
-    // console.log(value);
-    // console.log(measurement);
-    const trye = value;
-    const tyre1 = measurement;
-//    console.log(value);
-    set.add(trye+tyre1);
-//    setSampleDesc(set);
+    let count=false;
     setSampleDesc(sampleDesc => {
       const data = [...sampleDesc.data];
-      console.log(data);
-      data.push([sDescriptor.value,value , measurement]);
-      console.log(data);
+  for (var i = 0; i < sampleDesc["data"].length; i++) {
+  if (sampleDesc["data"][i][0] === sDescriptor.value && sampleDesc["data"][i][1] === value && sampleDesc["data"][i][2] === measurement) {
+    count = true;
+    break;
+  }
+}
+
+    if(!count) {
+      if(measurement!= null) {
+      data.push([sDescriptor.value, value , measurement]);
+    } else {
+      data.push([sDescriptor.value, value , ""]);
+    }}
       return {...sampleDesc , data}
     });
-    console.log(sampleDesc);
-    // console.log(set);
     setIsDescriptorAdded(true);
-
-  //  document.getElementById("form1").reset();
   }
 
   const handleChangeForMeasurement = (e) => {
@@ -105,23 +99,46 @@ export default function AddSample(props) {
     setMeasurement("");
   }
 
+async function handleSubmit(e) {
+  e.preventDefault();
+  let listOfSampleDesc = sampleDesc['data'].map((a,row) => {
+      console.log(sampleDescriptor);
+      let sampleDescId = sampleDescriptor.filter(x => x["name"]=== a[0])[0]["sample_descriptor_id"];
+      let  sampleDescriptorArray = { "sample_descriptor_id" :sampleDescId,
+                                     "sample_descriptor_value": a[1],
+                                     "unit_of_measurment":a[2]}
+
+      return sampleDescriptorArray
+  })
+  console.log(name.value)
+  const response =  await fetch("/samples",{
+     method: "POST",
+     headers: {
+         "Content-Type" : "application/json",
+         "Accept": "application/json",
+         'Authorization': bearer+isAuthenticated
+     },
+     body: JSON.stringify({
+         "name": name.value,
+         "sample_type_id" : parseInt(sType.value),
+         "url" : url.value,
+         "description": description.value,
+         "sample_descriptors" : listOfSampleDesc
+     })
+   }).then(res => console.log(res))
+  props.history.push("/dashboard");
+}
+
   const handleDelete = (e,index) => {
     setSampleDesc(sampleDesc => {
                 const data = [...sampleDesc.data];
-
                 data.splice(index, 1);
-                console.log(data);
                 return { ...sampleDesc, data };
               });
   }
   useEffect(() => {
       if (isDescriptorAdded) {
         setIsThereAnySampleDesc(true)
-console.log(sampleDesc);
-        console.log("anu");
-  //      console.log(sampleDesc);
-        // setValue("");
-        // setMeasurement("");
       }
       setIsDescriptorAdded(false);
     },[isDescriptorAdded]);
@@ -131,9 +148,10 @@ console.log(sampleDesc);
       <Typography variant="h5" component="h3">
         Add Sample
       </Typography>
-    <form className={classes.form} onSubmit={{}}>
+    <form className={classes.form} onSubmit={handleSubmit}>
       <div style={{marginTop : "20px"}}><TextField
         autoFocus
+        required
         id="name"
         label="Sample Name"
         size="small"
@@ -143,6 +161,7 @@ console.log(sampleDesc);
       /><TextField
         id="sample_type"
         select
+        required
         label="Sample Type"
         className={classes.textField1}
         {...sType}
@@ -236,7 +255,6 @@ console.log(sampleDesc);
     <div style={{marginTop : "40px"}}>
       {isThereAnySampleDesc && sampleDesc.data.map((row,index) =>{
         const ret = `${row[0]} :\xa0\xa0   ${row[1]}   \xa0   ${row[2]}`
-        console.log("Anybody Here");
         return(
         <div><Chip
           size="medium"
@@ -252,7 +270,7 @@ console.log(sampleDesc);
       <Button  onClick={handleClose} color="primary">
         Cancel
       </Button>
-      <Button  type = "submit" onClick={handleClose} color="primary">
+      <Button  type = "submit" color="primary">
         Create
       </Button>
     </div>
