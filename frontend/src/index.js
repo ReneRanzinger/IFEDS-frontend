@@ -29,7 +29,7 @@ if (localStorage.ifedsAuthJWT) {
 }
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/ifeds">
     <Provider store={store}>
       <Route component={App} />
     </Provider>
