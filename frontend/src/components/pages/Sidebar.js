@@ -13,6 +13,11 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import Button from "@material-ui/core/Button";
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -76,10 +81,33 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({props}) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open1 = Boolean(anchorEl);
+ 
+
+   const handleMenu = event => {
+     setAnchorEl(event.currentTarget);
+   };
+
+   const handleClose = () => {
+     props.history.push("/dashboard");
+     //setAnchorEl(null);
+   };
+
+   const handleLogin = () => {
+     //    console.log(props);
+     props.history.push("/login");
+   };
+
+   const handleLogout = () => {
+     //  submit();
+     props.logout();
+     props.history.push("/");
+   };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -111,7 +139,29 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" className={classes.title}>
             <Link to="/">IFEDS</Link>
           </Typography>
-           
+           {
+             props.isAuthenticated && (<div>
+            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
+              <AccountCircle/>
+            </IconButton>
+            <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }} keepMounted="keepMounted" transformOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }} open={open1} onClose={handleClose}>
+              <MenuItem onClick={handleClose}>DashBoard</MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </div>)
+        }
+        {
+          !props.isAuthenticated && (<Button onClick={handleLogin} color="inherit">
+            Login
+          </Button>)
+        }
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -155,4 +205,8 @@ export default function PersistentDrawerLeft() {
       </main>
     </div>
   );
+
+  
+
+  
 }

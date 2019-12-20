@@ -33,6 +33,7 @@ export default function MenuAppBar({props,isDashBoard}) {
   };
 
   const handleClose = () => {
+    //props.history.push("/dashboard");
     setAnchorEl(null);
   };
 
@@ -67,7 +68,7 @@ export default function MenuAppBar({props,isDashBoard}) {
                 vertical: "top",
                 horizontal: "right"
               }} open={open} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>DashBoard</MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>)
