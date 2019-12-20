@@ -111,7 +111,7 @@ export default function PersistentDrawerLeft() {
           <Typography variant="h6" className={classes.title}>
             <Link to="/">IFEDS</Link>
           </Typography>
-          
+           
         </Toolbar>
       </AppBar>
       <Drawer
