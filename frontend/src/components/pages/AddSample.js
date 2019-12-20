@@ -6,10 +6,9 @@ import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
-import CheckRoundedIcon from '@material-ui/icons/CheckRounded';
 import Tooltip from '@material-ui/core/Tooltip';
-import ClearRoundedIcon from '@material-ui/icons/ClearRounded';
-
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import CancelIcon from '@material-ui/icons/Cancel';
 import Button from '@material-ui/core/Button';
 
 
@@ -59,7 +58,7 @@ export default function AddSample(props) {
   let bearer = 'Bearer '
 
   const handleClose = () => {
-    props.history.push("/dashboard");
+    props.history.push("/samplelist");
   }
 
   const handleAddDescriptor = (e) => {
@@ -126,7 +125,7 @@ async function handleSubmit(e) {
          "sample_descriptors" : listOfSampleDesc
      })
    }).then(res => console.log(res))
-  props.history.push("/dashboard");
+  props.history.push("/samplelist");
 }
 
   const handleDelete = (e,index) => {
@@ -240,12 +239,12 @@ async function handleSubmit(e) {
         type="text"
       />
     <Tooltip title = "Add Sample Descriptor">
-    <CheckRoundedIcon className = {classes.tick}
+    <AddCircleIcon className = {classes.tick}
       onClick = {e=>handleAddDescriptor(e)}
       />
   </Tooltip>
   <Tooltip title = "Clear Sample Descriptor Selection">
-  <ClearRoundedIcon className = {classes.tick}
+  <CancelIcon className = {classes.tick}
 
     onClick = {handleClear}/>
 </Tooltip>
@@ -267,10 +266,10 @@ async function handleSubmit(e) {
     </div>
       <div style={{marginTop : "40px"}}>
 
-      <Button  onClick={handleClose} color="primary">
+      <Button  style={{marginRight : "20px"}} onClick={handleClose} variant="contained" color="primary">
         Cancel
       </Button>
-      <Button  type = "submit" color="primary">
+      <Button  type = "submit" variant="contained" color="primary">
         Create
       </Button>
     </div>

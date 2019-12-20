@@ -54,9 +54,10 @@ export default function SampleList(props) {
   const classes = useToolbarStyles();
 
   const handleDescription = (description) => {
+    if(description!=null) {
     return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
       {description}
-    </ReadMoreAndLess>);
+    </ReadMoreAndLess>);}
   }
 
   const handleUrl = (url) => {
