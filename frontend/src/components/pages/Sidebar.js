@@ -141,7 +141,7 @@ export default function PersistentDrawerLeft({props}) {
           </Typography>
            {
              props.isAuthenticated && (<div>
-            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" justifyContent="end">
+            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" justifyContent='flex-end'>
               <AccountCircle/>
             </IconButton>
             <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{

@@ -38,7 +38,7 @@ class DatasetDetails extends Component {
             <h1>{this.state.dataset.datasetName}</h1><br/>
             
             <h3>{this.state.dataset.description}</h3>
-             {this.state.dataset.map}
+           
            
           
         </div>
