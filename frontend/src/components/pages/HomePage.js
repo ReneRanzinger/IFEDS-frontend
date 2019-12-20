@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 import MenuAppBar from './MenuAppBar.js';
+import Sidebar from './Sidebar.js';
 
 /**
  * HomePage
@@ -16,8 +17,8 @@ class HomePage extends Component {
     console.log(this.props)
     return (
       <div>
-        <div><MenuAppBar props ={this.props} /></div>
-        
+        {this.props.isAuthenticated ? <div><Sidebar props={this.props}/></div> : <div><MenuAppBar props ={this.props} /></div> 
+        }
         <div><Table prop={this.props}/></div>
       </div>
     );
