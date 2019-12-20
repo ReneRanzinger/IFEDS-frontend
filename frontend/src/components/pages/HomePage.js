@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 import MenuAppBar from './MenuAppBar.js';
+import Sidebar from './Sidebar.js';
 
 /**
  * HomePage
@@ -11,12 +12,13 @@ import MenuAppBar from './MenuAppBar.js';
 
 
 class HomePage extends Component {
-  submit = () => this.props.logout().then(() => this.props.history.push("/"));
+  //submit = () => this.props.logout().then(() => this.props.history.push("/"));
   render() {
     console.log(this.props)
     return (
       <div>
-        <div><MenuAppBar props ={this.props} submit={this.submit}/></div>
+        {this.props.isAuthenticated ? <div><Sidebar props={this.props}/></div> : <div><MenuAppBar props ={this.props} /></div> 
+        }
         <div><Table prop={this.props}/></div>
       </div>
     );

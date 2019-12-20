@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 //import Background from './Background';
 import { connect } from "react-redux";
 import MenuAppBar from "./MenuAppBar";
-import datasetDetail from '../../datasetDetail.json';
+//import datasetDetail from '../../datasetDetail.json';
 
 
 class DatasetDetails extends Component {
@@ -18,7 +18,7 @@ class DatasetDetails extends Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost:8080/dataset/1")
+    fetch("http://localhost:8080/dataset/3")
       .then(res => res.json())
       .then(data => {
         this.setState({ dataset: data });
@@ -32,20 +32,20 @@ class DatasetDetails extends Component {
     console.log(this.state.dataset);
     return (
       <div>
-        <MenuAppBar props={this.props} />
+        <MenuAppBar props={this.props} /> 
         <div>
-          <p>
-            {this.state.dataset.datasetName}
-            {/* <br />
-            {this.state.dataset.description}
-            <br />
-            {this.state.dataset.sample.name} */}
-            {/* })}  */}
-          </p>
+       
+            <h1>{this.state.dataset.datasetName}</h1><br/>
+            
+            <h3>{this.state.dataset.description}</h3>
+             {this.state.dataset.map}
+           
+          
         </div>
       </div>
     );
   }
+  
   
 
   // <div className="Content">

@@ -9,7 +9,7 @@ class DatasetDisplay extends Component {
           <div>
             <SideBar />
             <DatasetTable />
-            <h1>Here in Dataset Display</h1>
+           
           </div>
         );
         

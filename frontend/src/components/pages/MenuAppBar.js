@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MenuAppBar({props, submit, isDashBoard}) {
+export default function MenuAppBar({props,isDashBoard}) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -33,6 +33,7 @@ export default function MenuAppBar({props, submit, isDashBoard}) {
   };
 
   const handleClose = () => {
+    //props.history.push("/dashboard");
     setAnchorEl(null);
   };
 
@@ -67,7 +68,7 @@ export default function MenuAppBar({props, submit, isDashBoard}) {
                 vertical: "top",
                 horizontal: "right"
               }} open={open} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem onClick={handleClose}>DashBoard</MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>)
