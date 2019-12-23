@@ -30,18 +30,15 @@ class DatasetDetails extends Component {
 
   render() {
     return (
-      <div>
-        <MenuAppBar props={this.props} />
         <div>
+          <MenuAppBar props={this.props} />
+          <h1>{this.state.dataset.datasetName}</h1>
+          <br />
 
-            <h1>{this.state.dataset.datasetName}</h1><br/>
-
-            <h3>{this.state.dataset.description}</h3>
-             {this.state.dataset.map}
-
-
+          <h3>{this.state.dataset.description}</h3>
+          {this.state.dataset.map}
         </div>
-      </div>
+      
     );
   }
 
