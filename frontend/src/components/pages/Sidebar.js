@@ -137,32 +137,6 @@ export default function PersistentDrawerLeft({props}) {
           <Typography variant="h6">
             <Link to="/">IFEDS</Link>
           </Typography>
-<<<<<<< HEAD
-           {
-             props.isAuthenticated && (<div>
-            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" >
-              <AccountCircle/>
-            </IconButton>
-            <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-                justifyContent:"flex-end"
-              }} keepMounted="keepMounted" transformOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }} open={open1} onClose={handleClose}>
-              {/* <MenuItem onClick={handleClose}>DashBoard</MenuItem> */}
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </Menu>
-          </div>)
-        }
-        {
-          !props.isAuthenticated && (<Button onClick={handleLogin} color="inherit">
-            Login
-          </Button>)
-        }
-
-=======
           {props.isAuthenticated && (
             <div>
               <IconButton
@@ -200,7 +174,6 @@ export default function PersistentDrawerLeft({props}) {
               Login
             </Button>
           )}
->>>>>>> a5fa819eeb95fa077038c3cb12af36f5657716a5
         </Toolbar>
       </AppBar>
       <Drawer
