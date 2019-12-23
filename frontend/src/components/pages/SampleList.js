@@ -3,12 +3,13 @@ import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import MaterialTable,{MTableToolbar} from 'material-table';
 import ReadMoreAndLess from 'react-read-more-less';
+import Typography from '@material-ui/core/Typography';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import { grey } from '@material-ui/core/colors';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
-
+import Button from '@material-ui/core/Button';
 
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -52,7 +53,7 @@ export default function SampleList(props) {
   const [isDeleted, setDeleted] = useState(false);
   const [data] = useFetch("/getSample", isDeleted, props);
   const classes = useToolbarStyles();
-
+  
   const handleDescription = (description) => {
     if(description!=null) {
     return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
@@ -64,6 +65,11 @@ export default function SampleList(props) {
     return (<Link to={url}>
       {url}
     </Link>);
+  }
+
+  const handleAddNewSample = () => {
+    console.log(props)
+    props.prop.history.push("/addsample")
   }
 
   const headCells = [
@@ -86,13 +92,17 @@ export default function SampleList(props) {
     }
   ];
 
-  return (<MaterialTable title="Sample List" columns={headCells} data={data} editable={{
-
-      onRowUpdate: (newData, oldData) => new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, 600);
-      }),
+  return (<MaterialTable title="Sample List" columns={headCells} data={data}
+  actions={[
+    {
+      icon: 'edit',
+      tooltip: 'Edit Sample',
+      onClick: (event, rowData) => {
+        props.prop.history.push(`/editsample/${rowData.sampleId}`);
+      }
+    }
+  ]}
+  editable={{
       onRowDelete: oldData => new Promise(resolve => {
         setTimeout(() => {
           resolve();
@@ -102,30 +112,25 @@ export default function SampleList(props) {
       })
     }}
 
+    
+    
+  
+
     components={{
       Toolbar: props => (
-        <Paper style ={{display: 'flex'}}>
-          <MTableToolbar  classes = {{ root: classes.root}} {...props}/>
-            <Link to="/addsample"><Tooltip title = "Add New Sample"><Icon style={{ color: grey[600], height: "64px", padding: '16px 0px 16px 0px', margin: '0px 20px'}}
-              >add_box</Icon>
+        <Paper>
+         <MTableToolbar  classes = {{ root: classes.root}} {...props}/>
+          <div style={{display : "flex",marginLeft : "20px"}}>
+            <Button color="primary" onClick={handleAddNewSample}>Add New Sample</Button>
 
-          </Tooltip>
-
-  </Link>
+          </div>
         </Paper>)}}
-localization={{
-  body: {
-    editRow: {
-      backgroundColor : '#f06060'
-
-      }
-
-  }
-}}
     />
-
-
   );
+
+  
+
+
 }
 
 const useToolbarStyles = makeStyles(theme => ({
