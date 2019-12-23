@@ -8,6 +8,7 @@ import { grey } from '@material-ui/core/colors';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
+import Sidebar from "./Sidebar";
 
 
 import Tooltip from '@material-ui/core/Tooltip';
@@ -52,7 +53,7 @@ export default function SampleList(props) {
   const [isDeleted, setDeleted] = useState(false);
   const [data] = useFetch("/getSample", isDeleted, props);
   const classes = useToolbarStyles();
-
+  
   const handleDescription = (description) => {
     if(description!=null) {
     return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
@@ -87,7 +88,8 @@ export default function SampleList(props) {
   ];
 
   return (<MaterialTable title="Sample List" columns={headCells} data={data} editable={{
-
+   
+      
       onRowUpdate: (newData, oldData) => new Promise(resolve => {
         setTimeout(() => {
           resolve();
@@ -101,6 +103,10 @@ export default function SampleList(props) {
         }, 300);
       })
     }}
+
+    
+    
+  
 
     components={{
       Toolbar: props => (
@@ -123,9 +129,11 @@ localization={{
   }
 }}
     />
-
-
   );
+
+  
+
+
 }
 
 const useToolbarStyles = makeStyles(theme => ({

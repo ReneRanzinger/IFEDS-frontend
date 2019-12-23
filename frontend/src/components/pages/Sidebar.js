@@ -17,7 +17,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { useSelector } from "react-redux";
+
 
 const drawerWidth = 240;
 
@@ -25,10 +25,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
+
   appBar: {
-    transition: theme.transitions.create([
-      "margin", "width"
-    ], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     })
@@ -36,9 +35,7 @@ const useStyles = makeStyles(theme => ({
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
-    transition: theme.transitions.create([
-      "margin", "width"
-    ], {
+    transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen
     })
@@ -94,8 +91,8 @@ export default function PersistentDrawerLeft({props}) {
    };
 
    const handleClose = () => {
-     props.history.push("/dashboard");
-     //setAnchorEl(null);
+     //props.history.push("/dashboard");
+     setAnchorEl(null);
    };
 
    const handleLogin = () => {
@@ -136,32 +133,46 @@ export default function PersistentDrawerLeft({props}) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6">
             <Link to="/">IFEDS</Link>
           </Typography>
-           {
-             props.isAuthenticated && (<div>
-            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" justifyContent="end">
-              <AccountCircle/>
-            </IconButton>
-            <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }} keepMounted="keepMounted" transformOrigin={{
-                vertical: "top",
-                horizontal: "right"
-              }} open={open1} onClose={handleClose}>
-              <MenuItem onClick={handleClose}>DashBoard</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </Menu>
-          </div>)
-        }
-        {
-          !props.isAuthenticated && (<Button onClick={handleLogin} color="inherit">
-            Login
-          </Button>)
-        }
-
+          {props.isAuthenticated && (
+            <div>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+                
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right"
+                }}
+                keepMounted="keepMounted"
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right"
+                }}
+                open={open1}
+                onClose={handleClose}
+              >
+                {/* <MenuItem onClick={handleClose}>DashBoard</MenuItem> */}
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
+          )}
+          {!props.isAuthenticated && (
+            <Button onClick={handleLogin} color="inherit">
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
