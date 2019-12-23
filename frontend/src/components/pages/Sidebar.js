@@ -23,7 +23,8 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex"
+    display: "flex",
+    
   },
   appBar: {
     transition: theme.transitions.create([
@@ -141,12 +142,13 @@ export default function PersistentDrawerLeft({props}) {
           </Typography>
            {
              props.isAuthenticated && (<div>
-            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" justifyContent='flex-end'>
+            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" >
               <AccountCircle/>
             </IconButton>
             <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
                 vertical: "top",
-                horizontal: "right"
+                horizontal: "right",
+                justifyContent:"flex-end"
               }} keepMounted="keepMounted" transformOrigin={{
                 vertical: "top",
                 horizontal: "right"
@@ -182,7 +184,6 @@ export default function PersistentDrawerLeft({props}) {
             )}
           </IconButton>
         </div>
-
         <List>
           {[
             ["Home", "http://localhost:3000/dashboard"],
