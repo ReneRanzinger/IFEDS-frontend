@@ -11,7 +11,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 
 
-const useFetch = (url) => {
+const useFetch = (url,props) => {
   const isAuthenticated = useSelector(state => state.user.token);
   const [data, setData] = useState([]);
 
@@ -39,20 +39,21 @@ const useFormInput = (initialValue) => {
    };
 }
 
-export default function AddSample(props) {
+export default function SampleForm(props) {
   const classes = useToolbarStyles();
-  const name = useFormInput();
-  const url = useFormInput(null);
-  const description = useFormInput(null);
-  const sType = useFormInput();
+  const name = useFormInput("Anubhav Nigam");
+  const url = useFormInput("anubhav.nigam@uga.edu");
+  const description = useFormInput("This is for testing purpose");
+  const sType = useFormInput(2);
   const sDescriptor = useFormInput();
   const [value,setValue] = useState();
   const [measurement, setMeasurement] = useState();
-  const [sampleDesc, setSampleDesc] = useState({data: []});
+  const [isAddSample, setIsAddSample] = useState(props.isAddSample);
+  const [sampleDesc, setSampleDesc] = useState({data: [["Species", "Random", "micro"]]});
   const [isDescriptorAdded,setIsDescriptorAdded] = useState(false);
-  const [isThereAnySampleDesc,setIsThereAnySampleDesc] = useState(false);
-  const [sampleDescriptor] = useFetch("/SampleDescriptors");
-  const [sampleType] = useFetch("/SampleTypes");
+  const [isThereAnySampleDesc,setIsThereAnySampleDesc] = useState(true);
+  const [sampleDescriptor] = useFetch("/SampleDescriptors",props);
+  const [sampleType] = useFetch("/SampleTypes",props);
   const isAuthenticated = useSelector(state => state.user.token);
   let bearer = 'Bearer '
 
@@ -92,6 +93,8 @@ export default function AddSample(props) {
   }
 
 async function handleSubmit(e) {
+  const { match: { params } } = props;
+  console.log(params);
   e.preventDefault();
   let listOfSampleDesc = sampleDesc['data'].map((a,row) => {
       console.log(sampleDescriptor);
@@ -103,8 +106,8 @@ async function handleSubmit(e) {
       return sampleDescriptorArray
   })
   console.log(name.value)
-  const response =  await fetch("/samples",{
-     method: "POST",
+  const response =  await fetch(`/samples/${params.id}`,{
+     method: "PUT",
      headers: {
          "Content-Type" : "application/json",
          "Accept": "application/json",
@@ -135,10 +138,11 @@ async function handleSubmit(e) {
       setIsDescriptorAdded(false);
     },[isDescriptorAdded]);
 
-  return (
+  return (<div>
+    {!isAddSample &&
     <Paper className={classes.root}>
       <Typography variant="h5" component="h3">
-        Add Sample
+        Edit Sample
       </Typography>
     <form className={classes.form} onSubmit={handleSubmit}>
       <div style={{marginTop : "20px"}}><TextField
@@ -166,7 +170,7 @@ async function handleSubmit(e) {
         helperText="Please select sample type"
         margin="normal"
       >
-      <option value="" />
+      <option value={sType} />
         {sampleType.map(option => (
           <option key={option.sampleTypeId} value={option.sampleTypeId}>
             {option.name}
@@ -209,7 +213,7 @@ async function handleSubmit(e) {
         helperText="Please select sample Descriptor"
         margin="normal"
       >
-      <option value="" />
+      <option value={sDescriptor} />
         {sampleDescriptor.map(option => (
           <option key={option.sample_descriptor_id} value={option.name}>
             {option.name}
@@ -236,8 +240,7 @@ async function handleSubmit(e) {
       onClick = {e=>handleAddDescriptor(e)}
       />
   </Tooltip>
-  <Typography className = {classes.label}> Add Sample Descriptor </Typography>
-
+    <Typography className = {classes.label}> Add Sample Descriptor </Typography>
     </div>
   </form>
     <div style={{marginTop : "40px"}}>
@@ -259,11 +262,12 @@ async function handleSubmit(e) {
         Cancel
       </Button>
       <Button  type = "submit" variant="contained" color="primary">
-        Create
+        Save
       </Button>
     </div>
   </form>
-</Paper>
+</Paper>}
+</div>
   );
 }
 

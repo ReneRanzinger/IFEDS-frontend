@@ -9,7 +9,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
 
-
 import Tooltip from '@material-ui/core/Tooltip';
 
 const useFetch = (url, isDeleted, props) => {
@@ -86,13 +85,17 @@ export default function SampleList(props) {
     }
   ];
 
-  return (<MaterialTable title="Sample List" columns={headCells} data={data} editable={{
-
-      onRowUpdate: (newData, oldData) => new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, 600);
-      }),
+  return (<MaterialTable title="Sample List" columns={headCells} data={data}
+  actions={[
+    {
+      icon: 'edit',
+      tooltip: 'Edit Sample',
+      onClick: (event, rowData) => {
+        props.prop.history.push(`/editsample/${rowData.sampleId}`);
+      }
+    }
+  ]}
+  editable={{
       onRowDelete: oldData => new Promise(resolve => {
         setTimeout(() => {
           resolve();
@@ -105,13 +108,13 @@ export default function SampleList(props) {
     components={{
       Toolbar: props => (
         <Paper style ={{display: 'flex'}}>
-          <MTableToolbar  classes = {{ root: classes.root}} {...props}/>
-            <Link to="/addsample"><Tooltip title = "Add New Sample"><Icon style={{ color: grey[600], height: "64px", padding: '16px 0px 16px 0px', margin: '0px 20px'}}
+         <MTableToolbar  classes = {{ root: classes.root}} {...props}/>
+          <div>  <Link to="/addsample"><Tooltip title = "Add New Sample"><Icon style={{ color: grey[600], height: "64px", padding: '16px 0px 16px 0px', margin: '0px 20px'}}
               >add_box</Icon>
 
           </Tooltip>
 
-  </Link>
+  </Link></div>
         </Paper>)}}
 localization={{
   body: {

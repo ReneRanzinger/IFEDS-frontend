@@ -6,19 +6,15 @@ import PropTypes from "prop-types";
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashBoard';
-import Navbar from './components/pages/Navbar';
-import MenuAppBar from './components/pages/MenuAppBar';
 import InternalServer from './components/error_pages/InternalServer';
-//import DatasetContextProvider from './contexts/DatasetContext'
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import AdminRoute from "./components/routes/AdminRoute";
-import DatasetTable from './components/pages/DatasetTable';
-import SampleList from './components/pages/SampleList';
 import DatasetDetails from "./components/pages/DatasetDetails";
 import DatasetDisplay from './components/pages/DatasetDisplay';
 import SampleDisplay from './components/pages/SampleDisplay';
-import AddSample from "./components/pages/AddSample"
+import AddSample from "./components/pages/AddSample";
+import SampleForm from "./components/forms/SampleForm";
 
 
 
@@ -32,6 +28,7 @@ const App = ({ location, isAuthenticated }) => (
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
     <UserRoute location={location} path="/addsample" exact component={AddSample}/>
+    <UserRoute location={location} path="/editsample/:id" exact component={SampleForm}/>
     <UserRoute
         location={location}
         path="/dashboard"
