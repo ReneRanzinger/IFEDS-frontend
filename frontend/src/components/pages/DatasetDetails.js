@@ -12,13 +12,14 @@ import MenuAppBar from "./MenuAppBar";
 
 
 class DatasetDetails extends Component {
-  
+
   state = {
     dataset: []
   };
 
   componentDidMount() {
-    fetch("http://localhost:8080/dataset/3")
+    const { match: { params } } = this.props;
+    fetch(`http://localhost:8080/dataset/${params.id}`)
       .then(res => res.json())
       .then(data => {
         this.setState({ dataset: data });
@@ -28,8 +29,6 @@ class DatasetDetails extends Component {
 
 
   render() {
-    
-    console.log(this.state.dataset);
     return (
         <div>
           <MenuAppBar props={this.props} />
@@ -42,8 +41,8 @@ class DatasetDetails extends Component {
       
     );
   }
-  
-  
+
+
 
   // <div className="Content">
   //   <MenuAppBar props={this.props} />
@@ -73,7 +72,7 @@ class DatasetDetails extends Component {
 //                   </div>
 //                 })}
 //               )
-//             })}  
+//             })}
 
 // DatasetDetails.propTypes ={
 //   sample: PropTypes.object,

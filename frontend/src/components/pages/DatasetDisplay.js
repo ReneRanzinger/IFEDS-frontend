@@ -1,19 +1,29 @@
 import React, {Component} from 'react';
 import SideBar from "./Sidebar";
+import {connect} from "react-redux";
 import DatasetTable from "./DatasetTable"
+import {logout} from "../../actions/auth";
+import PropTypes  from 'prop-types';
 
 class DatasetDisplay extends Component {
-    
-    render() { 
+
+    render() {
         return (
           <div>
-            <SideBar />
+            <SideBar props={this.props} isDashBoard={"true"} />
             <DatasetTable />
-           
+
           </div>
         );
-        
+
     }
 }
- 
-export default DatasetDisplay;
+
+DatasetDisplay.propTypes = {
+  logout: PropTypes.func
+}
+
+function mapStateToProps(state) {
+  return {isAuthenticated: state.user.token};
+}
+export default connect(mapStateToProps, {logout})(DatasetDisplay);
