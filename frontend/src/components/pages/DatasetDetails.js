@@ -31,18 +31,15 @@ class DatasetDetails extends Component {
     
     console.log(this.state.dataset);
     return (
-      <div>
-        <MenuAppBar props={this.props} /> 
         <div>
-       
-            <h1>{this.state.dataset.datasetName}</h1><br/>
-            
-            <h3>{this.state.dataset.description}</h3>
-             {this.state.dataset.map}
-           
-          
+          <MenuAppBar props={this.props} />
+          <h1>{this.state.dataset.datasetName}</h1>
+          <br />
+
+          <h3>{this.state.dataset.description}</h3>
+          {this.state.dataset.map}
         </div>
-      </div>
+      
     );
   }
   
