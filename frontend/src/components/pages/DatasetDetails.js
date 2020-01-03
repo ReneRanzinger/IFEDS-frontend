@@ -13,18 +13,25 @@ import MenuAppBar from "./MenuAppBar";
 
 class DatasetDetails extends Component {
 
-  state = {
-    dataset: []
-  };
-
+  constructor(){
+    super();
+      this.state = {
+        dataset: [],
+      }
+  }
+  
+  
   componentDidMount() {
     const { match: { params } } = this.props;
     fetch(`http://localhost:8080/dataset/${params.id}`)
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ dataset: data });
+      .then((response) => response.json())
+      .then(details => {
+        console.log(details.sample)
+        this.setState({ dataset:details.sample,
+         });
+
       })
-      .catch(console.log);
+      
   }
 
 
@@ -32,55 +39,38 @@ class DatasetDetails extends Component {
     return (
       <div>
         <MenuAppBar props={this.props} />
-        <div>
+        {this.state.dataset.map((item, key) => (
+          <div>
+            <span>{item.name}</span>
+            <span>{item.description}</span>
+            <span>{item.url}</span>
+          </div>
+        ))}
+        {/* <h3>{this.state.dataset.datasetId}</h3>
+        <h1>{this.state.dataset.datasetName}</h1>
+        <br />
+        <h3>{this.state.dataset.description}</h3> */}
 
-            <h1>{this.state.dataset.datasetName}</h1><br/>
-
-            <h3>{this.state.dataset.description}</h3>
-             {this.state.dataset.map}
-
-
-        </div>
+        {/* 
+        {this.state.dataset.map(function(item, index) {
+          return (
+            <div key={index}>
+              <p>
+                <span>{item.sample.name}</span>
+                <span>{item.sample.description}</span>
+                <span>{item.sample.url}</span>
+              </p>
+            </div>
+          );
+        })} */}
       </div>
     );
   }
 
 
 
-  // <div className="Content">
-  //   <MenuAppBar props={this.props} />
-  //   {console.log(this.props)}
-  //   <ul>
-  //     {Object.keys(element3).map((v, i) => (
-  //       <li key={i}>
-  //         {" "}
-  //         {v} {datasetDetail[v]}
-  //       </li>
-  //     ))}
-  //   </ul>
-  // </div>
-  //   );
+ 
 }
-//}
-// {datasetDetail.sampleDescriptor.map((a, i)=>{
-//               return(
-//                 {a.sampleDescriptor.map(function(descriptor, i){
-//                   return <div key={i}>
-//                   <h5>{descriptor.sampleDescriptorId}</h5>
-//                   <span>{descriptor.name}</span>
-//                   <span>{descriptor.description}</span>
-//                   <span>{descriptor.namespace}</span>
-//                   <span>{descriptor.url}</span>
-//                   <span>{descritpor.linkpattern}</span>
-//                   </div>
-//                 })}
-//               )
-//             })}
-
-// DatasetDetails.propTypes ={
-//   sample: PropTypes.object,
-//   name: PropTypes.object
-// }
 
 function mapStateToProps(state) {
   return {isAuthenticated: state.user.token};
