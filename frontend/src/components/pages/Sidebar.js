@@ -24,7 +24,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    
+
   },
 
   appBar: {
@@ -85,7 +85,7 @@ export default function PersistentDrawerLeft({props}) {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open1 = Boolean(anchorEl);
- 
+
 
    const handleMenu = event => {
      setAnchorEl(event.currentTarget);
@@ -137,7 +137,6 @@ export default function PersistentDrawerLeft({props}) {
           <Typography variant="h6">
             <Link to="/">IFEDS</Link>
           </Typography>
-<<<<<<< HEAD
            {
              props.isAuthenticated && (<div>
             <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" >
@@ -162,7 +161,6 @@ export default function PersistentDrawerLeft({props}) {
           </Button>)
         }
 
-=======
           {props.isAuthenticated && (
             <div>
               <IconButton
@@ -171,7 +169,7 @@ export default function PersistentDrawerLeft({props}) {
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
-                
+
               >
                 <AccountCircle />
               </IconButton>
@@ -200,7 +198,7 @@ export default function PersistentDrawerLeft({props}) {
               Login
             </Button>
           )}
->>>>>>> a5fa819eeb95fa077038c3cb12af36f5657716a5
+
         </Toolbar>
       </AppBar>
       <Drawer
@@ -246,5 +244,5 @@ export default function PersistentDrawerLeft({props}) {
 
   
 
-  
+
 }
