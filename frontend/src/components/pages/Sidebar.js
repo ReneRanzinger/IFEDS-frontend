@@ -24,7 +24,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
-    
+
   },
 
   appBar: {
@@ -85,7 +85,7 @@ export default function PersistentDrawerLeft({props}) {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open1 = Boolean(anchorEl);
- 
+
 
    const handleMenu = event => {
      setAnchorEl(event.currentTarget);
@@ -137,6 +137,33 @@ export default function PersistentDrawerLeft({props}) {
           <Typography variant="h6">
             <Link to="/">IFEDS</Link>
           </Typography>
+<<<<<<< HEAD
+=======
+           {
+             props.isAuthenticated && (<div>
+            <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit" >
+              <AccountCircle/>
+            </IconButton>
+            <Menu id="menu-appbar" anchorEl={anchorEl} anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+                justifyContent:"flex-end"
+              }} keepMounted="keepMounted" transformOrigin={{
+                vertical: "top",
+                horizontal: "right"
+              }} open={open1} onClose={handleClose}>
+              {/* <MenuItem onClick={handleClose}>DashBoard</MenuItem> */}
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+          </div>)
+        }
+        {
+          !props.isAuthenticated && (<Button onClick={handleLogin} color="inherit">
+            Login
+          </Button>)
+        }
+
+>>>>>>> 5294d26323ec35eda91f7002e5588b58de3572b1
           {props.isAuthenticated && (
             <div>
               <IconButton
@@ -145,7 +172,7 @@ export default function PersistentDrawerLeft({props}) {
                 aria-haspopup="true"
                 onClick={handleMenu}
                 color="inherit"
-                
+
               >
                 <AccountCircle />
               </IconButton>
@@ -174,6 +201,10 @@ export default function PersistentDrawerLeft({props}) {
               Login
             </Button>
           )}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5294d26323ec35eda91f7002e5588b58de3572b1
         </Toolbar>
       </AppBar>
       <Drawer
@@ -219,5 +250,5 @@ export default function PersistentDrawerLeft({props}) {
 
   
 
-  
+
 }

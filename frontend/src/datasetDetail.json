@@ -1,4 +1,4 @@
-[{
+{
     "datasetId": 1,
     "datasetName": "Stem Cell Dataset for Infrasturucture of Experimental Data Analysis 1",
     "description": "Glycomics analysis performed with the stem cell data set 1- comprehensive study of glycomes including genetic, physiologic, pathologic, and other aspects",
@@ -166,4 +166,4 @@
             "description": "GRITS Toolbox annotation of the MS run"
         }
     ]
-}]
+}

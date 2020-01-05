@@ -136,12 +136,13 @@ async function handleSubmit(e) {
     },[isDescriptorAdded]);
 
   return (
-    <Paper className={classes.root}>
+        <Paper className={classes.root}>
       <Typography variant="h5" component="h3">
         Add Sample
       </Typography>
     <form className={classes.form} onSubmit={handleSubmit}>
-      <div style={{marginTop : "20px"}}><TextField
+      <div style={{marginTop : "20px"}}>
+        <TextField
         autoFocus
         required
         id="name"
@@ -183,6 +184,7 @@ async function handleSubmit(e) {
         type="email"
       />
   </div>
+  
       <div style={{marginTop : "20px", width : "56.7%"}}><TextField
         id="standard-multiline-flexible"
         label="Description"

@@ -26,8 +26,8 @@ class DatasetDetails extends Component {
     fetch(`http://localhost:8080/dataset/${params.id}`)
       .then((response) => response.json())
       .then(details => {
-        console.log(details.sample)
-        this.setState({ dataset:details.sample,
+        console.log(details.sampleDescriptors)
+        this.setState({ dataset:details.sampleDescriptors,
          });
 
       })
@@ -41,15 +41,16 @@ class DatasetDetails extends Component {
         <MenuAppBar props={this.props} />
         {this.state.dataset.map((item, key) => (
           <div>
+            <span>{item.sampleDescriptorId}</span>
             <span>{item.name}</span>
             <span>{item.description}</span>
-            <span>{item.url}</span>
+            <span>{item.namespace}</span>
           </div>
         ))}
-        {/* <h3>{this.state.dataset.datasetId}</h3>
+        <h3>{this.state.dataset.datasetId}</h3>
         <h1>{this.state.dataset.datasetName}</h1>
         <br />
-        <h3>{this.state.dataset.description}</h3> */}
+        <h3>{this.state.dataset.description}</h3>
 
         {/* 
         {this.state.dataset.map(function(item, index) {

@@ -3,15 +3,11 @@ import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import MaterialTable,{MTableToolbar} from 'material-table';
 import ReadMoreAndLess from 'react-read-more-less';
-import Typography from '@material-ui/core/Typography';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
-import { grey } from '@material-ui/core/colors';
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Icon from '@material-ui/core/Icon';
 import Button from '@material-ui/core/Button';
 
-import Tooltip from '@material-ui/core/Tooltip';
 
 const useFetch = (url, isDeleted, props) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -53,7 +49,7 @@ export default function SampleList(props) {
   const [isDeleted, setDeleted] = useState(false);
   const [data] = useFetch("/getSample", isDeleted, props);
   const classes = useToolbarStyles();
-  
+
   const handleDescription = (description) => {
     if(description!=null) {
     return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
@@ -77,8 +73,8 @@ export default function SampleList(props) {
       field: 'name',
       title: 'Sample Name'
     }, {
-      field: 'sample_type_id',
-      title: 'Sample Type Id'
+      field: 'sampleTypeName',
+      title: 'Sample Type Name'
     }, {
       field: 'url',
       title: 'Url',
@@ -112,10 +108,6 @@ export default function SampleList(props) {
       })
     }}
 
-    
-    
-  
-
     components={{
       Toolbar: props => (
         <Paper>
@@ -126,11 +118,9 @@ export default function SampleList(props) {
           </div>
         </Paper>)}}
     />
+
+
   );
-
-  
-
-
 }
 
 const useToolbarStyles = makeStyles(theme => ({
