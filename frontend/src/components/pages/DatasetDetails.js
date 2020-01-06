@@ -12,68 +12,83 @@ import MenuAppBar from "./MenuAppBar";
 
 
 class DatasetDetails extends Component {
-
-  constructor(){
+  constructor() {
     super();
-      this.state = {
-        dataset: [],
-      }
+    this.state = {
+      dataset: [],
+      error: null
+    };
   }
-  
-  
+
   componentDidMount() {
-    const { match: { params } } = this.props;
+    const {
+      match: { params }
+    } = this.props;
     fetch(`http://localhost:8080/dataset/${params.id}`)
-      .then((response) => response.json())
-      .then(details => {
-        console.log(details.sampleDescriptors)
-        this.setState({ dataset:details.sampleDescriptors,
-         });
-
+      .then(response => {
+        return response.json();
       })
-      
+
+      .then(details => {
+        this.setState({ dataset: details });
+        console.log("state", this.state.details);
+      })
+      .catch(error => console.log(error));
   }
 
+  // render() {
+  //   return (
+  //     <div>
+  //       {
+  //         this.state.clouds.map(((cloud, index) =>
+  //           <th key={`${cloud.cloud}${index}`}>
+  //             <div>
+  //               <div>
+  //                 {cloud.cloud}
+  //                 <div>
+  //                   {
+  //                     cloud.data_centers.map(d => (
+  //                       <div>
+  //                         {d.title}
+  //                       </div>
+  //                     ))
+  //                   }
+  //                 </div>
+  //               </div>
+  //             </div>
+  //           </th>
+  //         ))
+  //       }
+  //     </div>
+  //   );
+  // }
 
   render() {
     return (
       <div>
+        <div>
         <MenuAppBar props={this.props} />
-        {this.state.dataset.map((item, key) => (
-          <div>
-            <span>{item.sampleDescriptorId}</span>
-            <span>{item.name}</span>
-            <span>{item.description}</span>
-            <span>{item.namespace}</span>
-          </div>
-        ))}
+        </div>
+        <div>
         <h3>{this.state.dataset.datasetId}</h3>
         <h1>{this.state.dataset.datasetName}</h1>
         <br />
         <h3>{this.state.dataset.description}</h3>
+        <div>
+        {this.state.dataset.map}
 
-        {/* 
-        {this.state.dataset.map(function(item, index) {
-          return (
-            <div key={index}>
-              <p>
-                <span>{item.sample.name}</span>
-                <span>{item.sample.description}</span>
-                <span>{item.sample.url}</span>
-              </p>
-            </div>
-          );
-        })} */}
+        </div>
+        </div>
       </div>
     );
   }
-
-
-
- 
 }
 
 function mapStateToProps(state) {
   return {isAuthenticated: state.user.token};
 }
 export default connect(mapStateToProps)(DatasetDetails);
+
+
+
+
