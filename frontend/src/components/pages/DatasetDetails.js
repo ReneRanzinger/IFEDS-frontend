@@ -31,53 +31,27 @@ class DatasetDetails extends Component {
 
       .then(details => {
         this.setState({ dataset: details });
-        console.log("state", this.state.details);
+        console.log("state", this.state.details.value);
+        console.log(JSON.stringify("state"));
       })
       .catch(error => console.log(error));
   }
 
-  // render() {
-  //   return (
-  //     <div>
-  //       {
-  //         this.state.clouds.map(((cloud, index) =>
-  //           <th key={`${cloud.cloud}${index}`}>
-  //             <div>
-  //               <div>
-  //                 {cloud.cloud}
-  //                 <div>
-  //                   {
-  //                     cloud.data_centers.map(d => (
-  //                       <div>
-  //                         {d.title}
-  //                       </div>
-  //                     ))
-  //                   }
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           </th>
-  //         ))
-  //       }
-  //     </div>
-  //   );
-  // }
+  
 
   render() {
     return (
       <div>
         <div>
-        <MenuAppBar props={this.props} />
+          <MenuAppBar props={this.props} />
         </div>
         <div>
-        <h3>{this.state.dataset.datasetId}</h3>
-        <h1>{this.state.dataset.datasetName}</h1>
-        <br />
-        <h3>{this.state.dataset.description}</h3>
-        <div>
-        {this.state.dataset.map}
-
-        </div>
+          <h1>{this.state.dataset.datasetName}</h1>
+          <br />
+          <h3>{this.state.dataset.description}</h3>
+          <div>
+            {/* <h3>{this.state.dataset.sample}</h3> */}
+          </div>
         </div>
       </div>
     );
