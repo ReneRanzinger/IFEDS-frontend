@@ -141,15 +141,17 @@ export default function PersistentDrawerLeft({props}) {
             <Link to="/">IFEDS</Link>
           </Typography>
           {props.isAuthenticated && (
-            <div>
-              <div className={classes.toolbarButtons}>
-                <IconButton 
+            <div
+              style={{justifyContent:'flex-end' ,
+                          margin:'auto'}}
+            >
+              <div>
+                <IconButton
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleMenu}
                   color="inherit"
-                  
                 >
                   <AccountCircle />
                 </IconButton>

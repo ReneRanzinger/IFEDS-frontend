@@ -9,6 +9,8 @@ import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
+import Sidebar from "./Sidebar";
+import PropTypes from "prop-types";
 
 
 const useFetch = (url) => {
@@ -136,137 +138,161 @@ async function handleSubmit(e) {
     },[isDescriptorAdded]);
 
   return (
-        <Paper className={classes.root}>
+    <Paper className={classes.root}>
+      <div className="Content">
+        <Sidebar props={props} isDashBoard={"true"} />
+      </div>
       <Typography variant="h5" component="h3">
         Add Sample
       </Typography>
-    <form className={classes.form} onSubmit={handleSubmit}>
-      <div style={{marginTop : "20px"}}>
-        <TextField
-        autoFocus
-        required
-        id="name"
-        label="Sample Name"
-        size="small"
-        {...name}
-        className={classes.nameField}
-        type="text"
-      /><TextField
-        id="sample_type"
-        select
-        required
-        label="Sample Type"
-        className={classes.textField1}
-        {...sType}
-        SelectProps={{
-          native: true,
-          MenuProps: {
-            className: classes.menu,
-          },
-        }}
-        helperText="Please select sample type"
-        margin="normal"
-      >
-      <option value="" />
-        {sampleType.map(option => (
-          <option key={option.sampleTypeId} value={option.sampleTypeId}>
-            {option.name}
-          </option>
-        ))}
-      </TextField>
-      <TextField
-        margin="dense"
-        className={classes.textField2}
-        size="medium"
-        id="url"
-        {...url}
-        label="URL"
-        type="email"
-      />
-  </div>
-  
-      <div style={{marginTop : "20px", width : "56.7%"}}><TextField
-        id="standard-multiline-flexible"
-        label="Description"
-        multiline
-        {...description}
-        rowsMax="4"
-        margin="normal"
-        fullWidth
-      /></div>
-    <form id="form1">
-    <div style={{display: "flex",marginTop : "20px"}}>
-      <TextField
-        id="sample_descriptor"
-        select
-        label="Sample Descriptor"
-        className={classes.textField1}
-        {...sDescriptor}
-        SelectProps={{
-          native: true,
-          MenuProps: {
-            className: classes.menu,
-          },
-        }}
-        helperText="Please select sample Descriptor"
-        margin="normal"
-      >
-      <option value="" />
-        {sampleDescriptor.map(option => (
-          <option key={option.sample_descriptor_id} value={option.name}>
-            {option.name}
-          </option>
-        ))}
-      </TextField>
-      <TextField
-        id="value"
-        label="Value"
-        onChange = {e => handleChangeForValue(e)}
-        className={classes.valueField}
-        type="text"
-      />
-      <TextField
-        margin="dense"
-        className={classes.textField2}
-        id="unit_of_measurment"
-        onChange = {e => handleChangeForMeasurement(e)}
-        label="Measurement Unit"
-        type="text"
-      />
-    <Tooltip title = "Add Sample Descriptor">
-    <AddCircleIcon className = {classes.tick}
-      onClick = {e=>handleAddDescriptor(e)}
-      />
-  </Tooltip>
-  <Typography className = {classes.label}> Add Sample Descriptor </Typography>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <div style={{ marginTop: "20px" }}>
+          <TextField
+            autoFocus
+            required
+            id="name"
+            label="Sample Name"
+            size="small"
+            {...name}
+            className={classes.nameField}
+            type="text"
+          />
+          <TextField
+            id="sample_type"
+            select
+            required
+            label="Sample Type"
+            className={classes.textField1}
+            {...sType}
+            SelectProps={{
+              native: true,
+              MenuProps: {
+                className: classes.menu
+              }
+            }}
+            helperText="Please select sample type"
+            margin="normal"
+          >
+            <option value="" />
+            {sampleType.map(option => (
+              <option key={option.sampleTypeId} value={option.sampleTypeId}>
+                {option.name}
+              </option>
+            ))}
+          </TextField>
+          <TextField
+            margin="dense"
+            className={classes.textField2}
+            size="medium"
+            id="url"
+            {...url}
+            label="URL"
+            type="email"
+          />
+        </div>
 
-    </div>
-  </form>
-    <div style={{marginTop : "40px"}}>
-      {isThereAnySampleDesc && sampleDesc.data.map((row,index) =>{
-        const ret = `${row[0]} :\xa0\xa0   ${row[1]}   \xa0   ${row[2]}`
-        return(
-        <div><Chip
-          size="medium"
-          variant="outlined"
-          label={ret}
-          onDelete={e => handleDelete(e,index)}
-        /></div>)
-      })}
-
-    </div>
-      <div style={{marginTop : "40px"}}>
-
-      <Button  style={{marginRight : "20px"}} onClick={handleClose} variant="contained" color="primary">
-        Cancel
-      </Button>
-      <Button  type = "submit" variant="contained" color="primary">
-        Create
-      </Button>
-    </div>
-  </form>
-</Paper>
+        <div style={{ marginTop: "20px", width: "56.7%" }}>
+          <TextField
+            id="standard-multiline-flexible"
+            label="Description"
+            multiline
+            {...description}
+            rowsMax="4"
+            margin="normal"
+            fullWidth
+          />
+        </div>
+        <form id="form1">
+          <div style={{ display: "flex", marginTop: "20px" }}>
+            <TextField
+              id="sample_descriptor"
+              select
+              label="Sample Descriptor"
+              className={classes.textField1}
+              {...sDescriptor}
+              SelectProps={{
+                native: true,
+                MenuProps: {
+                  className: classes.menu
+                }
+              }}
+              helperText="Please select sample Descriptor"
+              margin="normal"
+            >
+              <option value="" />
+              {sampleDescriptor.map(option => (
+                <option key={option.sample_descriptor_id} value={option.name}>
+                  {option.name}
+                </option>
+              ))}
+            </TextField>
+            <TextField
+              id="value"
+              label="Value"
+              onChange={e => handleChangeForValue(e)}
+              className={classes.valueField}
+              type="text"
+            />
+            <TextField
+              margin="dense"
+              className={classes.textField2}
+              id="unit_of_measurment"
+              onChange={e => handleChangeForMeasurement(e)}
+              label="Measurement Unit"
+              type="text"
+            />
+            <Tooltip title="Add Sample Descriptor">
+              <AddCircleIcon
+                className={classes.tick}
+                onClick={e => handleAddDescriptor(e)}
+              />
+            </Tooltip>
+            <Typography className={classes.label}>
+              {" "}
+              Add Sample Descriptor{" "}
+            </Typography>
+          </div>
+        </form>
+        <div style={{ marginTop: "40px" }}>
+          {isThereAnySampleDesc &&
+            sampleDesc.data.map((row, index) => {
+              const ret = `${row[0]} :\xa0\xa0   ${row[1]}   \xa0   ${row[2]}`;
+              return (
+                <div>
+                  <Chip
+                    size="medium"
+                    variant="outlined"
+                    label={ret}
+                    onDelete={e => handleDelete(e, index)}
+                  />
+                </div>
+              );
+            })}
+        </div>
+        <div style={{ marginTop: "40px" }}>
+          <Button
+            style={{ marginRight: "20px" }}
+            onClick={handleClose}
+            variant="contained"
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button type="submit" variant="contained" color="primary">
+            Create
+          </Button>
+        </div>
+      </form>
+    </Paper>
   );
+  
+  // AddSample.propTypes = {
+  //   logout: PropTypes.func
+  // };
+
+  function mapStateToProps(state) {
+    return { isAuthenticated: state.user.token };
+  }
 }
 
   const useToolbarStyles = makeStyles(theme => ({
