@@ -54,17 +54,30 @@ class DatasetDetails extends Component {
           </div>
           <div>
             <h3>
-              {
-                this.state.dataset.sample &&
+              {this.state.dataset.sample &&
                 this.state.dataset.sample.sampleDescriptors.map(
                   (item, index) => {
                     return JSON.stringify(item);
                   }
-                )
-              }
+                )}
             </h3>
           </div>
-        </div>
+          <div>
+            <h3>{JSON.stringify(this.state.dataset.provider)}</h3>
+          </div>
+          {/* <div>
+            <h3>
+              {this.state.dataset &&
+                this.state.dataset.papers.map(
+                  (item,index)=>{
+                  return JSON.stringify(item);
+                })
+
+              }
+            </h3>
+          </div> */}
+
+         </div>
       </div>
     );
   }
