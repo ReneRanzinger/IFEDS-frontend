@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 //import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 //import Navbar from './Navbar.js';
 //import Sidebar from './Sidebar.js';
@@ -46,18 +46,31 @@ class DatasetDetails extends Component {
           <MenuAppBar props={this.props} />
         </div>
         <div>
-          <h1>{this.state.dataset.datasetName}</h1>
-          <br />
-          <h3>{this.state.dataset.description}</h3>
+          <h1 align="center" style={{ color: "green" }}>
+            {this.state.dataset.datasetName}
+          </h1>
+
+          <h3 align="center">{this.state.dataset.description}</h3>
           <div>
-            <h3>{JSON.stringify(this.state.dataset.sample)}</h3>
+            <h3 style={{ color: "red" }}>
+              {JSON.stringify(
+                this.state.dataset.sample && this.state.dataset.sample.name
+              )}
+            </h3>
+            <h3>
+              {JSON.stringify(
+                this.state.dataset.sample &&
+                  this.state.dataset.sample.description
+              )}
+            </h3>
           </div>
           <div>
             <h3>
               {this.state.dataset.sample &&
                 this.state.dataset.sample.sampleDescriptors.map(
                   (item, index) => {
-                    return JSON.stringify(item);
+                   return JSON.stringify(item);
+                    
                   }
                 )}
             </h3>
@@ -76,8 +89,7 @@ class DatasetDetails extends Component {
               }
             </h3>
           </div> */}
-
-         </div>
+        </div>
       </div>
     );
   }
