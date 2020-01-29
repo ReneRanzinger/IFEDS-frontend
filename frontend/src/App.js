@@ -15,7 +15,7 @@ import DatasetDisplay from './components/pages/DatasetDisplay';
 import SampleDisplay from './components/pages/SampleDisplay';
 import AddSample from "./components/pages/AddSample";
 import SampleForm from "./components/forms/SampleForm";
-
+import FileUploadPage from "./components/pages/FileUploadPage";
 
 
 const App = ({ location, isAuthenticated }) => (
@@ -29,13 +29,8 @@ const App = ({ location, isAuthenticated }) => (
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
     <UserRoute location={location} path="/addsample" exact component={AddSample}/>
     <UserRoute location={location} path="/editsample/:id" exact component={SampleForm}/>
-    <UserRoute
-        location={location}
-        path="/dashboard"
-        exact
-        component={DashboardPage}
-      />
-
+    <UserRoute location={location} path="/dashboard" exact component={DashboardPage}/>
+    <UserRoute location={location} path="/adddatasetfile/:id" exact component={FileUploadPage}/>
 
 
   </div>

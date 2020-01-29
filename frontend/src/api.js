@@ -2,7 +2,7 @@
 export default {
   user: {
     login: credentials =>
-     fetch("http://localhost:8080/authenticate",{
+     fetch("/authenticate",{
         method: "POST",
         headers: {
             "Content-Type" : "application/json",

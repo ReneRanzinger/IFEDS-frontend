@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import {useSelector} from 'react-redux';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import TextField from '@material-ui/core/TextField';
@@ -29,7 +29,7 @@ const useFetch = (url,props) => {
 
 const useFormInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
-
+console.log(initialValue)
   function handleChange(e) {
     setValue(e.target.value);
   }
@@ -40,8 +40,14 @@ const useFormInput = (initialValue) => {
 }
 
 export default function SampleForm(props) {
+  const { match: { params } } = props;
   const classes = useToolbarStyles();
-  const name = useFormInput("Anubhav Nigam");
+  const [sampleDescriptor] = useFetch("/SampleDescriptors",props);
+  const [sampleType] = useFetch("/SampleTypes",props);
+  const [anu,setAnu] = useState();
+//  const [sampleData,setSampleData] = useState();
+ const [isSampleDataLoaded, setIsSampleDataLoaded] = useState(true);
+  const name = useFormInput();
   const url = useFormInput("anubhav.nigam@uga.edu");
   const description = useFormInput("This is for testing purpose");
   const sType = useFormInput(2);
@@ -52,13 +58,33 @@ export default function SampleForm(props) {
   const [sampleDesc, setSampleDesc] = useState({data: [["Species", "Random", "micro"]]});
   const [isDescriptorAdded,setIsDescriptorAdded] = useState(false);
   const [isThereAnySampleDesc,setIsThereAnySampleDesc] = useState(true);
-  const [sampleDescriptor] = useFetch("/SampleDescriptors",props);
-  const [sampleType] = useFetch("/SampleTypes",props);
+  const [sampleData, setSampleData] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      name: "",
+      sampleTypeId : "",
+      url : "",
+      description: "",
+      sample_descriptors : []
+    }
+  );
+
+  const handleChange1 = e => {
+    console.log("taregettt")
+    console.log(e.target)
+      const name = e.target.name;
+      const newValue = e.target.value;
+      setSampleData({ [name]: newValue });
+    };
   const isAuthenticated = useSelector(state => state.user.token);
   let bearer = 'Bearer '
 
   const handleClose = () => {
+    console.log(sampleData);
+    console.log(sampleData.name);
+    console.log(name)
     props.history.push("/samplelist");
+
   }
 
   const handleAddDescriptor = (e) => {
@@ -123,6 +149,20 @@ async function handleSubmit(e) {
    }).then(res => console.log(res))
   props.history.push("/samplelist");
 }
+/* This test useEffort starts here*/
+useEffect(() => {
+  fetch(`/samples/${params.id}`, {
+    method: "GET",
+    mode: 'cors',
+    headers: setAuthorizationHeader(isAuthenticated)
+  }).then(response => response.json()).then(res => {
+    setSampleData(res);
+  //  setName(res.name);
+  console.log(res)
+  }).catch(error => console.log(error));
+}, [isAuthenticated]);
+
+/* This test useEffort ends here*/
 
   const handleDelete = (e,index) => {
     setSampleDesc(sampleDesc => {
@@ -150,17 +190,23 @@ async function handleSubmit(e) {
         required
         id="name"
         label="Sample Name"
+        name="name"
         size="small"
-        {...name}
+        value={sampleData.name}
+        defaultValue={sampleData.name}
+        onChange={handleChange1}
         className={classes.nameField}
         type="text"
       /><TextField
-        id="sample_type"
+        id="sampleTypeId"
         select
         required
+        name="sampleTypeId"
+        value={sampleData.sampleTypeId}
+        defaultValue={sampleData.sampleTypeId}
+        onChange={handleChange1}
         label="Sample Type"
         className={classes.textField1}
-        {...sType}
         SelectProps={{
           native: true,
           MenuProps: {
@@ -182,7 +228,10 @@ async function handleSubmit(e) {
         className={classes.textField2}
         size="medium"
         id="url"
-        {...url}
+        name="url"
+        value={sampleData.url}
+        defaultValue={sampleData.url}
+        onChange={handleChange1}
         label="URL"
         type="email"
       />
@@ -191,7 +240,10 @@ async function handleSubmit(e) {
         id="standard-multiline-flexible"
         label="Description"
         multiline
-        {...description}
+        name="description"
+        value={sampleData.description}
+        defaultValue={sampleData.description}
+        onChange={handleChange1}
         rowsMax="4"
         margin="normal"
         fullWidth

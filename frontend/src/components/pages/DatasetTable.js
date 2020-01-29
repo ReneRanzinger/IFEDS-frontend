@@ -4,6 +4,7 @@ import MaterialTable from 'material-table';
 import {Link} from 'react-router-dom';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 
 const useFetch = (url, isDeleted, props) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -39,7 +40,7 @@ const fetchDelete = (id, isAuthenticated, props) => {
   });
 }
 
-export default function MaterialTableDemo(props) {
+export default function DatasetTable(props) {
   const isAuthenticated = useSelector(state => state.user.token);
   const [isDeleted, setDeleted] = useState(false);
   const [data] = useFetch("/getProviderDatasets", isDeleted, props);
@@ -75,14 +76,28 @@ export default function MaterialTableDemo(props) {
     }
   ];
 
-  return (<MaterialTable title="Dataset Table" columns={headCells} data={data} editable={{
+  return (<MaterialTable title="Dataset Table" columns={headCells} data={data}
+  actions={[
+    {
+      icon: () => {return<NoteAddOutlinedIcon/>},
+      tooltip: 'Add File',
+      onClick: (event, rowData) => {
+        console.log(props);
+        props.prop.history.push(`/adddatasetfile/${rowData.datasetId}`);
+      }
+    },
+    {
+      icon: 'edit',
+      tooltip: 'Edit Dataset',
+      onClick: (event, rowData) => {
+      //  props.prop.history.push(`/editsample/${rowData.sampleId}`);
+      }
+    }
+  ]}
+
+  editable={{
 
       onRowAdd: newData => new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, 600);
-      }),
-      onRowUpdate: (newData, oldData) => new Promise(resolve => {
         setTimeout(() => {
           resolve();
         }, 600);
