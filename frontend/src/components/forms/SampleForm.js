@@ -29,7 +29,6 @@ const useFetch = (url,props) => {
 
 const useFormInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
-console.log(initialValue)
   function handleChange(e) {
     setValue(e.target.value);
   }
@@ -44,17 +43,10 @@ export default function SampleForm(props) {
   const classes = useToolbarStyles();
   const [sampleDescriptor] = useFetch("/SampleDescriptors",props);
   const [sampleType] = useFetch("/SampleTypes",props);
-  const [anu,setAnu] = useState();
-//  const [sampleData,setSampleData] = useState();
- const [isSampleDataLoaded, setIsSampleDataLoaded] = useState(true);
   const name = useFormInput();
-  const url = useFormInput("anubhav.nigam@uga.edu");
-  const description = useFormInput("This is for testing purpose");
-  const sType = useFormInput(2);
   const sDescriptor = useFormInput();
   const [value,setValue] = useState();
   const [measurement, setMeasurement] = useState();
-  const [isAddSample, setIsAddSample] = useState(props.isAddSample);
   const [sampleDesc, setSampleDesc] = useState({data: [["Species", "Random", "micro"]]});
   const [isDescriptorAdded,setIsDescriptorAdded] = useState(false);
   const [isThereAnySampleDesc,setIsThereAnySampleDesc] = useState(true);
@@ -70,8 +62,6 @@ export default function SampleForm(props) {
   );
 
   const handleChange1 = e => {
-    console.log("taregettt")
-    console.log(e.target)
       const name = e.target.name;
       const newValue = e.target.value;
       setSampleData({ [name]: newValue });
@@ -80,9 +70,6 @@ export default function SampleForm(props) {
   let bearer = 'Bearer '
 
   const handleClose = () => {
-    console.log(sampleData);
-    console.log(sampleData.name);
-    console.log(name)
     props.history.push("/samplelist");
 
   }
@@ -120,10 +107,8 @@ export default function SampleForm(props) {
 
 async function handleSubmit(e) {
   const { match: { params } } = props;
-  console.log(params);
   e.preventDefault();
   let listOfSampleDesc = sampleDesc['data'].map((a,row) => {
-      console.log(sampleDescriptor);
       let sampleDescId = sampleDescriptor.filter(x => x["name"]=== a[0])[0]["sample_descriptor_id"];
       let  sampleDescriptorArray = { "sample_descriptor_id" :sampleDescId,
                                      "sample_descriptor_value": a[1],
@@ -131,7 +116,6 @@ async function handleSubmit(e) {
 
       return sampleDescriptorArray
   })
-  console.log(name.value)
   const response =  await fetch(`/samples/${params.id}`,{
      method: "PUT",
      headers: {
@@ -140,16 +124,16 @@ async function handleSubmit(e) {
          'Authorization': bearer+isAuthenticated
      },
      body: JSON.stringify({
-         "name": name.value,
-         "sample_type_id" : parseInt(sType.value),
-         "url" : url.value,
-         "description": description.value,
+         "name": sampleData["name"],
+         "sample_type_id" : parseInt(sampleData["sampleTypeId"]),
+         "url" : sampleData["url"],
+         "description": sampleData["description"],
          "sample_descriptors" : listOfSampleDesc
      })
    }).then(res => console.log(res))
   props.history.push("/samplelist");
 }
-/* This test useEffort starts here*/
+
 useEffect(() => {
   fetch(`/samples/${params.id}`, {
     method: "GET",
@@ -157,8 +141,14 @@ useEffect(() => {
     headers: setAuthorizationHeader(isAuthenticated)
   }).then(response => response.json()).then(res => {
     setSampleData(res);
-  //  setName(res.name);
-  console.log(res)
+    const tempSampleDescriptor = res["sampleToSameDescriptorBean"].map((a,row) => {
+    if(a["unitOfMeasurement"] != null) {
+    return [a["sampleDescriptor"]["name"],a["value"],a["unitOfMeasurement"]]
+  } else {
+    return [a["sampleDescriptor"]["name"],a["value"],""]
+  }
+  })
+    setSampleDesc({data : tempSampleDescriptor})
   }).catch(error => console.log(error));
 }, [isAuthenticated]);
 
@@ -179,7 +169,6 @@ useEffect(() => {
     },[isDescriptorAdded]);
 
   return (<div>
-    {!isAddSample &&
     <Paper className={classes.root}>
       <Typography variant="h5" component="h3">
         Edit Sample
@@ -216,7 +205,7 @@ useEffect(() => {
         helperText="Please select sample type"
         margin="normal"
       >
-      <option value={sType} />
+
         {sampleType.map(option => (
           <option key={option.sampleTypeId} value={option.sampleTypeId}>
             {option.name}
@@ -318,7 +307,7 @@ useEffect(() => {
       </Button>
     </div>
   </form>
-</Paper>}
+</Paper>
 </div>
   );
 }
