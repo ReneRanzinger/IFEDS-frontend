@@ -1,8 +1,5 @@
 import React from "react";
 import Resumablejs from "resumablejs";
-import CircularProgress from '@material-ui/core/CircularProgress';
-import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
-import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
@@ -72,7 +69,6 @@ export default class ReactResumableJs extends React.Component {
         });
 
         ResumableField.on('fileSuccess', (file, fileServer) => {
-
             if (this.props.fileNameServer) {
                 let objectServer = JSON.parse(fileServer);
                 file.fileName = objectServer[this.props.fileNameServer];

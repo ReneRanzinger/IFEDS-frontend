@@ -97,11 +97,6 @@ export default function DatasetTable(props) {
 
   editable={{
 
-      onRowAdd: newData => new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, 600);
-      }),
       onRowDelete: oldData => new Promise(resolve => {
         setTimeout(() => {
           resolve();

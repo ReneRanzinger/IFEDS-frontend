@@ -1,27 +1,16 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+import { connect } from "react-redux";
 import PropTypes from 'prop-types';
-import FRC from 'formsy-react';
 import Paper from '@material-ui/core/Paper';
-import { withFormsy } from 'formsy-react';
-import EmptyForm from 'emptyform';
 import ReactResumableJs from './NewFileUploadPage'
 import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
+import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 const ContentInside =(props)=> {
-
-
-  // mixins: [FRC.ParentContextMixin],
-  // inputDisable: false,
-
   const token = useSelector(state => state.user.token);
-
-
-
     return (
-
           <ReactResumableJs
               uploaderID="default-resumable-uploader"
               dropTargetID="myDropTarget"
@@ -40,119 +29,146 @@ const ContentInside =(props)=> {
               disableDragAndDrop={false}
               headerObject={{Accept: "application/json", Authorization : "Bearer "+ token, DatasetID: "71", DataTypeID:"1"} }
               onFileSuccess={(file, message) => {
-                console.log(file, message);
+               props.setFiles(file, message)
               }}
-              onFileAddedError={(file, errorCount) => {
-                console.log("Anubhav1")
-           console.log('error file added', file, errorCount);
-
-         }}
               maxFiles={1}
             />
-
     );
-
 }
-
 
 ContentInside.propTypes= {
   children: PropTypes.node
 }
 
-class ExampleForm extends React.Component {
-
+class FileUploadPage extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       files: [],
-      datasetId : "",
-      datasetTypeId : ""
+      datasetTypeIdValue : "",
+      message: "",
+      datasetId : props.match.params.id,
+      fileId : "",
+      description : ""
     };
+    console.log(props)
   }
 
-
+  static getDerivedStateFromProps = (props, state) => {
+     return {datasetTypeID: props.datasetTypeID };
+    }
 
   setFiles = (file, message) => {
-
-    console.log('Message: ', message);
-
+    let obj = JSON.parse(message)
     let files = this.state.files.slice();
     files.push(file);
 
     this.setState({
-      files: files
+      files: files,
+      message: obj.message,
+      fileId : obj.fileId
     });
   };
 
-  submit = () => {
-    console.log('Files: ', this.state.files);
-    console.log(this.state);
-  };
-
-handleChange = (event) =>{
-  this.setState({datasetId : event.target.value})
+handleChange = (event) => {
+  this.setState({[event.target.name] : event.target.value})
 }
-handleChangeForDatasetTypeID = event => {
-    this.setState({datasetTypeID : event.target.value});
-  };
+
+handleChangeDatasetType = (event) => {
+  this.setState({datasetTypeIdValue : event.target.value})
+}
+
+handleClose = () => {
+  this.props.history.push("/datasettable");
+}
+
+handleSubmit = (event) => {
+  event.preventDefault();
+  fetch(`/dataset/file/save_info`, {
+    method: "POST",
+    mode: 'cors',
+    headers: setAuthorizationHeader(this.props.isAuthenticated),
+    body: JSON.stringify({
+      "file_id" : parseInt(this.state.fileId),
+      "dataset_type_id" : parseInt(this.state.datasetTypeIdValue),
+      "description" : this.state.description,
+      "dataset_id" : parseInt(this.props.match.params.id),
+    })
+  }).then(response => response.json()).then(res => {
+      console.log(res)
+      this.props.history.push("/datasettable");
+  }).catch(error => {
+    console.log(error)
+  });
+}
+
   render() {
-    const datasetTypeid = [
-      {
-        value: '1',
-        label: '1',
-      },
-      {
-        value: '2',
-        label: '2',
-      },
-      {
-        value: '3',
-        label: '3',
-      },
-      {
-        value: '4',
-        label: '4',
-      },
-    ];
     return (<Paper style = {{padding: "15px", marginTop: "10px"}}>
       <form onSubmit={this.handleSubmit}>
         <div>
-          <div style={{display: "flex",marginTop : "20px"}}>
+          <div style={{display: "flex",marginTop : "20px", marginBottom : "50px"}}>
           <TextField
-          id="standard-basic"
-          label="Dataset Field 1"
-          required
-          value = {this.state.datasetId}
-          onChange = {this.handleChange}
-          />
-
-          <TextField
-                    id="standard-select-currency"
+                    id="dataTypeId"
                     select
-                    label="Select"
-                    value={this.state.datasetTypeID}
-                    onChange={this.handleChangeForDatasetTypeID}
-                    helperText="Please select Dataset Type ID"
-                    style = {{marginLeft : "30px"}}
+                    required
+                    label="Dataset Type"
+                    value={this.state.datasetTypeIdValue}
+                    onChange={this.handleChangeDatasetType}
+                    helperText="Please select Dataset Type"
+                    SelectProps={{
+                      native: true,
+                      MenuProps: {
+                        className: "menu"
+                      }
+                    }}
+                    style = {{marginRight : "50px"}}
                   >
-                    {datasetTypeid.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
+                  <option value="" />
+                    {
+                      (this.state.datasetTypeID).map(option => (
+                        <option key={option.dataTypeId} value={option.dataTypeId}>
+                          {option.name}
+                        </option>
+                      ))
+                    }
                   </TextField>
+                  <TextField
+                    id="standard-multiline-flexible"
+                    label="Description"
+                    multiline
+                    name="description"
+                    value={this.state.description}
+                    onChange={this.handleChange}
+                    rowsMax="4"
+                    fullWidth
+                  />
       </div>
-      <div style={{display: "flex",marginTop : "20px"}}>
-      <ContentInside setFiles={this.setFiles}/></div></div>
-        <Button  type = "submit" variant="contained" color="primary">
+      <div style={{display: "flex",marginTop : "20px", marginBottom : "20px"}}>
+        <ContentInside setFiles={this.setFiles}/>
+      </div>
+    </div>
+        <Button  type = "submit" variant="contained" color="primary" disabled={!this.state.message}>
           Submit
         </Button>
-
+        <Button
+          style={{ marginLeft: "20px" }} onClick={this.handleClose} variant="contained" color="primary">
+          Cancel
+        </Button>
   </form>
   </Paper>
     );
   }
 };
 
-export default ExampleForm;
+FileUploadPage.propTypes = {
+  isAuthenticated : PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.user.token
+  };
+}
+
+export default connect(mapStateToProps)(FileUploadPage);
