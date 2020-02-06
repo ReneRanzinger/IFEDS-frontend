@@ -133,7 +133,8 @@ export default function PersistentDrawerLeft({props}) {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            className={clsx(classes.menuButton, open && 
+                            classes.hide)}
           >
             <MenuIcon />
           </IconButton>
@@ -143,7 +144,7 @@ export default function PersistentDrawerLeft({props}) {
           {props.isAuthenticated && (
             <div
               style={{justifyContent:'flex-end' ,
-                          margin:'auto'}}
+                          marginLeft:'auto'}}
             >
               <div>
                 <IconButton
