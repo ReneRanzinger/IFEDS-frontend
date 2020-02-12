@@ -16,6 +16,7 @@ import SampleDisplay from './components/pages/SampleDisplay';
 import AddSample from "./components/pages/AddSample";
 import SampleForm from "./components/forms/SampleForm";
 import FileUploaderPage from "./components/pages/FileUploaderPage";
+import EditDatasetPage from './components/pages/EditDatasetPage'
 
 
 const App = ({ location, isAuthenticated }) => (
@@ -31,7 +32,7 @@ const App = ({ location, isAuthenticated }) => (
     <UserRoute location={location} path="/editsample/:id" exact component={SampleForm}/>
     <UserRoute location={location} path="/dashboard" exact component={DashboardPage}/>
     <UserRoute location={location} path="/adddatasetfile/:id" exact component={FileUploaderPage}/>
-
+    <UserRoute location={location} path="/editdataset/:id" exact component={EditDatasetPage}/>
 
   </div>
 );

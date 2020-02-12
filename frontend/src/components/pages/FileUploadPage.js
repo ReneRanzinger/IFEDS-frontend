@@ -31,6 +31,12 @@ const ContentInside =(props)=> {
               onFileSuccess={(file, message) => {
                props.setFiles(file, message)
               }}
+              onFileRemoved ={(file) => {
+                // fetch()
+                return file;
+              }
+
+              }
               maxFiles={1}
             />
     );
@@ -91,12 +97,11 @@ handleSubmit = (event) => {
     headers: setAuthorizationHeader(this.props.isAuthenticated),
     body: JSON.stringify({
       "file_id" : parseInt(this.state.fileId),
-      "dataset_type_id" : parseInt(this.state.datasetTypeIdValue),
+      "data_type_id" : parseInt(this.state.datasetTypeIdValue),
       "description" : this.state.description,
       "dataset_id" : parseInt(this.props.match.params.id),
     })
   }).then(response => response.json()).then(res => {
-      console.log(res)
       this.props.history.push("/datasettable");
   }).catch(error => {
     console.log(error)

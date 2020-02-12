@@ -90,7 +90,7 @@ export default function DatasetTable(props) {
       icon: 'edit',
       tooltip: 'Edit Dataset',
       onClick: (event, rowData) => {
-      //  props.prop.history.push(`/editsample/${rowData.sampleId}`);
+        props.prop.history.push(`/editdataset/${rowData.datasetId}`);
       }
     }
   ]}
