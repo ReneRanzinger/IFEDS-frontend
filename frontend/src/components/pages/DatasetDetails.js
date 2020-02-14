@@ -17,6 +17,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+import Divider from "@material-ui/core/Divider";
+import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles({
   card: {
@@ -106,19 +108,18 @@ const useStyles = makeStyles({
            <div>
              <Card className={classes.bullet}>
                <CardContent>
-                 <h2 style={{ color: "Purple" }} className={classes.title}>
-                   Title: {dataset.datasetName}
-                 </h2>
-                 
-
-
-
-
-
-
-                 
-                 <h3 style={{ fontWeight: "bold" }}> Summary: {dataset.description}</h3>
-                 <div> 
+                 <div
+                   style={{ display: "flex", justifyContent: "space-between" }}
+                 >
+                   <h2 style={{ color: "Purple" }} className={classes.title}>
+                     Title: {dataset.datasetName}
+                   </h2>
+                 </div>
+                 <h3 style={{ fontWeight: "bold" }}>
+                   {" "}
+                   Summary: {dataset.description}
+                 </h3>
+                 <div>
                    <h3>
                      <h3 style={{ color: "blue" }}> ExperimentType </h3>
 
@@ -141,11 +142,11 @@ const useStyles = makeStyles({
                        keywords.map(keyword => (
                          <h4>
                            {keyword.keywordId}
-                           <br/>
+                           <br />
                            {keyword.name}
-                           <br/>
+                           <br />
                            {keyword.description}
-                           <br/>
+                           <br />
                            {keyword.url}
                          </h4>
                        ))}
@@ -156,15 +157,17 @@ const useStyles = makeStyles({
                    {/* <h3>{JSON.stringify(  dataset.fundingSources)}</h3> */}
                    <h3 style={{ color: "blue" }}> FundingSource </h3>
 
-                   <h3>{fundingSources &&
-                     fundingSources.map(funding => (
-                       <>
-                         {Object.keys(funding.fundingSource).map(key3 => (
-                           <div>{funding.fundingSource[key3]}</div>
-                         ))}
-                         <div>{funding.grantNumber}</div>
-                       </>
-                     ))}</h3>
+                   <h3>
+                     {fundingSources &&
+                       fundingSources.map(funding => (
+                         <>
+                           {Object.keys(funding.fundingSource).map(key3 => (
+                             <div>{funding.fundingSource[key3]}</div>
+                           ))}
+                           <div>{funding.grantNumber}</div>
+                         </>
+                       ))}
+                   </h3>
                  </div>
                </CardContent>
              </Card>
@@ -257,11 +260,12 @@ const useStyles = makeStyles({
                     dataset.experimentTypes.experimentType
               )}
             </h3> */}
-           <Card className={classes.bullet}>
+           {/* <Card className={classes.bullet}>
              <div>
                <h3 style={{ color: "blue" }}> Sample </h3>
                <h3>
-                 Summary: {JSON.stringify(dataset.sample && dataset.sample.name)}
+                 Summary:{" "}
+                 {JSON.stringify(dataset.sample && dataset.sample.name)}
                </h3>
                <h3>
                  <div>{sample.sampleId}</div>
@@ -270,8 +274,51 @@ const useStyles = makeStyles({
                  <div>{sample.url}</div>
                </h3>
              </div>
+             </Card> */}
              <div>
-               <div>
+               <Card className={classes.bullet}>
+                 <div
+                   style={{ display: "flex", justifyContent: "space-between" }}
+                 >
+                   <h3 style={{ color: "green" }}>Sample</h3>
+                  
+                 </div>
+                 <Divider />
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>Name</h4>
+                 <h4 style={{ marginTop: "0px" }}>{sample.name}</h4>
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                   Description
+                 </h4>
+                 <h4 style={{ marginTop: "0px" }}>
+                   {sample.description}
+                 </h4>
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>URL</h4>
+                 <h4 style={{ marginTop: "0px" }}>{sample.url}</h4>
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                   Sample Descriptors
+                 </h4>
+                 {sampleDescriptors &&
+                   sampleDescriptors.map((row, index) => {
+                     const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`;
+                     return (
+                       <Chip
+                         size="medium"
+                         variant="outlined"
+                         label={ret}
+                         color="primary"
+                       />
+                     );
+                   })}
+               </Card>
+               
+               <Card className={classes.bullet1}>
+                 <div
+                   style={{ display: "flex", justifyContent: "space-between" }}
+                 >
+                   
+                 </div>
+               </Card>
+               {/* <div>
                  <h3>
                    <h3 style={{ color: "blue" }}>SampleDescriptor</h3>
 
@@ -286,9 +333,9 @@ const useStyles = makeStyles({
                        </>
                      ))}
                  </h3>
-               </div>
+               </div> */}
              </div>
-           </Card>
+           
          </div>
        </div>
      );
