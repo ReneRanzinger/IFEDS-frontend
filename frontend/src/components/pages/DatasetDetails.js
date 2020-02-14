@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 //import Header from './Header';
 //import Content from './Content';
 //import Background from './Background';
+import { useSelector } from "react-redux";
 import { connect } from "react-redux";
 import MenuAppBar from "./MenuAppBar";
 //import datasetDetail from '../../datasetDetail.json';
@@ -15,18 +16,19 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 275
+    minWidth: 300
   },
   bullet: {
     display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
+    margin: "10 px",
+    transform: "scale(0.9)"
   },
   title: {
-    fontSize: 14
+    fontSize: 30
   },
   pos: {
     marginBottom: 12
@@ -49,6 +51,7 @@ const useStyles = makeStyles({
      const [fundingSources, setFundingSources] = useState([]);
      const [dataFiles, setDataFiles] = useState([]);
      const [error, setError] = useState(null);
+     const isAuthenticated = useSelector(state => state.user.token);
 
      // sample:[],
      // sampleDescriptors:[],
@@ -64,13 +67,16 @@ const useStyles = makeStyles({
          match: { params }
        } = props;
        console.log(params);
-       fetch(`http://localhost:8080/dataset/${params.id}`, { method: "GET" })
+       fetch(`http://localhost:8080/dataset/${params.id}`,
+          {method:"GET", 
+          headers: setAuthorizationHeader(isAuthenticated)})
          .then(response => {
            console.log(response);
            return response.json();
          })
 
-         .then(details => {
+    
+       .then(details => {
            // console.log(details)
            setDataset(details);
            setSample(details.sample);
@@ -99,47 +105,116 @@ const useStyles = makeStyles({
          <div>
            <div>
              <Card className={classes.bullet}>
-               <h2 style={{ color: "green" }}>{dataset.datasetName}</h2>
-               <h3>{dataset.description}</h3>
-             </Card>
-             
-           </div>
-           <Card>
-             <div>
-               <h3 style={{ color: "red" }}> Sample </h3>
-               <h3 style={{ color: "red" }}>
-                 {JSON.stringify(dataset.sample && dataset.sample.name)}
-               </h3>
-               <h3>
-                 <div>{sample.sampleId}</div>
-                 <div>{sample.name}</div>
-                 <div>{sample.description}</div>
-                 <div>{sample.url}</div>
-               </h3>
-             </div>
-             <div>
-               <div>
-                 <h3>
-                   <h3 style={{ color: "red" }}>SampleDescriptor</h3>
+               <CardContent>
+                 <h2 style={{ color: "Purple" }} className={classes.title}>
+                   Title: {dataset.datasetName}
+                 </h2>
+                 
 
-                   {sampleDescriptors &&
-                     sampleDescriptors.map(sampleDesc => (
+
+
+
+
+
+                 
+                 <h3 style={{ fontWeight: "bold" }}> Summary: {dataset.description}</h3>
+                 <div> 
+                   <h3>
+                     <h3 style={{ color: "blue" }}> ExperimentType </h3>
+
+                     {experimentTypes &&
+                       experimentTypes.map(experiment => (
+                         <>
+                           {Object.keys(experiment.experimentType).map(key2 => (
+                             <div>{experiment.experimentType[key2]}</div>
+                           ))}
+                           <div>{experiment.description}</div>
+                         </>
+                       ))}
+                   </h3>
+                 </div>
+                 <div>
+                   <h3 style={{ color: "blue" }}> Keywords </h3>
+                   {/* <h3>{JSON.stringify(  dataset.keywords)}</h3> */}
+                   <h3>
+                     {keywords &&
+                       keywords.map(keyword => (
+                         <h4>
+                           {keyword.keywordId}
+                           <br/>
+                           {keyword.name}
+                           <br/>
+                           {keyword.description}
+                           <br/>
+                           {keyword.url}
+                         </h4>
+                       ))}
+                     {/* {console.log(  papers)} */}
+                   </h3>
+                 </div>
+                 <div>
+                   {/* <h3>{JSON.stringify(  dataset.fundingSources)}</h3> */}
+                   <h3 style={{ color: "blue" }}> FundingSource </h3>
+
+                   <h3>{fundingSources &&
+                     fundingSources.map(funding => (
                        <>
-                         {Object.keys(sampleDesc.sampleDescriptor).map(key => (
-                           <div>{sampleDesc.sampleDescriptor[key]}</div>
+                         {Object.keys(funding.fundingSource).map(key3 => (
+                           <div>{funding.fundingSource[key3]}</div>
                          ))}
-                         <div>{sampleDesc.value}</div>
-                         <div>{sampleDesc.unitOfMeasurement}</div>
+                         <div>{funding.grantNumber}</div>
                        </>
-                     ))}
-                 </h3>
-               </div>
+                     ))}</h3>
+                 </div>
+               </CardContent>
+             </Card>
+           </div>
+           <Card className={classes.bullet}>
+             <div>
+               <h3 style={{ color: "blue" }}> Publications </h3>
+               {/* <h3>{JSON.stringify(  dataset.papers)}</h3> */}
+               <h3>
+                 {papers &&
+                   papers.map(paper => (
+                     <h4>
+                       {paper.paperId}
+                       <br />
+                       {paper.title}
+                       <br />
+                       {paper.authorList}
+                       <br />
+                       {paper.journalName}
+                       <br />
+                       {paper.pmid}
+                       <br />
+                       {paper.url}
+                     </h4>
+                   ))}
+                 {/* {console.log(  papers)} */}
+               </h3>
              </div>
            </Card>
-           <Card>
+           <Card className={classes.bullet}>
+             <div>
+               {/* <h3>{JSON.stringify(  dataset.dataFiles)}</h3> */}
+               <h3 style={{ color: "blue" }}> DataFiles </h3>
+
+               {dataFiles &&
+                 dataFiles.map(data => (
+                   <>
+                     {Object.keys(data.dataType).map(key3 => (
+                       <div>{data.dataType[key3]}</div>
+                     ))}
+                     <div>{data.origFileId}</div>
+                     <div>{data.description}</div>
+                   </>
+                 ))}
+             </div>
+           </Card>
+           <Card className={classes.bullet}>
              <div>
                <h3>
-                 <h3 style={{ color: "red" }}> Provider </h3>
+                 <h3 style={{ color: "blue" }}> Provider </h3>
                  Name:
                  {JSON.stringify(dataset.provider && dataset.provider.name)}
                  <br />
@@ -182,100 +257,36 @@ const useStyles = makeStyles({
                     dataset.experimentTypes.experimentType
               )}
             </h3> */}
-           <Card>
+           <Card className={classes.bullet}>
              <div>
+               <h3 style={{ color: "blue" }}> Sample </h3>
                <h3>
-                 <h3 style={{ color: "red" }}> ExperimentType </h3>
+                 Summary: {JSON.stringify(dataset.sample && dataset.sample.name)}
+               </h3>
+               <h3>
+                 <div>{sample.sampleId}</div>
+                 <div>{sample.name}</div>
+                 <div>{sample.description}</div>
+                 <div>{sample.url}</div>
+               </h3>
+             </div>
+             <div>
+               <div>
+                 <h3>
+                   <h3 style={{ color: "blue" }}>SampleDescriptor</h3>
 
-                 {experimentTypes &&
-                   experimentTypes.map(experiment => (
-                     <>
-                       {Object.keys(experiment.experimentType).map(key2 => (
-                         <div>{experiment.experimentType[key2]}</div>
-                       ))}
-                       <div>{experiment.description}</div>
-                     </>
-                   ))}
-               </h3>
-             </div>
-           </Card>
-           <Card>
-             <div>
-               <h3 style={{ color: "red" }}> Publications </h3>
-               {/* <h3>{JSON.stringify(  dataset.papers)}</h3> */}
-               <h3>
-                 {papers &&
-                   papers.map(paper => (
-                     <h4>
-                       {paper.paperId}
-                       <br />
-                       {paper.title}
-                       <br />
-                       {paper.authorList}
-                       <br />
-                       {paper.journalName}
-                       <br />
-                       {paper.pmid}
-                       <br />
-                       {paper.url}
-                     </h4>
-                   ))}
-                 {/* {console.log(  papers)} */}
-               </h3>
-             </div>
-           </Card>
-           <Card>
-             <div>
-               <h3 style={{ color: "red" }}> Keywords </h3>
-               {/* <h3>{JSON.stringify(  dataset.keywords)}</h3> */}
-               <h3>
-                 {keywords &&
-                   keywords.map(keyword => (
-                     <h4>
-                       {keyword.keywordId}
-                       <br />
-                       {keyword.name}
-                       <br />
-                       {keyword.description}
-                       <br />
-                       {keyword.url}
-                     </h4>
-                   ))}
-                 {/* {console.log(  papers)} */}
-               </h3>
-             </div>
-           </Card>
-           <Card>
-             <div>
-               {/* <h3>{JSON.stringify(  dataset.fundingSources)}</h3> */}
-               <h3 style={{ color: "red" }}> FundingSource </h3>
-
-               {fundingSources &&
-                 fundingSources.map(funding => (
-                   <>
-                     {Object.keys(funding.fundingSource).map(key3 => (
-                       <div>{funding.fundingSource[key3]}</div>
+                   {sampleDescriptors &&
+                     sampleDescriptors.map(sampleDesc => (
+                       <>
+                         {Object.keys(sampleDesc.sampleDescriptor).map(key => (
+                           <div>{sampleDesc.sampleDescriptor[key]}</div>
+                         ))}
+                         <div>{sampleDesc.value}</div>
+                         <div>{sampleDesc.unitOfMeasurement}</div>
+                       </>
                      ))}
-                     <div>{funding.grantNumber}</div>
-                   </>
-                 ))}
-             </div>
-           </Card>
-           <Card>
-             <div>
-               {/* <h3>{JSON.stringify(  dataset.dataFiles)}</h3> */}
-               <h3 style={{ color: "red" }}> DataFiles </h3>
-
-               {dataFiles &&
-                 dataFiles.map(data => (
-                   <>
-                     {Object.keys(data.dataType).map(key3 => (
-                       <div>{data.dataType[key3]}</div>
-                     ))}
-                     <div>{data.origFileId}</div>
-                     <div>{data.description}</div>
-                   </>
-                 ))}
+                 </h3>
+               </div>
              </div>
            </Card>
          </div>
