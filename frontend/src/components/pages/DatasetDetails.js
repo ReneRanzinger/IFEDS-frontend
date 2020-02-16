@@ -141,94 +141,35 @@ const useStyles = makeStyles(theme => ({
          </div>
          <div>
            <Grid container spacing={3}>
-             <div>
-               
-               <Grid item xs={12}  >
-                 <Card className={classes.bullet1}>
-                   <div>
-                     <h3 style={{ color: "Purple", marginBottom: "0px" }}>
-                       Sample
-                     </h3>
-                   </div>
-                   <Divider />
-                   <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                     Name
-                   </h4>
-                   <h4 style={{ marginTop: "0px" }}>{sample.name}</h4>
-                   <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                     Description
-                   </h4>
-                   <h4 style={{ marginTop: "0px" }}>{sample.description}</h4>
-                   <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                     URL
-                   </h4>
-                   <h4 style={{ marginTop: "0px" }}>{sample.url}</h4>
-                   <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                     Sample Descriptors
-                   </h4>
-                   {sampleDescriptors &&
-                     sampleDescriptors.map((row, index) => {
-                       const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`;
-                       return (
-                         <Chip
-                           size="medium"
-                           variant="outlined"
-                           label={ret}
-                           color="primary"
-                         />
-                       );
-                     })}
-                 </Card>
-               </Grid>
-
-               {/* <div>
-                 <h3>
-                   <h3 style={{ color: "blue" }}>SampleDescriptor</h3>
-
-                   {sampleDescriptors &&
-                     sampleDescriptors.map(sampleDesc => (
-                       <>
-                         {Object.keys(sampleDesc.sampleDescriptor).map(key => (
-                           <div>{sampleDesc.sampleDescriptor[key]}</div>
-                         ))}
-                         <div>{sampleDesc.value}</div>
-                         <div>{sampleDesc.unitOfMeasurement}</div>
-                       </>
-                     ))}
+             <Card className={classes.bullet1}>
+               <div>
+                 <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                   Title
                  </h3>
-               </div> */}
-             </div>
-             <div>
-               <Grid item xs={12}>
-                 <Card className={classes.bullet1}>
-                   <CardContent>
-                     <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                       Title
-                     </h3>
-                     <h3 style={{ color: "Purple", marginTop: "0px" }}>
-                       {dataset.datasetName}
-                     </h3>
-                     <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}></h3>
-                     <Divider />
-                     {/* <h2 style={{ color: "Purple" }} className={classes.title}>
+                 <h3 style={{ color: "Purple", marginTop: "0px" }}>
+                   {dataset.datasetName}
+                 </h3>
+                 <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}></h3>
+                 <Divider />
+                 {/* <h2 style={{ color: "Purple" }} className={classes.title}>
                    Title: {dataset.datasetName}
                  </h2> */}
-                     <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                       Summary
-                     </h4>
-                     <h4 style={{ marginTop: "0px" }}>{dataset.description}</h4>
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                   Summary
+                 </h4>
+                 <h4 style={{ marginTop: "0px" }}>{dataset.description}</h4>
 
-                     {/* <h3 style={{ fontWeight: "bold" }}>
+                 {/* <h3 style={{ fontWeight: "bold" }}>
                    {" "}
                    Summary: {dataset.description}
                  </h3> */}
-                     <div>
-                       <h4 style={{ marginTop: "0px" }}>
-                         <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                           ExperimentType
-                         </h4>
+                 <div>
+                   <h4 style={{ marginTop: "0px" }}>
+                     <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                       ExperimentType
+                     </h4>
 
-                         {/* {experimentTypes &&
+                     {/* {experimentTypes &&
                        experimentTypes.map(experiment => (
                          <>
                            {Object.keys(experiment.experimentType).map(key2 => (
@@ -237,28 +178,28 @@ const useStyles = makeStyles(theme => ({
                            <div>{experiment.description}</div>
                          </>
                        ))} */}
-                         {experimentTypes &&
-                           experimentTypes.map((row, index) => {
-                             const ret = `${row["experimentType"]["name"]} :\xa0\xa0 ${row["description"]}`;
-                             return (
-                               <Chip
-                                 size="medium"
-                                 variant="outlined"
-                                 label={ret}
-                                 color="primary"
-                               />
-                             );
-                           })}
-                       </h4>
-                     </div>
-                     <div>
-                       <h4 style={{ marginTop: "0px" }}>
-                         <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                           Keywords
-                         </h4>
-                         {/* <h3>{JSON.stringify(  dataset.keywords)}</h3> */}
+                     {experimentTypes &&
+                       experimentTypes.map((row, index) => {
+                         const ret = `${row["experimentType"]["name"]} :\xa0\xa0 ${row["description"]}`;
+                         return (
+                           <Chip
+                             size="medium"
+                             variant="outlined"
+                             label={ret}
+                             color="primary"
+                           />
+                         );
+                       })}
+                   </h4>
+                 </div>
+                 <div>
+                   <h4 style={{ marginTop: "0px" }}>
+                     <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                       Keywords
+                     </h4>
+                     {/* <h3>{JSON.stringify(  dataset.keywords)}</h3> */}
 
-                         {/* {keywords &&
+                     {/* {keywords &&
                        keywords.map(keyword => (
                          <h4>
                            {keyword.keywordId}
@@ -270,28 +211,28 @@ const useStyles = makeStyles(theme => ({
                            {keyword.url}
                          </h4>
                        ))} */}
-                         {keywords &&
-                           keywords.map((row, index) => {
-                             const ret = `${row["name"]} :\xa0\xa0 ${row["description"]}`;
-                             return (
-                               <Chip
-                                 size="medium"
-                                 variant="outlined"
-                                 label={ret}
-                                 color="primary"
-                               />
-                             );
-                           })}
-                       </h4>
-                     </div>
-                     <div>
-                       {/* <h3>{JSON.stringify(  dataset.fundingSources)}</h3> */}
-                       <h4 style={{ marginTop: "0px" }}>
-                         <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                           FundingSource
-                         </h4>
+                     {keywords &&
+                       keywords.map((row, index) => {
+                         const ret = `${row["name"]} :\xa0\xa0 ${row["description"]}`;
+                         return (
+                           <Chip
+                             size="medium"
+                             variant="outlined"
+                             label={ret}
+                             color="primary"
+                           />
+                         );
+                       })}
+                   </h4>
+                 </div>
+                 <div>
+                   {/* <h3>{JSON.stringify(  dataset.fundingSources)}</h3> */}
+                   <h4 style={{ marginTop: "0px" }}>
+                     <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                       FundingSource
+                     </h4>
 
-                         {/* {fundingSources &&
+                     {/* {fundingSources &&
                        fundingSources.map(funding => (
                          <>
                            {Object.keys(funding.fundingSource).map(key3 => (
@@ -301,25 +242,59 @@ const useStyles = makeStyles(theme => ({
                          </>
                        ))} */}
 
-                         {fundingSources &&
-                           fundingSources.map((row, index) => {
-                             const ret = `${row["fundingSource"]["name"]} \xa0\xa0 ${row["url"]} \xa0\xa0  ${row["grantNumber"]} `;
-                             return (
-                               <Chip
-                                 size="medium"
-                                 variant="outlined"
-                                 label={ret}
-                                 color="primary"
-                               />
-                             );
-                           })}
-                       </h4>
-                     </div>
-                   </CardContent>
-                 </Card>
-               </Grid>
-             </div>
+                     {fundingSources &&
+                       fundingSources.map((row, index) => {
+                         const ret = `${row["fundingSource"]["name"]} \xa0\xa0 ${row["url"]} \xa0\xa0  ${row["grantNumber"]} `;
+                         return (
+                           <Chip
+                             size="medium"
+                             variant="outlined"
+                             label={ret}
+                             color="primary"
+                           />
+                         );
+                       })}
+                   </h4>
+                 </div>
+               </div>
+             </Card>
 
+             <Card className={classes.bullet2}>
+               <div>
+                 <div>
+                   <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                     Sample
+                   </h3>
+                 </div>
+                 <Divider />
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>Name</h4>
+                 <h4 style={{ marginTop: "0px" }}>{sample.name}</h4>
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                   Description
+                 </h4>
+                 <h4 style={{ marginTop: "0px" }}>{sample.description}</h4>
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>URL</h4>
+                 <h4 style={{ marginTop: "0px" }}>{sample.url}</h4>
+                 <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                   Sample Descriptors
+                 </h4>
+                 {sampleDescriptors &&
+                   sampleDescriptors.map((row, index) => {
+                     const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`;
+                     return (
+                       <Chip
+                         size="medium"
+                         variant="outlined"
+                         label={ret}
+                         color="primary"
+                       />
+                     );
+                   })}
+               </div>
+             </Card>
+           </Grid>
+
+           <Grid container spacing={3}>
              <Card className={classes.bullet1}>
                <div>
                  <h4 style={{ marginTop: "0px" }}>
@@ -347,9 +322,9 @@ const useStyles = makeStyles(theme => ({
              </Card>
 
              <Card className={classes.bullet2}>
-               <div
-                 style={{ display: "flex", justifyContent: "space-between" }}
-               >
+               <div>
+                 {/* style={{ display: "flex", justifyContent: "space-between" }} */}
+
                  <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
                    Provider
                  </h3>
@@ -416,29 +391,28 @@ const useStyles = makeStyles(theme => ({
                  </div>
                )}
              </Card>
-
-             {/* <h3>
-              {JSON.stringify(
-                  dataset.experimentTypes &&
-                    dataset.experimentTypes.experimentType
-              )}
-            </h3> */}
-             {/* <Card className={classes.bullet}>
-             <div>
-               <h3 style={{ color: "blue" }}> Sample </h3>
-               <h3>
-                 Summary:{" "}
-                 {JSON.stringify(dataset.sample && dataset.sample.name)}
-               </h3>
-               <h3>
-                 <div>{sample.sampleId}</div>
-                 <div>{sample.name}</div>
-                 <div>{sample.description}</div>
-                 <div>{sample.url}</div>
-               </h3>
-             </div>
-             </Card> */}
            </Grid>
+
+           <Card className={classes.bullet}>
+             <div>
+               {" "}
+               {/* <h3>{JSON.stringify(  dataset.dataFiles)}</h3> */}
+               <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                 
+                 DataFiles
+               </h3>
+               {dataFiles &&
+                 dataFiles.map(data => (
+                   <>
+                     {Object.keys(data.dataType).map(key3 => (
+                       <div>{data.dataType[key3]}</div>
+                     ))}
+                     <div>{data.origFileId}</div>
+                     <div>{data.description}</div>
+                   </>
+                 ))}
+             </div>
+           </Card>
          </div>
        </div>
      );
@@ -484,20 +458,50 @@ export default DatasetDetails;
 //  */}
 
 
-// <Card className={classes.bullet}>
-//   <div>
-//     {/* <h3>{JSON.stringify(  dataset.dataFiles)}</h3> */}
-//     <h3 style={{ color: "blue" }}> DataFiles </h3>
 
-//     {dataFiles &&
-//       dataFiles.map(data => (
-//         <>
-//           {Object.keys(data.dataType).map(key3 => (
-//             <div>{data.dataType[key3]}</div>
-//           ))}
-//           <div>{data.origFileId}</div>
-//           <div>{data.description}</div>
-//         </>
-//       ))}
-//   </div>
-// </Card>;
+
+{
+  /* <div>
+                 <h3>
+                   <h3 style={{ color: "blue" }}>SampleDescriptor</h3>
+
+                   {sampleDescriptors &&
+                     sampleDescriptors.map(sampleDesc => (
+                       <>
+                         {Object.keys(sampleDesc.sampleDescriptor).map(key => (
+                           <div>{sampleDesc.sampleDescriptor[key]}</div>
+                         ))}
+                         <div>{sampleDesc.value}</div>
+                         <div>{sampleDesc.unitOfMeasurement}</div>
+                       </>
+                     ))}
+                 </h3>
+               </div> */
+}
+
+
+           {
+             /* <h3>
+              {JSON.stringify(
+                  dataset.experimentTypes &&
+                    dataset.experimentTypes.experimentType
+              )}
+            </h3> */
+           }
+           {
+             /* <Card className={classes.bullet}>
+             <div>
+               <h3 style={{ color: "blue" }}> Sample </h3>
+               <h3>
+                 Summary:{" "}
+                 {JSON.stringify(dataset.sample && dataset.sample.name)}
+               </h3>
+               <h3>
+                 <div>{sample.sampleId}</div>
+                 <div>{sample.name}</div>
+                 <div>{sample.description}</div>
+                 <div>{sample.url}</div>
+               </h3>
+             </div>
+             </Card> */
+           }
