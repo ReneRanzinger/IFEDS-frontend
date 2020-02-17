@@ -4,6 +4,7 @@ import PropTypes  from 'prop-types';
 import FileUploadPage from './FileUploadPage'
 import SideBar from "./Sidebar";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+import {Datatypes} from '../../apiCalls'
 
 const useFetch = (url) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -22,7 +23,7 @@ const useFetch = (url) => {
 }
 
 const FileUploaderPage = (props) => {
-  const [datasetTypeID ] = useFetch("/dataTypes");
+  const [datasetTypeID ] = useFetch(Datatypes);
 
   return (
     <div>

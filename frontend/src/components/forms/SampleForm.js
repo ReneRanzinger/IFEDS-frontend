@@ -9,7 +9,7 @@ import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
-
+import {Sample, SampleTypes, SampleDescriptors} from '../../apiCalls'
 
 const useFetch = (url,props) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -41,8 +41,8 @@ const useFormInput = (initialValue) => {
 export default function SampleForm(props) {
   const { match: { params } } = props;
   const classes = useToolbarStyles();
-  const [sampleDescriptor] = useFetch("/SampleDescriptors",props);
-  const [sampleType] = useFetch("/SampleTypes",props);
+  const [sampleDescriptor] = useFetch(SampleDescriptors,props);
+  const [sampleType] = useFetch(SampleTypes,props);
   const name = useFormInput();
   const sDescriptor = useFormInput();
   const [value,setValue] = useState();
@@ -116,7 +116,7 @@ async function handleSubmit(e) {
 
       return sampleDescriptorArray
   })
-  const response =  await fetch(`/samples/${params.id}`,{
+  const response =  await fetch(`${Sample}/${params.id}`,{
      method: "PUT",
      headers: {
          "Content-Type" : "application/json",
@@ -135,7 +135,7 @@ async function handleSubmit(e) {
 }
 
 useEffect(() => {
-  fetch(`/samples/${params.id}`, {
+  fetch(`${Sample}/${params.id}`, {
     method: "GET",
     mode: 'cors',
     headers: setAuthorizationHeader(isAuthenticated)

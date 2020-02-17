@@ -21,7 +21,6 @@ const DatasetDetailDisplay = (props) =>{
   const {match: { params }} = props;
 //  const [editDataset, setEditDataset] = useState(false)
 
-
   const [dataset, setDataset] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -52,6 +51,16 @@ const DatasetDetailDisplay = (props) =>{
     }
   );
 
+/*  const [sample, setSample] =  useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      sample : {}
+    }
+  );
+*/
+const [sample , setSample] = useState({});
+
+const sampleEx = props.sample;
 
   const handleChange = e => {
     console.log(e.target.name)
@@ -61,16 +70,29 @@ const DatasetDetailDisplay = (props) =>{
     };
 
     const handleChange1 = e => {
-      console.log(e.target.name)
         const name = e.target.name;
         const newValue = e.target.value;
         setProvider({ [name]: newValue });
       };
 
+    const handleChange2 = e => {
+      const newValue = e.target.value;
+      const sampleTest = sampleEx.filter(e => (e.name === newValue))
+      console.log(sampleTest)
+      setSample(sampleTest[0])
+      console.log("anubhav")
+      console.log(sample)
+    }
 
   const handleSubmit = e => {
-    setDataset(provider)
+    setDataset({[provider] : provider})
     setEditableProvider(!editableProvider)
+  }
+
+  const handleSampleSubmit = e => {
+    console.log(sample)
+    setDataset({[sample] : sample})
+    setEditableSample(!editableSample)
   }
 
   const handleClick = e => {
@@ -89,6 +111,7 @@ const DatasetDetailDisplay = (props) =>{
     }).then(response => response.json()).then(res => {
       setDataset(res);
       setProvider(res.provider)
+      setSample(res.sample)
     //  setEditDataset(props.editDataset)
       console.log()
     }).catch(error => console.log(error));
@@ -123,7 +146,7 @@ return( <Paper className = {classes.root}>
     className={classes.nameField}
     type="text"
   />
-{props.editDataset && <Tooltip title="Save" onClick={handleClick}>
+{props.editDataset && <Tooltip title="Save" type = "submit">
   <IconButton aria-label="save">
     <SaveIcon />
   </IconButton>
@@ -151,7 +174,7 @@ return( <Paper className = {classes.root}>
   <Card className={classes.bullet1}>
     <div style = {{display: "flex", justifyContent: "space-between"}}>
     <h3 style={{ color: "green" }}>Sample</h3>
-  {props.editDataset && <Tooltip title="Edit" onClick={{}} >
+  {props.editDataset && <Tooltip title="Edit" onClick={handleClick1} >
   <IconButton aria-label="edit" >
     <EditIcon />
   </IconButton>
@@ -159,14 +182,14 @@ return( <Paper className = {classes.root}>
     </div>
     <Divider />
     <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</h4>
-    <h4 style={{marginTop: "0px"}}>{dataset.sample.name}</h4>
+    <h4 style={{marginTop: "0px"}}>{sample.name}</h4>
     <h4 style = {{color: "#5bc0be",  marginBottom: "0px"}}>Description</h4>
-    <h4 style={{marginTop: "0px"}}>{dataset.sample.description}</h4>
+    <h4 style={{marginTop: "0px"}}>{sample.description}</h4>
     <h4 style = {{color: "#5bc0be" , marginBottom: "0px"}}>URL</h4>
-    <h4 style={{marginTop: "0px"}}>{dataset.sample.url}</h4>
+    <h4 style={{marginTop: "0px"}}>{sample.url}</h4>
     <h4 style = {{color: "#5bc0be" , marginBottom: "0px"}}>Sample Descriptors</h4>
     {
-      dataset.sample.sampleDescriptors && dataset.sample.sampleDescriptors.map((row,index )=> {
+      sample.sampleDescriptors && sample.sampleDescriptors.map((row,index )=> {
         const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`
         return(
           <Chip
@@ -180,9 +203,43 @@ return( <Paper className = {classes.root}>
 
   </Card> :
   <Card className = {classes.bullet1}>
+    <form onSubmit={handleSampleSubmit}>
     <div style = {{display: "flex", justifyContent: "space-between"}}>
-      <h1>Anubhav</h1>
-</div>
+      <h3 style={{ color: "green" }}>Sample</h3>
+      {props.editDataset && <Tooltip title="Save" type = "submit" >
+      <IconButton aria-label="save" >
+        <SaveIcon />
+      </IconButton>
+    </Tooltip>}
+  </div>
+  <Divider/>
+      <TextField
+        id="sample"
+        select
+        required
+        name="sample"
+        value={sample.name}
+        onChange={handleChange2}
+        label="Sample"
+        className={classes.textField1}
+        SelectProps={{
+          native: true,
+          MenuProps: {
+            className: classes.menu,
+          },
+        }}
+        helperText="Please select sample"
+        margin="normal"
+      >
+        {sampleEx.map(option => (
+
+          <option key={option.sampleId} value={option.name}>
+            {option.name}
+          </option>
+        ))}
+      </TextField>
+
+</form>
 </Card> }
 
 

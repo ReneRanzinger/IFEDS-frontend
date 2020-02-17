@@ -1,8 +1,8 @@
-
+import {Authenticate} from './apiCalls'
 export default {
   user: {
     login: credentials =>
-     fetch("/authenticate",{
+     fetch(Authenticate,{
         method: "POST",
         headers: {
             "Content-Type" : "application/json",

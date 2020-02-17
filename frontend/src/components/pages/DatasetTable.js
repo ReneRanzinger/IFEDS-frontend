@@ -5,6 +5,9 @@ import {Link} from 'react-router-dom';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
+import {ProviderDataset, Datasets} from '../../apiCalls'
+
+
 
 const useFetch = (url, isDeleted, props) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -28,7 +31,7 @@ const useFetch = (url, isDeleted, props) => {
 }
 
 const fetchDelete = (id, isAuthenticated, props) => {
-  fetch(`/datasets/${id}`, {
+  fetch(`${Datasets}/${id}`, {
     method: "DELETE",
     mode: 'cors',
     headers: setAuthorizationHeader(isAuthenticated)
@@ -43,7 +46,7 @@ const fetchDelete = (id, isAuthenticated, props) => {
 export default function DatasetTable(props) {
   const isAuthenticated = useSelector(state => state.user.token);
   const [isDeleted, setDeleted] = useState(false);
-  const [data] = useFetch("/getProviderDatasets", isDeleted, props);
+  const [data] = useFetch(ProviderDataset, isDeleted, props);
 
   const handleDescription = (description) => {
     return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">

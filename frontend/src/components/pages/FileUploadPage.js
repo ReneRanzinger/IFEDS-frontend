@@ -7,6 +7,8 @@ import ReactResumableJs from './NewFileUploadPage'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+import {DatasetFileSaveInfo} from '../../apiCalls'
+
 
 const ContentInside =(props)=> {
   const token = useSelector(state => state.user.token);
@@ -91,7 +93,7 @@ handleClose = () => {
 
 handleSubmit = (event) => {
   event.preventDefault();
-  fetch(`/dataset/file/save_info`, {
+  fetch(DatasetFileSaveInfo, {
     method: "POST",
     mode: 'cors',
     headers: setAuthorizationHeader(this.props.isAuthenticated),
