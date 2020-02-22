@@ -8,7 +8,15 @@ import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+
 import {Dataset} from '../../apiCalls'
+
 
 const useStyles = makeStyles(theme => ({
   card: {
