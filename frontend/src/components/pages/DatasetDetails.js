@@ -1,33 +1,14 @@
 import React, { useState, useEffect } from "react";
-//import PropTypes from 'prop-types';
-//import { Button, Card, CardBody, CardGroup, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
-//import Navbar from './Navbar.js';
-//import Sidebar from './Sidebar.js';
-//import Header from './Header';
-//import Content from './Content';
-//import Background from './Background';
 import { useSelector } from "react-redux";
-import { connect } from "react-redux";
 import MenuAppBar from "./MenuAppBar";
-//import datasetDetail from '../../datasetDetail.json';
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import {Dataset} from '../../apiCalls'
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -79,7 +60,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
- 
+
    const DatasetDetails = props => {
 
      const classes = useStyles();
@@ -95,29 +76,21 @@ const useStyles = makeStyles(theme => ({
      const [error, setError] = useState(null);
      const isAuthenticated = useSelector(state => state.user.token);
 
-     // sample:[],
-     // sampleDescriptors:[],
-     // experimentTypes: [],
-     // papers: [],
-     // keywords:[],
-     // fundingSources: [],
-     // dataFiles:[],
-     // error: null
 
      useEffect(() => {
        const {
          match: { params }
        } = props;
        console.log(params);
-       fetch(`http://localhost:8080/dataset/${params.id}`,
-          {method:"GET", 
+       fetch(`${Dataset}/${params.id}`,
+          {method:"GET",
           headers: setAuthorizationHeader(isAuthenticated)})
          .then(response => {
            console.log(response);
            return response.json();
          })
 
-    
+
        .then(details => {
            // console.log(details)
            setDataset(details);
@@ -138,7 +111,7 @@ const useStyles = makeStyles(theme => ({
          .catch(error => console.log(error));
      }, []);
 
-     
+
 
      return (
        <div>
