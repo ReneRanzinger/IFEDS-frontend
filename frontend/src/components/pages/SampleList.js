@@ -10,9 +10,6 @@ import Button from '@material-ui/core/Button';
 
 import Sidebar from "./Sidebar";
 import PropTypes from "prop-types";
-=======
-import {Sample, SampleData} from '../../apiCalls'
-
 
 
 const useFetch = (url, isDeleted, props) => {

@@ -14,9 +14,6 @@ import TableCell from "@material-ui/core/TableCell";
 
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-=======
-import {Dataset} from '../../apiCalls'
-
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -56,7 +53,6 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     
   },
-
 
   menu: {
     width: 200
@@ -397,7 +393,6 @@ const useStyles = makeStyles(theme => ({
            <Grid container spacing={3}>
              <Card className={classes.bullet1}>
                <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-
                  DataFiles
                  <Table
                    className={classes.bullet2}
