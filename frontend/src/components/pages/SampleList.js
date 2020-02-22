@@ -7,8 +7,12 @@ import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+
 import Sidebar from "./Sidebar";
 import PropTypes from "prop-types";
+=======
+import {Sample, SampleData} from '../../apiCalls'
+
 
 
 const useFetch = (url, isDeleted, props) => {
@@ -33,7 +37,7 @@ const useFetch = (url, isDeleted, props) => {
 }
 
 const fetchDelete = (id, isAuthenticated, props) => {
-  fetch(`/samples/${id}`, {
+  fetch(`${Sample}/${id}`, {
     method: "DELETE",
     mode: 'cors',
     headers: setAuthorizationHeader(isAuthenticated)
@@ -49,7 +53,7 @@ const fetchDelete = (id, isAuthenticated, props) => {
 export default function SampleList(props) {
   const isAuthenticated = useSelector(state => state.user.token);
   const [isDeleted, setDeleted] = useState(false);
-  const [data] = useFetch("/getSample", isDeleted, props);
+  const [data] = useFetch(SampleData, isDeleted, props);
   const classes = useToolbarStyles();
 
   const handleDescription = (description) => {

@@ -11,6 +11,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 import Sidebar from "./Sidebar";
 import PropTypes from "prop-types";
+import {SampleDescriptors, SampleTypes, Sample} from '../../apiCalls'
 
 
 const useFetch = (url) => {
@@ -53,8 +54,8 @@ export default function AddSample(props) {
   const [sampleDesc, setSampleDesc] = useState({data: []});
   const [isDescriptorAdded,setIsDescriptorAdded] = useState(false);
   const [isThereAnySampleDesc,setIsThereAnySampleDesc] = useState(false);
-  const [sampleDescriptor] = useFetch("/SampleDescriptors");
-  const [sampleType] = useFetch("/SampleTypes");
+  const [sampleDescriptor] = useFetch(SampleDescriptors);
+  const [sampleType] = useFetch(SampleTypes);
   const isAuthenticated = useSelector(state => state.user.token);
   let bearer = 'Bearer '
 
@@ -105,7 +106,7 @@ async function handleSubmit(e) {
       return sampleDescriptorArray
   })
   console.log(name.value)
-  const response =  await fetch("/samples",{
+  const response =  await fetch(Sample,{
      method: "POST",
      headers: {
          "Content-Type" : "application/json",
@@ -285,7 +286,7 @@ async function handleSubmit(e) {
       </form>
     </Paper>
   );
-  
+
   // AddSample.propTypes = {
   //   logout: PropTypes.func
   // };

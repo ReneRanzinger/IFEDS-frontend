@@ -11,7 +11,7 @@ class DatasetDisplay extends Component {
         return (
           <div>
             <SideBar props={this.props} isDashBoard={"true"} />
-            <DatasetTable />
+            <DatasetTable prop={this.props}/>
 
           </div>
         );

@@ -17,7 +17,8 @@ import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import * as errorHandlerActions from '../../actions/auth';
-import Headcells from '../../utils/setTableHeader'
+import Headcells from '../../utils/setTableHeader';
+import {Datasets} from '../../apiCalls'
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -218,7 +219,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [data] = useFetch("/datasets", props);
+  const [data] = useFetch(Datasets, props);
 
   const [query, setQuery] = React.useState("");
 
