@@ -1,6 +1,7 @@
 FROM alpine/git as clone 
 WORKDIR /app
 RUN git clone https://github.com/ReneRanzinger/IFEDS-frontend.git
+RUN cd /app/IFEDS-frontend/frontend; git checkout master
 
 # build environment
 FROM node:12.2.0-alpine as build
