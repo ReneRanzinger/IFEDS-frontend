@@ -13,16 +13,13 @@ import TextField from "@material-ui/core/TextField";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-<<<<<<< HEAD
+
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-<<<<<<< HEAD
-=======
 import {Dataset} from '../../apiCalls';
 import Button from '@material-ui/core/Button';
 
->>>>>>> 85f1fb01b26fe423684cb47bf73a3bdd1a8f8271
-=======
+
 import Typography from "@material-ui/core/Typography";
 
 
@@ -32,7 +29,6 @@ import TableRow from "@material-ui/core/TableRow";
 import {Dataset} from '../../apiCalls'
 import { ListItem } from "@material-ui/core";
 
->>>>>>> dataset-details
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -86,10 +82,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-<<<<<<< HEAD
-    paddingLeft: theme.spacing(2),
-
-=======
     paddingLeft: theme.spacing(2)
   },
 
@@ -99,7 +91,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
     paddingBottom: theme.spacing(2)
->>>>>>> dataset-details
   },
 
   menu: {
@@ -177,18 +168,6 @@ const handleClick = () => {
          </div>
 
          <div>
-<<<<<<< HEAD
-           <Grid container spacing={3}>
-             <Card className={classes.bullet1}>
-               <div>
-
-                 <h3 style={{ color: "Purple", marginTop: "0px" }}>
-                   {dataset.datasetName}
-                 </h3>
-                 <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}></h3>
-                 <Divider />
-                 {/* <h2 style={{ color: "Purple" }} className={classes.title}>
-=======
            <Card className={classes.bullet1}>
              <div>
                <h3 style={{ color: "Purple", marginTop: "0px" }}>
@@ -197,7 +176,6 @@ const handleClick = () => {
                <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}></h3>
                <Divider />
                {/* <h2 style={{ color: "Purple" }} className={classes.title}>
->>>>>>> dataset-details
                    Title: {dataset.datasetName}
                  </h2> */}
                <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
@@ -427,41 +405,6 @@ const handleClick = () => {
                  </div>
                )}
              </Card>
-<<<<<<< HEAD
-           </Grid>
-
-           <Grid container spacing={3}>
-             <Card className={classes.bullet1}>
-               <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                 DataFiles
-                 <Table
-                   className={classes.bullet2}
-                   aria-label="simple table"
-                   borderColor="#5bc0be"
-                   borderStyle="solid"
-                 >
-                   <TableHead>
-                     {/* <h3>{JSON.stringify(  dataset.dataFiles)}</h3> */}
-
-                     <TableRow>
-                       <TableCell> dataFileId</TableCell>
-                       <TableCell>original_file_name</TableCell>
-                       <TableCell>description</TableCell>
-                       <TableCell>data_file_size</TableCell>
-                       <TableCell>
-                         <Button
-                           style={{ color: "#5bc0be", marginBottom: "0px" }}
-                         >
-                           Download
-                         </Button>
-                       </TableCell>
-                     </TableRow>
-                   </TableHead>
-                 </Table>
-               </h3>
-             </Card>
-           </Grid>
-=======
            </div>
 
            <Card className={classes.bullet1}>
@@ -499,24 +442,9 @@ const handleClick = () => {
                      ))}
                  </TableHead>
                </Table>
-               {/* <TableHead>
-                 <h3>{JSON.stringify(dataset.dataFiles)}</h3>
-
-                 <TableRow>
-                   <TableCell> dataFileId</TableCell>
-                   <TableCell>original_file_name</TableCell>
-                   <TableCell>description</TableCell>
-                   <TableCell>data_file_size</TableCell>
-                   <TableCell>
-                     <Button style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                       Download
-                     </Button>
-                   </TableCell>
-                 </TableRow>
-               </TableHead> */}
+               
              </h3>
            </Card>
->>>>>>> dataset-details
          </div>
        </div>
      );
@@ -527,7 +455,6 @@ export default DatasetDetails;
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -642,5 +569,20 @@ export default DatasetDetails;
              </div>
              </Card> */
            }
-=======
->>>>>>> dataset-details
+
+           {/* <TableHead>
+                 <h3>{JSON.stringify(dataset.dataFiles)}</h3>
+
+                 <TableRow>
+                   <TableCell> dataFileId</TableCell>
+                   <TableCell>original_file_name</TableCell>
+                   <TableCell>description</TableCell>
+                   <TableCell>data_file_size</TableCell>
+                   <TableCell>
+                     <Button style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                       Download
+                     </Button>
+                   </TableCell>
+                 </TableRow>
+               </TableHead> */}
+
