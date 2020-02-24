@@ -10,3 +10,4 @@ export const Dataset = `${base_url}/dataset`
 export const SampleData = `${base_url}/getSample`
 export const Datatypes = `${base_url}/dataTypes`
 export const DatasetFileSaveInfo = `${base_url}/dataset/file/save_info`
+export const DatasetFileUpload = `${base_url}/dataset/file/upload`
