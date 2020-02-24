@@ -10,8 +10,6 @@ export const Dataset = `${base_url}/dataset`
 export const SampleData = `${base_url}/getSample`
 export const Datatypes = `${base_url}/dataTypes`
 export const DatasetFileSaveInfo = `${base_url}/dataset/file/save_info`
-<<<<<<< HEAD
-export const DatasetFileUpload = `${base_url}/dataset/file/upload`
-=======
 export const DatasetFileUpload = `${base_url}/dataset/file/upload`;
->>>>>>> dataset-details
+export const ExperimentType = `${base_url}/experiment_types`
+export const FundingSource = `${base_url}/funding_sources`
