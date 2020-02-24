@@ -9,13 +9,170 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
+import {Dataset} from '../../apiCalls';
+import Typography from '@material-ui/core/Typography';
 
 
+const EditableHeader = props => {
+  const classes = useEditableHeaderStyles();
+  const {head, edit, isEditable, handleHeaderChange, variant} = props;
+
+  const handleClick = (e, edit) => {
+    e.preventDefault();
+    handleHeaderChange(e, edit, head)
+  }
+  return(
+    <div className = {classes.root}>
+      <Typography variant={variant} className = {classes.header}>
+        {head}
+      </Typography>
+      { isEditable &&
+        <Tooltip title={edit} type = 'submit' onClick={e => handleClick(e,edit)} >
+          <IconButton aria-label={edit} >
+            {edit === "Edit" ? <EditIcon/> : <SaveIcon/>}
+          </IconButton>
+        </Tooltip>}
+    </div>
+  )
+}
+
+const useEditableHeaderStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  header: {
+    color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  }
+}));
+
+const EditableDropDown = props => {
+  const {name, state, handleDropDownChange, classes, list} = props;
+
+  const handleChange = (e) => {
+    handleDropDownChange(e, name)
+  }
+
+  return(
+    <TextField
+      select
+      required
+      name={name}
+      value={state}
+      onChange={handleChange}
+      label="Sample"
+      className={classes.textField1}
+      SelectProps={{
+        native: true,
+        MenuProps: {
+          className: classes.menu,
+        },
+      }}
+      helperText="Please select sample"
+      margin="normal"
+    >
+      {list.map(option => (
+
+        <option key={option.sampleId} value={option.name}>
+          {option.name}
+        </option>
+      ))}
+    </TextField>
+  )
+}
+
+
+
+const EditSample = props => {
+  const classes = useSampleStyles();
+  const {editableSample, sample, sampleEx} = props;
+
+  return(<div>
+    { !editableSample ?
+      <Card className={classes.bullet1}>
+        <div style = {{display: "flex", justifyContent: "space-between"}}>
+        <h3 style={{ color: "green" }}>Sample</h3>
+      {props.editDataset && <Tooltip title="Edit" onClick={{}} >
+      <IconButton aria-label="edit" >
+        <EditIcon />
+      </IconButton>
+    </Tooltip>}
+        </div>
+        <Divider />
+        <Typography variant="h4" style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</Typography>
+        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.name}</Typography>
+        <Typography variant="h4" style = {{color: "#5bc0be",  marginBottom: "0px"}}>Description</Typography>
+        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.description}</Typography>
+        <Typography variant="h4" style = {{color: "#5bc0be" , marginBottom: "0px"}}>URL</Typography>
+        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.url}</Typography>
+        <Typography variant="h4" style = {{color: "#5bc0be" , marginBottom: "0px"}}>Sample Descriptors</Typography>
+        {
+          sample.sampleDescriptors && sample.sampleDescriptors.map((row,index )=> {
+            const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`
+            return(
+              <Chip
+                size="medium"
+                variant="outlined"
+                label={ret}
+                color ="primary"
+              />)
+          })
+        }
+
+      </Card> :
+      <Card className = {classes.bullet1}>
+        <form onSubmit={{}}>
+        <div style = {{display: "flex", justifyContent: "space-between"}}>
+          <h3 style={{ color: "green" }}>Sample</h3>
+          {props.editDataset && <Tooltip title="Save" type = "submit" >
+          <IconButton aria-label="save" >
+            <SaveIcon />
+          </IconButton>
+        </Tooltip>}
+      </div>
+      <Divider/>
+          <TextField
+            id="sample"
+            select
+            required
+            name="sample"
+            value={sample.name}
+            onChange={{}}
+            label="Sample"
+            className={classes.textField1}
+            SelectProps={{
+              native: true,
+              MenuProps: {
+                className: classes.menu,
+              },
+            }}
+            helperText="Please select sample"
+            margin="normal"
+          >
+            {sampleEx.map(option => (
+
+              <option key={option.sampleId} value={option.name}>
+                {option.name}
+              </option>
+            ))}
+          </TextField>
+
+    </form>
+  </Card> }
+</div>
+  )
+}
+
+const useSampleStyles = makeStyles(theme => ({
+
+}));
 
 const DatasetDetailDisplay = (props) =>{
   const classes = useToolbarStyles();
   const [editable, setEditable] = useState(false);
-  const [editableSample, setEditableSample] = useState(false);
+  const [editableSample, setEditableSample] = useState(true);
   const [editableProvider, setEditableProvider] = useState(false);
   //const [provider, setProvider] = useState({});
   const {match: { params }} = props;
@@ -51,6 +208,18 @@ const DatasetDetailDisplay = (props) =>{
     }
   );
 
+  const handleHeaderChange = (e, edit, head) =>{
+    if (edit === 'Save') {
+      if (head === "Sample") {
+        handleClick1(e);
+      }
+    }
+    if (edit === 'Edit') {
+      if (head === 'Sample') {
+        handleClick1(e);
+      }
+    }
+  }
 /*  const [sample, setSample] =  useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -75,13 +244,12 @@ const sampleEx = props.sample;
         setProvider({ [name]: newValue });
       };
 
-    const handleChange2 = e => {
+    const handleChangeForDropDown = (e, name) => {
       const newValue = e.target.value;
-      const sampleTest = sampleEx.filter(e => (e.name === newValue))
-      console.log(sampleTest)
-      setSample(sampleTest[0])
-      console.log("anubhav")
-      console.log(sample)
+      if (name === "sample") {
+        const sampleTest = sampleEx.filter(e => (e.name === newValue))
+        setSample(sampleTest[0]) }
+
     }
 
   const handleSubmit = e => {
@@ -106,7 +274,7 @@ const sampleEx = props.sample;
   }
 
   useEffect(() => {
-    fetch(`/dataset/${params.id}`, {
+    fetch(`${Dataset}/${params.id}`, {
       method: "GET"
     }).then(response => response.json()).then(res => {
       setDataset(res);
@@ -170,24 +338,23 @@ return( <Paper className = {classes.root}>
 
 
 <div style = {{display:"flex"}}>
-{ !editableSample ?
+
+{ editableSample ?
   <Card className={classes.bullet1}>
-    <div style = {{display: "flex", justifyContent: "space-between"}}>
-    <h3 style={{ color: "green" }}>Sample</h3>
-  {props.editDataset && <Tooltip title="Edit" onClick={handleClick1} >
-  <IconButton aria-label="edit" >
-    <EditIcon />
-  </IconButton>
-</Tooltip>}
-    </div>
+    <EditableHeader
+      head = "Sample"
+      edit = {editableSample ? "Edit" : "Save"}
+      isEditable = {props.editDataset}
+      variant = "h6"
+      handleHeaderChange = {handleHeaderChange}/>
     <Divider />
-    <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</h4>
-    <h4 style={{marginTop: "0px"}}>{sample.name}</h4>
-    <h4 style = {{color: "#5bc0be",  marginBottom: "0px"}}>Description</h4>
-    <h4 style={{marginTop: "0px"}}>{sample.description}</h4>
-    <h4 style = {{color: "#5bc0be" , marginBottom: "0px"}}>URL</h4>
-    <h4 style={{marginTop: "0px"}}>{sample.url}</h4>
-    <h4 style = {{color: "#5bc0be" , marginBottom: "0px"}}>Sample Descriptors</h4>
+    <Typography variant = "subtitle2" style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</Typography>
+    <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{sample.name}</Typography>
+    <Typography variant = "subtitle2" style = {{color: "#5bc0be",  marginBottom: "0px"}}>Description</Typography>
+    <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{sample.description}</Typography>
+    <Typography variant = "subtitle2" style = {{color: "#5bc0be" , marginBottom: "0px"}}>URL</Typography>
+    <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{sample.url}</Typography>
+    <Typography variant = "subtitle2" style = {{color: "#5bc0be" , marginBottom: "0px"}}>Sample Descriptors</Typography>
     {
       sample.sampleDescriptors && sample.sampleDescriptors.map((row,index )=> {
         const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`
@@ -204,40 +371,20 @@ return( <Paper className = {classes.root}>
   </Card> :
   <Card className = {classes.bullet1}>
     <form onSubmit={handleSampleSubmit}>
-    <div style = {{display: "flex", justifyContent: "space-between"}}>
-      <h3 style={{ color: "green" }}>Sample</h3>
-      {props.editDataset && <Tooltip title="Save" type = "submit" >
-      <IconButton aria-label="save" >
-        <SaveIcon />
-      </IconButton>
-    </Tooltip>}
-  </div>
+      <EditableHeader
+        head = "Sample"
+        edit = {editableSample ? "Edit" : "Save"}
+        isEditable = {props.editDataset}
+        variant = "h6"
+        handleHeaderChange = {handleHeaderChange}/>
   <Divider/>
-      <TextField
-        id="sample"
-        select
-        required
+      <EditableDropDown
         name="sample"
-        value={sample.name}
-        onChange={handleChange2}
-        label="Sample"
-        className={classes.textField1}
-        SelectProps={{
-          native: true,
-          MenuProps: {
-            className: classes.menu,
-          },
-        }}
-        helperText="Please select sample"
-        margin="normal"
-      >
-        {sampleEx.map(option => (
+        state={sample.name}
+        classes = {classes}
+        list= {sampleEx}
+        handleDropDownChange = {handleChangeForDropDown}/>
 
-          <option key={option.sampleId} value={option.name}>
-            {option.name}
-          </option>
-        ))}
-      </TextField>
 
 </form>
 </Card> }

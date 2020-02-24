@@ -147,7 +147,7 @@ async function handleSubmit(e) {
         Add Sample
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ marginTop: "20px", width: "56.7%" }}>
           <TextField
             autoFocus
             required
@@ -157,7 +157,10 @@ async function handleSubmit(e) {
             {...name}
             className={classes.nameField}
             type="text"
+            fullWidth
           />
+      </div>
+      <div style={{ marginTop: "20px", width: "56.7%" }} >
           <TextField
             id="sample_type"
             select
@@ -189,6 +192,7 @@ async function handleSubmit(e) {
             {...url}
             label="URL"
             type="email"
+            fullWidth
           />
         </div>
 
