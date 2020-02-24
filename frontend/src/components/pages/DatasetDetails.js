@@ -8,7 +8,14 @@ import Divider from "@material-ui/core/Divider";
 import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {Dataset} from '../../apiCalls'
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import {Dataset} from '../../apiCalls';
+import Button from '@material-ui/core/Button';
+
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -45,7 +52,8 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-    paddingLeft: theme.spacing(2)
+    paddingLeft: theme.spacing(2),
+
   },
 
 
@@ -122,9 +130,7 @@ const useStyles = makeStyles(theme => ({
            <Grid container spacing={3}>
              <Card className={classes.bullet1}>
                <div>
-                 <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                   Title
-                 </h3>
+
                  <h3 style={{ color: "Purple", marginTop: "0px" }}>
                    {dataset.datasetName}
                  </h3>
@@ -285,14 +291,29 @@ const useStyles = makeStyles(theme => ({
                    {papers &&
                      papers.map(paper => (
                        <h5 style={{ marginTop: "0px" }}>
+                         <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                           Title
+                         </h4>
                          {paper.title}
                          <br />
+                         <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                           AuthorList
+                         </h4>
                          {paper.authorList}
                          <br />
+                         <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                           JournalName
+                         </h4>
                          {paper.journalName}
                          <br />
+                         <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                           PMID
+                         </h4>
                          {paper.pmid}
                          <br />
+                         <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                           URL
+                         </h4>
                          {paper.url}
                        </h5>
                      ))}
@@ -372,26 +393,38 @@ const useStyles = makeStyles(theme => ({
              </Card>
            </Grid>
 
-           <Card className={classes.bullet}>
-             <div>
-               {" "}
-               {/* <h3>{JSON.stringify(  dataset.dataFiles)}</h3> */}
+           <Grid container spacing={3}>
+             <Card className={classes.bullet1}>
                <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
 
                  DataFiles
+                 <Table
+                   className={classes.bullet2}
+                   aria-label="simple table"
+                   borderColor="#5bc0be"
+                   borderStyle="solid"
+                 >
+                   <TableHead>
+                     {/* <h3>{JSON.stringify(  dataset.dataFiles)}</h3> */}
+
+                     <TableRow>
+                       <TableCell> dataFileId</TableCell>
+                       <TableCell>original_file_name</TableCell>
+                       <TableCell>description</TableCell>
+                       <TableCell>data_file_size</TableCell>
+                       <TableCell>
+                         <Button
+                           style={{ color: "#5bc0be", marginBottom: "0px" }}
+                         >
+                           Download
+                         </Button>
+                       </TableCell>
+                     </TableRow>
+                   </TableHead>
+                 </Table>
                </h3>
-               {dataFiles &&
-                 dataFiles.map(data => (
-                   <>
-                     {Object.keys(data.dataType).map(key3 => (
-                       <div>{data.dataType[key3]}</div>
-                     ))}
-                     <div>{data.origFileId}</div>
-                     <div>{data.description}</div>
-                   </>
-                 ))}
-             </div>
-           </Card>
+             </Card>
+           </Grid>
          </div>
        </div>
      );
@@ -401,6 +434,38 @@ const useStyles = makeStyles(theme => ({
 export default DatasetDetails;
 
 
+
+
+
+
+// {
+//                          dataFiles && dataFiles.map(data =>{
+//                           const ret
+//                               <TableRow>
+//                                 <TableCell> {data.origFileId}</TableCell>
+//                                 <TableCell>{data.description}</TableCell>
+//                                 <TableCell>{data.data_file_size}</TableCell>
+//                               </TableRow>
+
+//                          }
+
+//                          )
+//                        }
+// //  {
+//    dataFiles &&
+//      dataFiles.map(data => (
+//        <>
+//          <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+//            <TableCell> {data.origFileId}</TableCell>
+//            <TableCell>{data.description}</TableCell>
+//            <TableCell>{data.data_file_size}</TableCell>
+//          </h4>
+//        </>
+//      ));
+//  }
+// {
+//   Object.keys(data.dataType).map(key3 => <th> {data.dataType[key3]}</th>);
+// }
 {/* <Card className={classes.bullet}>
   <div>
     <h3>

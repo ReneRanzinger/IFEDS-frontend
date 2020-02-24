@@ -7,7 +7,7 @@ import ReactResumableJs from './NewFileUploadPage'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
-import {DatasetFileSaveInfo} from '../../apiCalls'
+import {DatasetFileSaveInfo, DatasetFileUpload} from '../../apiCalls'
 
 
 const ContentInside =(props)=> {
@@ -22,7 +22,7 @@ const ContentInside =(props)=> {
               maxFileSize="1024000000"
               fileAddedMessage="Started!"
               completedMessage="Complete!"
-              service="/dataset/file/upload"
+              service={DatasetFileUpload}
               textLabel="Upload files    "
               startButton={true}
               cancelButton={true}

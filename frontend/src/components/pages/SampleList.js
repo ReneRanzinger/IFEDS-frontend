@@ -7,7 +7,10 @@ import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Sidebar from "./Sidebar";
+import PropTypes from "prop-types";
 import {Sample, SampleData} from '../../apiCalls'
+
 
 
 const useFetch = (url, isDeleted, props) => {
@@ -89,38 +92,46 @@ export default function SampleList(props) {
     }
   ];
 
-  return (<MaterialTable title="Sample List" columns={headCells} data={data}
-  actions={[
-    {
-      icon: 'edit',
-      tooltip: 'Edit Sample',
-      onClick: (event, rowData) => {
-        props.prop.history.push(`/editsample/${rowData.sampleId}`);
-      }
-    }
-  ]}
-  editable={{
-      onRowDelete: oldData => new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-          fetchDelete(oldData.sampleId, isAuthenticated, props);
-          setDeleted(!isDeleted);
-        }, 300);
-      })
-    }}
-
-    components={{
-      Toolbar: props => (
-        <Paper>
-         <MTableToolbar  classes = {{ root: classes.root}} {...props}/>
-          <div style={{display : "flex",marginLeft : "20px"}}>
-            <Button color="primary" onClick={handleAddNewSample}>Add New Sample</Button>
-
-          </div>
-        </Paper>)}}
+  return (
+    <MaterialTable
+      title="Sample List"
+      columns={headCells}
+      data={data}
+      actions={[
+        {
+          icon: "edit",
+          tooltip: "Edit Sample",
+          onClick: (event, rowData) => {
+            props.prop.history.push(`/editsample/${rowData.sampleId}`);
+          }
+        }
+      ]}
+      editable={{
+        onRowDelete: oldData =>
+          new Promise(resolve => {
+            setTimeout(() => {
+              resolve();
+              fetchDelete(oldData.sampleId, isAuthenticated, props);
+              setDeleted(!isDeleted);
+            }, 300);
+          })
+      }}
+      components={{
+        Toolbar: props => (
+          <Paper>
+            <div className="Content">
+              <Sidebar props={props} isDashBoard={"true"} />
+            </div>
+            <MTableToolbar classes={{ root: classes.root }} {...props} />
+            <div style={{ display: "flex", marginLeft: "20px" }}>
+              <Button color="primary" onClick={handleAddNewSample}>
+                Add New Sample
+              </Button>
+            </div>
+          </Paper>
+        )
+      }}
     />
-
-
   );
 }
 
