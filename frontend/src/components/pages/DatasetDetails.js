@@ -313,13 +313,9 @@ const handleClick = () => {
                      <h5 style={{ marginTop: "0px" }}>
                       <ul> 
                       <li>{paper.title}
-                       
                        {paper.authorList}
-                      
                        {paper.journalName}
-                      
                        {paper.pmid}</li>
-                      
                        {paper.url}</ul>
                      </h5>
                    ))}
@@ -435,7 +431,21 @@ const handleClick = () => {
                      ))}
                  </TableHead>
                </Table>
-               {/* <TableHead>
+              
+             </h3>
+           </Card>
+         </div>
+       </div>
+     );
+   };
+
+
+export default DatasetDetails;
+
+
+
+{
+  /* <TableHead>
                  <h3>{JSON.stringify(dataset.dataFiles)}</h3>
 
                  <TableRow>
@@ -449,16 +459,5 @@ const handleClick = () => {
                      </Button>
                    </TableCell>
                  </TableRow>
-               </TableHead> */}
-             </h3>
-           </Card>
-         </div>
-       </div>
-     );
-   };
-
-
-export default DatasetDetails;
-
-
-
+               </TableHead> */
+}
