@@ -438,7 +438,11 @@ const handleClick = () => {
                      ))}
                  </TableHead>
                </Table>
+<<<<<<< HEAD
                
+=======
+              
+>>>>>>> dataset-details
              </h3>
            </Card>
          </div>
@@ -451,6 +455,7 @@ export default DatasetDetails;
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -567,6 +572,10 @@ export default DatasetDetails;
            }
 
            {/* <TableHead>
+=======
+{
+  /* <TableHead>
+>>>>>>> dataset-details
                  <h3>{JSON.stringify(dataset.dataFiles)}</h3>
 
                  <TableRow>
@@ -580,5 +589,10 @@ export default DatasetDetails;
                      </Button>
                    </TableCell>
                  </TableRow>
+<<<<<<< HEAD
                </TableHead> */}
 
+=======
+               </TableHead> */
+}
+>>>>>>> dataset-details

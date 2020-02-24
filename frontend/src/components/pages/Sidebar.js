@@ -208,8 +208,9 @@ export default function PersistentDrawerLeft({props}) {
             ["List of Datasets", "/datasettable"],
             ["List of Samples", "/samplelist"]
           ].map((text, index) => (
-            <ListItem button="button" key={index} component="a" Link to="text[1]">
-              {text[0]}
+            <ListItem button="button" key={index} >
+              <Link >{text[0]}</Link>
+              
             </ListItem>
           ))}
         </List>
