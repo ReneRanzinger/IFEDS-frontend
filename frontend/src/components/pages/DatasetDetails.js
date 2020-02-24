@@ -13,16 +13,6 @@ import TextField from "@material-ui/core/TextField";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-<<<<<<< HEAD
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-<<<<<<< HEAD
-=======
-import {Dataset} from '../../apiCalls';
-import Button from '@material-ui/core/Button';
-
->>>>>>> 85f1fb01b26fe423684cb47bf73a3bdd1a8f8271
-=======
 import Typography from "@material-ui/core/Typography";
 
 
@@ -32,7 +22,6 @@ import TableRow from "@material-ui/core/TableRow";
 import {Dataset} from '../../apiCalls'
 import { ListItem } from "@material-ui/core";
 
->>>>>>> dataset-details
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -86,10 +75,6 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-<<<<<<< HEAD
-    paddingLeft: theme.spacing(2),
-
-=======
     paddingLeft: theme.spacing(2)
   },
 
@@ -99,7 +84,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
     paddingBottom: theme.spacing(2)
->>>>>>> dataset-details
   },
 
   menu: {
@@ -115,7 +99,7 @@ const useStyles = makeStyles(theme => ({
 const handleClick = () => {
      alert("");
    };
-  
+
 
 
    const DatasetDetails = props => {
@@ -177,18 +161,6 @@ const handleClick = () => {
          </div>
 
          <div>
-<<<<<<< HEAD
-           <Grid container spacing={3}>
-             <Card className={classes.bullet1}>
-               <div>
-
-                 <h3 style={{ color: "Purple", marginTop: "0px" }}>
-                   {dataset.datasetName}
-                 </h3>
-                 <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}></h3>
-                 <Divider />
-                 {/* <h2 style={{ color: "Purple" }} className={classes.title}>
-=======
            <Card className={classes.bullet1}>
              <div>
                <h3 style={{ color: "Purple", marginTop: "0px" }}>
@@ -197,7 +169,6 @@ const handleClick = () => {
                <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}></h3>
                <Divider />
                {/* <h2 style={{ color: "Purple" }} className={classes.title}>
->>>>>>> dataset-details
                    Title: {dataset.datasetName}
                  </h2> */}
                <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
@@ -340,15 +311,11 @@ const handleClick = () => {
                  {papers &&
                    papers.map(paper => (
                      <h5 style={{ marginTop: "0px" }}>
-                      <ul> 
+                      <ul>
                       <li>{paper.title}
-                       
                        {paper.authorList}
-                      
                        {paper.journalName}
-                      
                        {paper.pmid}</li>
-                      
                        {paper.url}</ul>
                      </h5>
                    ))}
@@ -427,41 +394,6 @@ const handleClick = () => {
                  </div>
                )}
              </Card>
-<<<<<<< HEAD
-           </Grid>
-
-           <Grid container spacing={3}>
-             <Card className={classes.bullet1}>
-               <h3 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                 DataFiles
-                 <Table
-                   className={classes.bullet2}
-                   aria-label="simple table"
-                   borderColor="#5bc0be"
-                   borderStyle="solid"
-                 >
-                   <TableHead>
-                     {/* <h3>{JSON.stringify(  dataset.dataFiles)}</h3> */}
-
-                     <TableRow>
-                       <TableCell> dataFileId</TableCell>
-                       <TableCell>original_file_name</TableCell>
-                       <TableCell>description</TableCell>
-                       <TableCell>data_file_size</TableCell>
-                       <TableCell>
-                         <Button
-                           style={{ color: "#5bc0be", marginBottom: "0px" }}
-                         >
-                           Download
-                         </Button>
-                       </TableCell>
-                     </TableRow>
-                   </TableHead>
-                 </Table>
-               </h3>
-             </Card>
-           </Grid>
-=======
            </div>
 
            <Card className={classes.bullet1}>
@@ -499,24 +431,9 @@ const handleClick = () => {
                      ))}
                  </TableHead>
                </Table>
-               {/* <TableHead>
-                 <h3>{JSON.stringify(dataset.dataFiles)}</h3>
 
-                 <TableRow>
-                   <TableCell> dataFileId</TableCell>
-                   <TableCell>original_file_name</TableCell>
-                   <TableCell>description</TableCell>
-                   <TableCell>data_file_size</TableCell>
-                   <TableCell>
-                     <Button style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                       Download
-                     </Button>
-                   </TableCell>
-                 </TableRow>
-               </TableHead> */}
              </h3>
            </Card>
->>>>>>> dataset-details
          </div>
        </div>
      );
@@ -524,123 +441,3 @@ const handleClick = () => {
 
 
 export default DatasetDetails;
-
-
-
-<<<<<<< HEAD
-
-
-
-// {
-//                          dataFiles && dataFiles.map(data =>{
-//                           const ret
-//                               <TableRow>
-//                                 <TableCell> {data.origFileId}</TableCell>
-//                                 <TableCell>{data.description}</TableCell>
-//                                 <TableCell>{data.data_file_size}</TableCell>
-//                               </TableRow>
-
-//                          }
-
-//                          )
-//                        }
-// //  {
-//    dataFiles &&
-//      dataFiles.map(data => (
-//        <>
-//          <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
-//            <TableCell> {data.origFileId}</TableCell>
-//            <TableCell>{data.description}</TableCell>
-//            <TableCell>{data.data_file_size}</TableCell>
-//          </h4>
-//        </>
-//      ));
-//  }
-// {
-//   Object.keys(data.dataType).map(key3 => <th> {data.dataType[key3]}</th>);
-// }
-{/* <Card className={classes.bullet}>
-  <div>
-    <h3>
-      <h3 style={{ color: "blue" }}> Provider </h3>
-      Name:
-      {JSON.stringify(dataset.provider && dataset.provider.name)}
-      <br />
-      providerGroup:
-      {JSON.stringify(dataset.provider && dataset.provider.providerGroup)}
-      <br />
-      Department:
-      {JSON.stringify(dataset.provider && dataset.provider.department)}
-      <br />
-      Affiliation:
-      {JSON.stringify(dataset.provider && dataset.provider.affiliation)}
-      <br />
-      URL:
-      {JSON.stringify(dataset.provider && dataset.provider.url)}
-      <br />
-      Contact:
-      {JSON.stringify(dataset.provider && dataset.provider.contact)}
-      <br />
-      {/* UserName:
-              {JSON.stringify(
-                  dataset.provider &&
-                    dataset.provider.username
-    //           )} */}
-    //   <br />
-    //   Email:
-    //   {JSON.stringify(dataset.provider && dataset.provider.email)}
-    // </h3>
-//   </div>
-// </Card>;
-//  */}
-
-
-
-
-{
-  /* <div>
-                 <h3>
-                   <h3 style={{ color: "blue" }}>SampleDescriptor</h3>
-
-                   {sampleDescriptors &&
-                     sampleDescriptors.map(sampleDesc => (
-                       <>
-                         {Object.keys(sampleDesc.sampleDescriptor).map(key => (
-                           <div>{sampleDesc.sampleDescriptor[key]}</div>
-                         ))}
-                         <div>{sampleDesc.value}</div>
-                         <div>{sampleDesc.unitOfMeasurement}</div>
-                       </>
-                     ))}
-                 </h3>
-               </div> */
-}
-
-
-           {
-             /* <h3>
-              {JSON.stringify(
-                  dataset.experimentTypes &&
-                    dataset.experimentTypes.experimentType
-              )}
-            </h3> */
-           }
-           {
-             /* <Card className={classes.bullet}>
-             <div>
-               <h3 style={{ color: "blue" }}> Sample </h3>
-               <h3>
-                 Summary:{" "}
-                 {JSON.stringify(dataset.sample && dataset.sample.name)}
-               </h3>
-               <h3>
-                 <div>{sample.sampleId}</div>
-                 <div>{sample.name}</div>
-                 <div>{sample.description}</div>
-                 <div>{sample.url}</div>
-               </h3>
-             </div>
-             </Card> */
-           }
-=======
->>>>>>> dataset-details
