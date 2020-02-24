@@ -7,13 +7,7 @@ import ReactResumableJs from './NewFileUploadPage'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
-<<<<<<< HEAD
-import {DatasetFileSaveInfo, DatasetFileUpload} from '../../apiCalls'
-=======
 import {DatasetFileSaveInfo,DatasetFileUpload} from '../../apiCalls'
-
->>>>>>> dataset-details
-
 
 const ContentInside =(props)=> {
   const token = useSelector(state => state.user.token);

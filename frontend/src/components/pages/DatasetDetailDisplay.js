@@ -62,7 +62,7 @@ const EditableDropDown = props => {
       name={name}
       value={state}
       onChange={handleChange}
-      label="Sample"
+      label={name}
       className={classes.textField1}
       SelectProps={{
         native: true,
@@ -80,9 +80,90 @@ const EditableDropDown = props => {
         </option>
       ))}
     </TextField>
+
   )
 }
 
+const EditableDropDownChip = props => {
+  const {name, state, handleDropDownChangeChip, classes, list} = props;
+  const [data, setData] = useState(state)
+
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    const temp = list.filter(e => (e.name === newValue))
+    setData(data => {
+                const data1 = [...data];
+                data1.push(temp);
+                return { ...data, data1 };
+              });
+    // handleDropDownChange(e, name)
+  }
+
+  const handleHeaderChangeForChip = (e, edit , head) => {
+    handleDropDownChangeChip(data, edit, head)
+  }
+
+  const handleDelete = (e , index) => {
+    setData(data => {
+      const data1 = [...data];
+      data1.splice(index,1);
+      return {...data, data1}
+    })
+  }
+
+  return(<div>
+    <EditableHeader
+      head = {name}
+      edit = 'Save'
+      isEditable = {true}
+      variant = 'h6'
+      handleHeaderChange = {handleHeaderChangeForChip}
+       />
+    <Divider/>
+    <TextField
+      select
+      required
+      name={name}
+      value={data.name}
+      onChange={handleChange}
+      label={name}
+      className={classes.textField1}
+      SelectProps={{
+        native: true,
+        MenuProps: {
+          className: classes.menu,
+        },
+      }}
+      helperText="Please select sample"
+      margin="normal"
+    >
+      {list.map(option => (
+
+        <option key={option.experimentTypeId} value={option.name}>
+          {option.name}
+        </option>
+      ))}
+    </TextField>
+    { data && data.map((row, index) => {
+      console.log("An")
+      console.log(row)
+      const ret = `${row[0]}`
+      return (
+          <Chip
+            size="medium"
+            variant="outlined"
+            label={ret}
+            onDelete={e => handleDelete(e, index)}
+          />
+      );
+
+    })
+
+
+    }
+  </div>
+  )
+}
 
 
 const EditSample = props => {
@@ -228,8 +309,10 @@ const DatasetDetailDisplay = (props) =>{
   );
 */
 const [sample , setSample] = useState({});
+const [experimentTypes, setExperimentTypes] = useState([]);
 
 const sampleEx = props.sample;
+const experiment = props.experimentType;
 
   const handleChange = e => {
     console.log(e.target.name)
@@ -249,7 +332,10 @@ const sampleEx = props.sample;
       if (name === "sample") {
         const sampleTest = sampleEx.filter(e => (e.name === newValue))
         setSample(sampleTest[0]) }
+    }
 
+    const handleDropDownChangeChip = (data, edit, head) => {
+      setExperimentTypes(data)
     }
 
   const handleSubmit = e => {
@@ -280,6 +366,7 @@ const sampleEx = props.sample;
       setDataset(res);
       setProvider(res.provider)
       setSample(res.sample)
+      setExperimentTypes(res.experimentTypes)
     //  setEditDataset(props.editDataset)
       console.log()
     }).catch(error => console.log(error));
@@ -335,7 +422,12 @@ return( <Paper className = {classes.root}>
     margin="normal"
   />
 </Card> }
-
+<EditableDropDownChip
+  name = 'Experiment Type'
+  state = {experimentTypes}
+  classes = {classes}
+  list = {experiment}
+  handleDropDownChangeChip = {handleDropDownChangeChip}/>
 
 <div style = {{display:"flex"}}>
 
@@ -392,15 +484,10 @@ return( <Paper className = {classes.root}>
 
 
 
-{ !editableProvider ?
+{ !editableProvider &&
   <Card className={classes.bullet2}>
     <div style = {{display: "flex", justifyContent: "space-between"}}>
     <h3 style={{ color: "green" }}>Provider</h3>
-  {props.editDataset && <Tooltip title="Edit" onClick={handleClick2} >
-  <IconButton aria-label="edit" >
-    <EditIcon />
-  </IconButton>
-</Tooltip>}
     </div>
     <Divider />
     <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</h4>
@@ -441,115 +528,8 @@ return( <Paper className = {classes.root}>
       </div>
     }
 
-  </Card> :
+  </Card>
 
-  <Card className = {classes.bullet2}>
-    <form onSubmit={handleSubmit}>
-    <div style = {{display: "flex", justifyContent: "space-between"}}>
-    <h3 style={{ color: "green" }}>Provider</h3>
-  {props.editDataset && <Tooltip title="Save" type = "submit" >
-  <IconButton aria-label="save" >
-    <SaveIcon />
-  </IconButton>
-</Tooltip>}
-    </div>
-    <Divider/>
-<TextField
-  autoFocus
-  required
-  id="name"
-  label="Provider Name"
-  name="name"
-  size="small"
-  value={provider.name}
-  defaultValue={provider.name}
-  onChange={handleChange1}
-  className={classes.nameField}
-  type="text"
-/>
-
-<TextField
-  id="group"
-  label="Provider Group"
-  name="providerGroup"
-  size="small"
-  value={provider.providerGroup}
-  defaultValue={provider.providerGroup}
-  onChange={handleChange1}
-  className={classes.nameField}
-  type="text"
-/>
-
-<TextField
-  id="department"
-  label="Department"
-  name="department"
-  size="small"
-  value={provider.department}
-  defaultValue={provider.department}
-  onChange={handleChange1}
-  className={classes.nameField}
-  type="text"
-/>
-
-<TextField
-  id="affiliation"
-  label="Affiliation"
-  name="affiliation"
-  size="small"
-  value={provider.affiliation}
-  defaultValue={provider.affiliation}
-  onChange={handleChange1}
-  className={classes.nameField}
-  type="text"
-/>
-<TextField
-  id="url"
-  label="URL"
-  name="url"
-  size="small"
-  value={provider.url}
-  defaultValue={provider.url}
-  onChange={handleChange1}
-  className={classes.nameField}
-  type="text"
-/>
-<TextField
-  id="contact"
-  label="Contact"
-  name="contact"
-  size="small"
-  value={provider.contact}
-  defaultValue={provider.contact}
-  onChange={handleChange1}
-  className={classes.nameField}
-  type="text"
-/>
-<TextField
-  id="username"
-  label="Username"
-  name="username"
-  size="small"
-  value={provider.username}
-  defaultValue={provider.username}
-  onChange={handleChange1}
-  className={classes.nameField}
-  type="text"
-/>
-<TextField
-  id="email"
-  label="Email"
-  name="email"
-  size="small"
-  value={provider.email}
-  defaultValue={provider.email}
-  onChange={handleChange1}
-  className={classes.nameField}
-  type="text"
-/>
-
-</form>
-</Card>
 
  }
 

@@ -106,7 +106,7 @@ const useStyles = makeStyles(theme => ({
 const handleClick = () => {
      alert("");
    };
-  
+
 
 
    const DatasetDetails = props => {
@@ -318,15 +318,11 @@ const handleClick = () => {
                  {papers &&
                    papers.map(paper => (
                      <h5 style={{ marginTop: "0px" }}>
-                      <ul> 
+                      <ul>
                       <li>{paper.title}
-                       
                        {paper.authorList}
-                      
                        {paper.journalName}
-                      
                        {paper.pmid}</li>
-                      
                        {paper.url}</ul>
                      </h5>
                    ))}
