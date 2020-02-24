@@ -157,3 +157,127 @@ export default connect(mapStateToProps, { logout: actions.logout })(
 {datasetDetail.map((key, index) => {
         {<h1 align="center">{key.datasetName}</h1>
                 <p align="center">{key.description}</p>})}
+
+
+
+
+  /* <div>
+                 <h3>
+                   <h3 style={{ color: "blue" }}>SampleDescriptor</h3>
+
+                   {sampleDescriptors &&
+                     sampleDescriptors.map(sampleDesc => (
+                       <>
+                         {Object.keys(sampleDesc.sampleDescriptor).map(key => (
+                           <div>{sampleDesc.sampleDescriptor[key]}</div>
+                         ))}
+                         <div>{sampleDesc.value}</div>
+                         <div>{sampleDesc.unitOfMeasurement}</div>
+                       </>
+                     ))}
+                 </h3>
+               </div> */ 
+}
+
+
+           {
+             /* <h3>
+              {JSON.stringify(
+                  dataset.experimentTypes &&
+                    dataset.experimentTypes.experimentType
+              )}
+            </h3> */
+           }
+           {
+             /* <Card className={classes.bullet}>
+             <div>
+               <h3 style={{ color: "blue" }}> Sample </h3>
+               <h3>
+                 Summary:{" "}
+                 {JSON.stringify(dataset.sample && dataset.sample.name)}
+               </h3>
+               <h3>
+                 <div>{sample.sampleId}</div>
+                 <div>{sample.name}</div>
+                 <div>{sample.description}</div>
+                 <div>{sample.url}</div>
+               </h3>
+             </div>
+             </Card> */
+           }
+
+
+              {
+                /* <h3>{JSON.stringify(  dataset.keywords)}</h3> */
+              }
+
+
+              // {
+//                          dataFiles && dataFiles.map(data =>{
+//                           const ret 
+//                               <TableRow>
+//                                 <TableCell> {data.origFileId}</TableCell>
+//                                 <TableCell>{data.description}</TableCell>
+//                                 <TableCell>{data.data_file_size}</TableCell>
+//                               </TableRow>
+                            
+//                          }
+
+//                          )
+//                        }
+// //  {
+//    dataFiles &&
+//      dataFiles.map(data => (
+//        <>
+//          <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+//            <TableCell> {data.origFileId}</TableCell>
+//            <TableCell>{data.description}</TableCell>
+//            <TableCell>{data.data_file_size}</TableCell>
+//          </h4>
+//        </>
+//      ));
+//  }
+// {
+//   Object.keys(data.dataType).map(key3 => <th> {data.dataType[key3]}</th>);
+// }
+{/* <Card className={classes.bullet}>
+  <div>
+    <h3>
+      <h3 style={{ color: "blue" }}> Provider </h3>
+      Name:
+      {JSON.stringify(dataset.provider && dataset.provider.name)}
+      <br />
+      providerGroup:
+      {JSON.stringify(dataset.provider && dataset.provider.providerGroup)}
+      <br />
+      Department:
+      {JSON.stringify(dataset.provider && dataset.provider.department)}
+      <br />
+      Affiliation:
+      {JSON.stringify(dataset.provider && dataset.provider.affiliation)}
+      <br />
+      URL:
+      {JSON.stringify(dataset.provider && dataset.provider.url)}
+      <br />
+      Contact:
+      {JSON.stringify(dataset.provider && dataset.provider.contact)}
+      <br />
+      {/* UserName:
+              {JSON.stringify(
+                  dataset.provider &&
+                    dataset.provider.username
+    //           )} */}
+    //   <br />
+    //   Email:
+    //   {JSON.stringify(dataset.provider && dataset.provider.email)}
+    // </h3>
+//   </div>
+// </Card>;
+//  */}
+//\xa0\xa0 ${row["url"]} \xa0\xa0  ${row["grantNumber"]}
+
+
+
+
+
+
