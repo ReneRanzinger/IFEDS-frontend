@@ -133,7 +133,7 @@ export default function PersistentDrawerLeft({props}) {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && 
+            className={clsx(classes.menuButton, open &&
                             classes.hide)}
           >
             <MenuIcon />
@@ -204,9 +204,9 @@ export default function PersistentDrawerLeft({props}) {
         </div>
         <List>
           {[
-            ["Home", "http://localhost:3000/dashboard"],
-            ["List of Datasets", "http://localhost:3000/datasettable"],
-            ["List of Samples", "http://localhost:3000/samplelist"]
+            ["Home", "/dashboard"],
+            ["List of Datasets", "/datasettable"],
+            ["List of Samples", "/samplelist"]
           ].map((text, index) => (
             <ListItem button="button" key={index} component="a" href={text[1]}>
               {text[0]}
@@ -225,7 +225,7 @@ export default function PersistentDrawerLeft({props}) {
     </div>
   );
 
-  
+
 
 
 }

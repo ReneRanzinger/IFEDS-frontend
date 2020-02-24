@@ -7,9 +7,13 @@ import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-
 import Sidebar from "./Sidebar";
 import PropTypes from "prop-types";
+<<<<<<< HEAD
+=======
+import {Sample, SampleData} from '../../apiCalls'
+
+>>>>>>> 85f1fb01b26fe423684cb47bf73a3bdd1a8f8271
 
 
 const useFetch = (url, isDeleted, props) => {

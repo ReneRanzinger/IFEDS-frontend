@@ -43,7 +43,6 @@ export default function SampleForm(props) {
   const classes = useToolbarStyles();
   const [sampleDescriptor] = useFetch(SampleDescriptors,props);
   const [sampleType] = useFetch(SampleTypes,props);
-  const name = useFormInput();
   const sDescriptor = useFormInput();
   const [value,setValue] = useState();
   const [measurement, setMeasurement] = useState();
@@ -174,7 +173,7 @@ useEffect(() => {
         Edit Sample
       </Typography>
     <form className={classes.form} onSubmit={handleSubmit}>
-      <div style={{marginTop : "20px"}}><TextField
+      <div style={{marginTop : "20px", width: "56.7%"}}><TextField
         autoFocus
         required
         id="name"
@@ -186,6 +185,7 @@ useEffect(() => {
         onChange={handleChange1}
         className={classes.nameField}
         type="text"
+        fullWidth
       /><TextField
         id="sampleTypeId"
         select
@@ -223,6 +223,7 @@ useEffect(() => {
         onChange={handleChange1}
         label="URL"
         type="email"
+        fullWidth
       />
   </div>
       <div style={{marginTop : "20px", width : "56.7%"}}><TextField

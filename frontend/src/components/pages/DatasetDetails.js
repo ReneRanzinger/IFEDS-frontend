@@ -11,9 +11,14 @@ import TextField from "@material-ui/core/TextField";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+<<<<<<< HEAD
+=======
+import {Dataset} from '../../apiCalls';
+import Button from '@material-ui/core/Button';
+
+>>>>>>> 85f1fb01b26fe423684cb47bf73a3bdd1a8f8271
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -51,7 +56,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     paddingLeft: theme.spacing(2),
-    
+
   },
 
   menu: {
@@ -127,7 +132,7 @@ const useStyles = makeStyles(theme => ({
            <Grid container spacing={3}>
              <Card className={classes.bullet1}>
                <div>
-                 
+
                  <h3 style={{ color: "Purple", marginTop: "0px" }}>
                    {dataset.datasetName}
                  </h3>
@@ -436,13 +441,13 @@ export default DatasetDetails;
 
 // {
 //                          dataFiles && dataFiles.map(data =>{
-//                           const ret 
+//                           const ret
 //                               <TableRow>
 //                                 <TableCell> {data.origFileId}</TableCell>
 //                                 <TableCell>{data.description}</TableCell>
 //                                 <TableCell>{data.data_file_size}</TableCell>
 //                               </TableRow>
-                            
+
 //                          }
 
 //                          )
