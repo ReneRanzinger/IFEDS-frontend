@@ -86,28 +86,33 @@ const EditableDropDown = props => {
 
 const EditableDropDownChip = props => {
   const {name, state, handleDropDownChangeChip, classes, list} = props;
-  const [data, setData] = useState(state)
+  const [data1, setData] = useState(state);
+  const [initialChip, setInitialChip] = useState(true);
 
   const handleChange = (e) => {
+    if(initialChip) {
+      setData(state.experimentType)
+      setInitialChip(false)
+    }
     const newValue = e.target.value;
     const temp = list.filter(e => (e.name === newValue))
-    setData(data => {
-                const data1 = [...data];
-                data1.push(temp);
+    setData(data1 => {
+                const data = [...data1];
+                data.push(temp[0]);
                 return { ...data, data1 };
               });
     // handleDropDownChange(e, name)
   }
 
   const handleHeaderChangeForChip = (e, edit , head) => {
-    handleDropDownChangeChip(data, edit, head)
+    handleDropDownChangeChip(data1, edit, head)
   }
 
   const handleDelete = (e , index) => {
-    setData(data => {
-      const data1 = [...data];
-      data1.splice(index,1);
-      return {...data, data1}
+    setData(data1 => {
+      const data = [...data1];
+      data1.slice(index,1);
+      return {...data1, data}
     })
   }
 
@@ -124,7 +129,7 @@ const EditableDropDownChip = props => {
       select
       required
       name={name}
-      value={data.name}
+      value={data1.name}
       onChange={handleChange}
       label={name}
       className={classes.textField1}
@@ -144,7 +149,26 @@ const EditableDropDownChip = props => {
         </option>
       ))}
     </TextField>
-    { data && data.map((row, index) => {
+    {console.log("an ",data1)}
+    {
+      initialChip && state.map((row, index) => {
+        console.log("An")
+        console.log(row)
+        const ret = `${row[0]}`
+        return (
+            <Chip
+              size="medium"
+              variant="outlined"
+              label={ret}
+              onDelete={e => handleDelete(e, index)}
+            />
+        );
+
+      })
+
+    }
+    {data1 && console.log("ab",data1)}
+    { data1.data && data1.data.map((row, index) => {
       console.log("An")
       console.log(row)
       const ret = `${row[0]}`

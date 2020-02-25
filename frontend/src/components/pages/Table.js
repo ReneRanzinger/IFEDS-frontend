@@ -19,6 +19,7 @@ import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import * as errorHandlerActions from '../../actions/auth';
 import Headcells from '../../utils/setTableHeader';
 import {Datasets} from '../../apiCalls'
+import Snackbar from '@material-ui/core/Snackbar';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -29,6 +30,7 @@ function desc(a, b, orderBy) {
   }
   return 0;
 }
+
 
 export function stableSort(array, cmp) {
   const stabilizedThis = array.map((el, index) => [el, index]);
@@ -149,7 +151,10 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     width: '100%',
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    }
   },
   paper: {
     width: '99%',
@@ -182,7 +187,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const useFetch = (url, props) => {
+const useFetch = (url, props, openAlert) => {
   const [data, setData] = useState([
     {
       "datasetId": 1,
@@ -205,7 +210,10 @@ const useFetch = (url, props) => {
       mode: 'cors',
       headers: setAuthorizationHeader(props.prop.isAuthenticated)
     }).then(response => response.json()).then(res => {
-      setData(res);
+      if(res.status === 500) {
+        openAlert()
+        props.prop.logout()
+      }else {setData(res);}
     }).catch(error => console.log(error));
   }, [props.prop.isAuthenticated, url]);
   return [data];
@@ -219,7 +227,15 @@ export default function EnhancedTable(props) {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [data] = useFetch(Datasets, props);
+  const [open, setOpen] = useState(false);
+
+
+  const openAlert= () => {
+    setOpen(true)
+  }
+
+  const [data] = useFetch(Datasets, props, openAlert);
+
 
   const [query, setQuery] = React.useState("");
 
@@ -258,6 +274,14 @@ export default function EnhancedTable(props) {
     setPage(0);
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const isSelected = name => selected.indexOf(name) !== -1;
   // changed rows to data
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
@@ -265,6 +289,11 @@ export default function EnhancedTable(props) {
   const lowerCaseQuery = query.toLowerCase();
   return (<div className={classes.super}>
     <div className={classes.root}>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}
+        message = "Session Expired !! Logging Out!"/>
+
+
+
       <Paper className={classes.paper}>
         <EnhancedTableToolbar/>
         <div className={classes.tableComp}>

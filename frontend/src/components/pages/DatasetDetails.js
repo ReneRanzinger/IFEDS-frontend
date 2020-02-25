@@ -5,29 +5,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
 import Chip from "@material-ui/core/Chip";
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
-
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import {Dataset} from '../../apiCalls';
-import Button from '@material-ui/core/Button';
-
-
-import Typography from "@material-ui/core/Typography";
-
-
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-
-import {Dataset} from '../../apiCalls'
-import { ListItem } from "@material-ui/core";
 
 
 const useStyles = makeStyles(theme => ({
@@ -438,7 +422,7 @@ const handleClick = () => {
                      ))}
                  </TableHead>
                </Table>
-               
+
              </h3>
            </Card>
          </div>
@@ -581,4 +565,3 @@ export default DatasetDetails;
                    </TableCell>
                  </TableRow>
                </TableHead> */}
-
