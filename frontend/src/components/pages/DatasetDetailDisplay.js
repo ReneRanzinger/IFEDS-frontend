@@ -214,6 +214,137 @@ const EditableDropDownChip = props => {
   )
 }
 
+const EditableDropDownChip1 = props => {
+  const {name, id, id1, state, handleDropDownChangeChip, classes, list} = props;
+  const [data, setData] = useState(state);
+  const [initialChip, setInitialChip] = useState(true);
+
+  const handleChange = (e) => {
+
+    if(initialChip) {
+      state.map((row) => {
+      console.log("set",row)
+       data.push(row)}
+       )
+        setData([...data])
+        setInitialChip(false)
+    }
+    const newValue = e.target.value;
+    const temp = list.filter(e => (e.name === newValue))
+    setData(() => {
+                if(data.filter(tempo => tempo["name"] === temp[0]["name"]).length !== 1)
+                {
+                  data.push(temp[0])
+                }
+                 return  [...data];
+               });
+  }
+
+  const handleHeaderChangeForChip = (e, edit , head) => {
+    if(initialChip) {
+      state.map((row) =>
+       data.push(row)
+       )
+        setData([...data])
+        setInitialChip(false)
+
+    }
+      handleDropDownChangeChip(data, edit, head)
+  }
+
+  const handleDelete = (e , index) => {
+    if(initialChip) {
+      state.map((row) =>
+       data.push(row)
+       )
+        setData([...data])
+        setInitialChip(false)
+
+    }
+    console.log(data , index)
+    setData(data => {
+      const data1 = [...data];
+      data1.splice(index,1);
+      return [...data1]
+    })
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log("sub",data)
+    handleDropDownChangeChip(data, true)
+  }
+
+  return(<div>
+    <form onSubmit = {handleSubmit}>
+    <EditableHeader
+      head = {name}
+      edit = 'Save'
+      isEditable = {true}
+      variant = 'h6'
+      handleHeaderChange = {handleHeaderChangeForChip}
+       />
+    <Divider/>
+
+    <InputLabel shrink htmlFor="fundingSource">
+          {name}
+        </InputLabel>
+        <NativeSelect
+          value={data.name}
+          onChange={handleChange}
+          inputProps={{
+            name: `${name}`,
+            id: `${id}`,
+          }}
+        >
+        {list.map(option => (
+
+          <option key={option[`${id1}`]} value={option.name}>
+            {option.name}
+          </option>
+        ))}
+        </NativeSelect>
+  <div>
+    {
+      initialChip && state.map((row, index) => {
+        console.log(state)
+        const ret = `${row["name"]}`
+        return (
+            <Chip
+              size="medium"
+              variant="outlined"
+              label={ret}
+              color='primary'
+              onDelete={e => handleDelete(e, index)}
+            />
+        );
+
+      })
+
+    }
+  </div>
+    <div>
+    { data && data.map((row, index) => {
+      const ret = `${row["name"]}`
+      return (
+          <Chip
+            size="medium"
+            variant="outlined"
+            label={ret}
+            color='primary'
+            onDelete={e => handleDelete(e, index)}
+          />
+      );
+
+    })
+    }
+  </div>
+</form>
+  </div>
+  )
+}
+
+
 const EditSample = props => {
   const classes = useSampleStyles();
   const {editableSample, sample, sampleEx} = props;
@@ -364,6 +495,7 @@ const [fundingSource, setFundingSource] = useState([]);
 const sampleEx = props.sample;
 const experiment = props.experimentType;
 const fundingSourceEx = props.fundingSource;
+const keywordEx = props.keyword
 
   const handleChange = e => {
     console.log(e.target.name)
@@ -385,15 +517,21 @@ const fundingSourceEx = props.fundingSource;
         setSample(sampleTest[0]) }
     }
 
-    const handleDropDownChangeChip = (data, edit, head) => {
+    const handleDropDownChangeChip = (data, edit) => {
       console.log("submit",data)
       setExperimentTypes(data)
     }
 
-    const handleDropDownChangeChip1 = (data, edit, head) => {
+    const handleDropDownChangeChip1 = (data, edit) => {
       console.log("submit",data)
       setFundingSource(data)
     }
+
+    const handleDropDownChangeChip2 = (data, edit) => {
+      console.log("submit",data)
+      setKeywords(data)
+    }
+
   const handleSubmit = e => {
     setDataset({[provider] : provider})
     setEditableProvider(!editableProvider)
@@ -488,6 +626,15 @@ return( <Paper className = {classes.root}>
   classes = {classes}
   list = {experiment}
   handleDropDownChangeChip = {handleDropDownChangeChip}/>
+
+<EditableDropDownChip1
+    id = 'keywords'
+    id1 = 'keywordId'
+    name = 'Keywords'
+    state = {keywords}
+    classes = {classes}
+    list = {keywordEx}
+    handleDropDownChangeChip = {handleDropDownChangeChip2}/>
 
 <EditableDropDownChip
     id = 'fundingSource'
