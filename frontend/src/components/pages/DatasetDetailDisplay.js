@@ -13,6 +13,7 @@ import {Dataset} from '../../apiCalls';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import ListItem from '@material-ui/core/ListItem';
 
 
 const EditableHeader = props => {
@@ -344,90 +345,88 @@ const EditableDropDownChip1 = props => {
   )
 }
 
+const DataExperiment =props =>{
+  const classes=useDataStyles();
+  const{state,name}=props;
 
-const EditSample = props => {
-  const classes = useSampleStyles();
-  const {editableSample, sample, sampleEx} = props;
+return (
+  <div>
+    <EditableHeader
+      head={name}
 
-  return(<div>
-    { !editableSample ?
-      <Card className={classes.bullet1}>
-        <div style = {{display: "flex", justifyContent: "space-between"}}>
-        <h3 style={{ color: "green" }}>Sample</h3>
-      {props.editDataset && <Tooltip title="Edit" onClick={{}} >
-      <IconButton aria-label="edit" >
-        <EditIcon />
-      </IconButton>
-    </Tooltip>}
-        </div>
-        <Divider />
-        <Typography variant="h4" style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</Typography>
-        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.name}</Typography>
-        <Typography variant="h4" style = {{color: "#5bc0be",  marginBottom: "0px"}}>Description</Typography>
-        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.description}</Typography>
-        <Typography variant="h4" style = {{color: "#5bc0be" , marginBottom: "0px"}}>URL</Typography>
-        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.url}</Typography>
-        <Typography variant="h4" style = {{color: "#5bc0be" , marginBottom: "0px"}}>Sample Descriptors</Typography>
-        {
-          sample.sampleDescriptors && sample.sampleDescriptors.map((row,index )=> {
-            const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`
-            return(
-              <Chip
-                size="medium"
-                variant="outlined"
-                label={ret}
-                color ="primary"
-              />)
-          })
-        }
+      isEditable={false}
+      variant="h6"
+     />
+    <Divider />
+    {state && state.map((row,index) => {
+      const ret = `${row["experimentType"]["name"]} `;
+      return (
+        <ListItem><Chip
+          size="medium"
+          variant="outlined"
+          label={ret}
+          color="primary"
+          /></ListItem>
+      )
+    }
 
-      </Card> :
-      <Card className = {classes.bullet1}>
-        <form onSubmit={{}}>
-        <div style = {{display: "flex", justifyContent: "space-between"}}>
-          <h3 style={{ color: "green" }}>Sample</h3>
-          {props.editDataset && <Tooltip title="Save" type = "submit" >
-          <IconButton aria-label="save" >
-            <SaveIcon />
-          </IconButton>
-        </Tooltip>}
-      </div>
-      <Divider/>
-          <TextField
-            id="sample"
-            select
-            required
-            name="sample"
-            value={sample.name}
-            onChange={{}}
-            label="Sample"
-            className={classes.textField1}
-            SelectProps={{
-              native: true,
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            helperText="Please select sample"
-            margin="normal"
-          >
-            {sampleEx.map(option => (
+    )}
+  </div>
+);
+  }
+const useDataStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  header: {
+    color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  }
+}));
 
-              <option key={option.sampleId} value={option.name}>
-                {option.name}
-              </option>
-            ))}
-          </TextField>
 
-    </form>
-  </Card> }
-</div>
-  )
+
+const Data = props => {
+  const classes = useDataStyles1();
+  const { state,name} = props;
+
+
+return (
+  <div>
+    <EditableHeader head={name}  isEditable={false} variant="h6" />
+    <Divider />
+    {state &&
+      state.map((row, index) => {
+        const ret = `${row[0]} `;
+        return (
+          <ListItem>
+            <Chip
+              size="medium"
+              variant="outlined"
+              label={ret}
+              color="primary"
+            />
+          </ListItem>
+        );
+      })}
+  </div>
+);
 }
 
-const useSampleStyles = makeStyles(theme => ({
-
+const useDataStyles1 = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  header: {
+    color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  }
 }));
+
 
 const DatasetDetailDisplay = (props) =>{
   const classes = useToolbarStyles();
@@ -626,6 +625,10 @@ return( <Paper className = {classes.root}>
   classes = {classes}
   list = {experiment}
   handleDropDownChangeChip = {handleDropDownChangeChip}/>
+
+<DataExperiment
+  state={experimentTypes}
+  name="Experiment Type"/>
 
 <EditableDropDownChip1
     id = 'keywords'
