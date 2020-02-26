@@ -11,6 +11,13 @@ import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import {Dataset} from '../../apiCalls';
 import Typography from '@material-ui/core/Typography';
+import {
+  ListItem,
+  Table,
+  TableCell,
+  TableHead,
+  TableRow, Button
+} from "@material-ui/core";
 
 
 const EditableHeader = props => {
@@ -99,6 +106,8 @@ const EditableDropDownChip = props => {
     // handleDropDownChange(e, name)
   }
 
+  
+
   const handleHeaderChangeForChip = (e, edit , head) => {
     handleDropDownChangeChip(data, edit, head)
   }
@@ -110,6 +119,8 @@ const EditableDropDownChip = props => {
       return {...data, data1}
     })
   }
+
+
 
   return(<div>
     <EditableHeader
@@ -158,12 +169,294 @@ const EditableDropDownChip = props => {
       );
 
     })
-
-
-    }
+  }
   </div>
   )
 }
+
+const Public = props => {
+  const classes = useDataStyles();
+  const { state, name, variant } = props;
+
+  return (
+    <div>
+      <EditableHeader head={name} isEditable={false} variant="h6" />
+      <Divider />
+      {state &&
+        state.map((row,index) => {
+          const ret = `${row["title"]} \xa0\xa0 ${row["authorList"]} \xa0\xa0  ${row["journalName"]} \xa0\xa0  ${row["pmid"]} \xa0\xa0  ${row["url"]}`;
+          return (
+            <ul>
+              <li>
+                <Typography variant={variant} className={classes.header}>
+                  {ret}
+                </Typography>
+              </li>
+            </ul>
+        );
+          })}
+    </div>
+  );
+};
+const useDataStyles = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  header: {
+    color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  }
+}));
+
+// const Details = props => {
+//   const classes = useDataStyles6();
+//   const { state, name, variant } = props;
+
+//   return (
+//     <div>
+//       <EditableHeader head={name} isEditable={false} variant="h6" />
+//       <Divider />
+           
+//                 <Typography variant={variant} className={classes.header}>
+//                  {state.datasetName}
+//                  </Typography>
+//                  {state.description}
+            
+         
+//     </div>
+//   );
+// };
+// const useDataStyles6 = makeStyles(theme => ({
+//   root: {
+//     display: "flex",
+//     justifyContent: "space-between"
+//   },
+//   header: {
+//     color: "green",
+//     marginBottom: "0px",
+//     paddingTop: "12px"
+//   }
+// }));
+
+
+const Provider = props => {
+  const classes = useDataStyles3();
+  const { state, name, variant } = props;
+
+  return (
+    <div>
+      <EditableHeader head={name} isEditable={false} variant="h6" />
+      <Divider />
+      {state &&
+        state.map((row, index) => {
+        const ret = `${row["name"]} \xa0\xa0 ${row["providerGroup"]} \xa0\xa0  ${row["department"]} \xa0\xa0  ${row["affiliation"]} \xa0\xa0  ${row["url"]} \xa0\xa0  ${row["contact"]} \xa0\xa0  ${row["username"]} \xa0\xa0  ${row["email"]}`;
+          return (
+            <ul>
+              <li>
+                <Typography variant={variant} className={classes.header}>
+                  {ret}
+                </Typography>
+              </li>
+            </ul>
+          );
+        })}
+    </div>
+  );
+};
+const useDataStyles3 = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  header: {
+    color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  }
+}));
+
+
+const DataExperiment =props =>{
+  const classes=useDataStyles1();
+  const{state,name}=props;
+
+return (
+  <div>
+    <EditableHeader
+      head={name}
+      
+      isEditable={false}
+      variant="h6"
+     />
+    <Divider />
+    {state && state.map((row,index) => {
+      const ret = `${row["experimentType"]["name"]} `;
+      return (
+        <ListItem><Chip
+          size="medium"
+          variant="outlined"
+          label={ret}
+          color="primary"
+          /></ListItem>
+      )
+    }
+
+    )}
+  </div>
+);
+  }
+const useDataStyles1 = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
+  header: {
+    color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  }
+}));
+
+
+
+const Data = props => {
+  const classes = useDataStyles2();
+  const { state,name} = props;
+
+
+return (
+  <div>
+    <EditableHeader head={name}  isEditable={false} variant="h6" />
+    <Divider />
+    {state &&
+      state.map((row, index) => {
+        const ret = `${row["name"]} `;
+        return (
+          <ListItem>
+            <Chip
+              size="medium"
+              variant="outlined"
+              label={ret}
+              color="primary"
+            />
+          </ListItem>
+        );
+      })}
+  </div>
+);
+}
+
+const useDataStyles2 = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  header: {
+    color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  }
+}));
+
+
+// const Data1 = props => {
+//   const classes = useDataStyles4();
+//   const { state, name } = props;
+
+//   return (
+//     <div>
+//       <EditableHeader head={name} isEditable={false} variant="h6" />
+//       <Divider />
+//       {state &&
+//         state.map((row, index) => {
+//           const ret = `${row["name"]} `;
+//           return (
+//             <ListItem>
+//               <Chip
+//                 size="medium"
+//                 variant="outlined"
+//                 label={ret}
+//                 color="primary"
+//               />
+//             </ListItem>
+//           );
+//         })}
+//     </div>
+//   );
+// };
+
+// const useDataStyles4 = makeStyles(theme => ({
+//   root: {
+//     display: "flex",
+//     justifyContent: "space-between"
+//   },
+//   header: {
+//     color: "green",
+//     marginBottom: "0px",
+//     paddingTop: "12px"
+//   }
+// }));
+
+
+const File = props => {
+  const classes = useDataStyles5();
+  const { state, name, variant } = props;
+
+  return (
+    <div>
+      <EditableHeader head={name} isEditable={false} variant="h6" />
+      <Divider />
+      {state &&
+        state.map((row, index) => {
+          const ret = `${row["origFileId"]} \xa0\xa0 ${row["description"]} \xa0\xa0  ${row["data_file_size"]} `;
+          return (
+            <Table
+              className={classes.bullet2}
+              aria-label="simple table"
+              borderColor="#5bc0be"
+              borderStyle="solid"
+            >
+              <TableHead>
+                <Typography variant={variant} className={classes.header}>
+                  <TableCell> original_file_name</TableCell>
+                  <TableCell>Description</TableCell>
+                  <TableCell>data_file_size</TableCell>
+                  <TableCell>
+                    <Button style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                      Download
+                    </Button>
+                  </TableCell>
+
+                  <TableRow>{ret}</TableRow>
+                </Typography>
+              </TableHead>
+            </Table>
+          );
+        })}
+    </div>
+  );
+};
+
+const useDataStyles5 = makeStyles(theme => ({
+  root: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  header: {
+    color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  }
+}));
+
+
+
+
+
+
+
 
 
 const EditSample = props => {
@@ -308,8 +601,13 @@ const DatasetDetailDisplay = (props) =>{
     }
   );
 */
+
 const [sample , setSample] = useState({});
 const [experimentTypes, setExperimentTypes] = useState([]);
+const [papers, setPapers] = useState([]);
+const [keywords, setKeywords] = useState([]);
+const [fundingSources, setFundingSources] = useState([]);
+const [dataFiles, setDataFiles] = useState([]); 
 
 
 const sampleEx = props.sample;
@@ -368,175 +666,239 @@ const experiment = props.experimentType;
       setProvider(res.provider)
       setSample(res.sample)
       setExperimentTypes(res.experimentTypes)
+      setPapers(res.papers)
+      setKeywords(res.keywords)
+      setFundingSources(res.fundingSources)
+      setDataFiles(res.dataFiles)
     //  setEditDataset(props.editDataset)
       console.log()
     }).catch(error => console.log(error));
   }, [params.id]);
 
   console.log(dataset)
-return( <Paper className = {classes.root}>
-  { !editable ?
-    <Card className={classes.bullet}>
-      <div style = {{display: "flex", justifyContent: "space-between"}}>
-      <h2 style={{ color: "green" }}>{dataset.datasetName}</h2>
-    {props.editDataset && <Tooltip title="Edit" onClick={handleClick} >
-    <IconButton aria-label="edit" >
-      <EditIcon />
-    </IconButton>
-  </Tooltip>}
-      </div>
-      <h3>{dataset.description}</h3>
-    </Card> :
-    <Card className = {classes.bullet}>
-      <div style = {{display: "flex", justifyContent: "space-between"}}>
-  <TextField
-    autoFocus
-    required
-    id="name"
-    label="Dataset Name"
-    name="datasetName"
-    size="large"
-    value={dataset.datasetName}
-    defaultValue={dataset.datasetName}
-    onChange={handleChange}
-    className={classes.nameField}
-    type="text"
-  />
-{props.editDataset && <Tooltip title="Save" type = "submit">
-  <IconButton aria-label="save">
-    <SaveIcon />
-  </IconButton>
-  </Tooltip>}
-</div>
-  <TextField
-    multiline
-    id="description"
-    label="Description"
-    name="description"
-    rowsMax = "4"
-    size="large"
-    value={dataset.description}
-    defaultValue={dataset.description}
-    onChange={handleChange}
-    fullWidth
-    type="text"
-    margin="normal"
-  />
-</Card> }
-<EditableDropDownChip
-  name = 'Experiment Type'
-  state = {experimentTypes}
-  classes = {classes}
-  list = {experiment}
-  handleDropDownChangeChip = {handleDropDownChangeChip}/>
+return (
+  <Paper className={classes.root}>
+    {!editable ? (
+      <Card className={classes.bullet}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h2 style={{ color: "green" }}>{dataset.datasetName}</h2>
+          {props.editDataset && (
+            <Tooltip title="Edit" onClick={handleClick}>
+              <IconButton aria-label="edit">
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+        </div>
+        <h3>{dataset.description}</h3>
+        {/* <Details state={dataset} name={""} /> */}
+        <DataExperiment state={experimentTypes} name={"Experiment Type"} />
+        <Data state={keywords} name={"Keywords"} />
+        <Data state={fundingSources} name={"Funding Sources"} />
+      </Card>
+    ) : (
+      <Card className={classes.bullet}>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <TextField
+            autoFocus
+            required
+            id="name"
+            label="Dataset Name"
+            name="datasetName"
+            size="large"
+            value={dataset.datasetName}
+            defaultValue={dataset.datasetName}
+            onChange={handleChange}
+            className={classes.nameField}
+            type="text"
+          />
+          {props.editDataset && (
+            <Tooltip title="Save" type="submit">
+              <IconButton aria-label="save">
+                <SaveIcon />
+              </IconButton>
+            </Tooltip>
+          )}
+        </div>
+        <TextField
+          multiline
+          id="description"
+          label="Description"
+          name="description"
+          rowsMax="4"
+          size="large"
+          value={dataset.description}
+          defaultValue={dataset.description}
+          onChange={handleChange}
+          fullWidth
+          type="text"
+          margin="normal"
+        />
+      </Card>
+    )}
+    <EditableDropDownChip
+      name="Experiment Type"
+      state={experimentTypes}
+      classes={classes}
+      list={experiment}
+      handleDropDownChangeChip={handleDropDownChangeChip}
+    />
 
-<div style = {{display:"flex"}}>
+    <div style={{ display: "flex" }}>
+      {editableSample ? (
+        <Card className={classes.bullet1}>
+          <EditableHeader
+            head="Sample"
+            edit={editableSample ? "Edit" : "Save"}
+            isEditable={props.editDataset}
+            variant="h6"
+            handleHeaderChange={handleHeaderChange}
+          />
+          <Divider />
+          <Typography
+            variant="subtitle2"
+            style={{ color: "#5bc0be", marginBottom: "0px" }}
+          >
+            Name
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            style={{ marginTop: "0px", marginBottom: "12px" }}
+          >
+            {sample.name}
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            style={{ color: "#5bc0be", marginBottom: "0px" }}
+          >
+            Description
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            style={{ marginTop: "0px", marginBottom: "12px" }}
+          >
+            {sample.description}
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            style={{ color: "#5bc0be", marginBottom: "0px" }}
+          >
+            URL
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            style={{ marginTop: "0px", marginBottom: "12px" }}
+          >
+            {sample.url}
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            style={{ color: "#5bc0be", marginBottom: "0px" }}
+          >
+            Sample Descriptors
+          </Typography>
+          {sample.sampleDescriptors &&
+            sample.sampleDescriptors.map((row, index) => {
+              const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`;
+              return (
+                <Chip
+                  size="medium"
+                  variant="outlined"
+                  label={ret}
+                  color="primary"
+                />
+              );
+            })}
+        </Card>
+      ) : (
+        <Card className={classes.bullet1}>
+          <form onSubmit={handleSampleSubmit}>
+            <EditableHeader
+              head="Sample"
+              edit={editableSample ? "Edit" : "Save"}
+              isEditable={props.editDataset}
+              variant="h6"
+              handleHeaderChange={handleHeaderChange}
+            />
+            <Divider />
+            <EditableDropDown
+              name="sample"
+              state={sample.name}
+              classes={classes}
+              list={sampleEx}
+              handleDropDownChange={handleChangeForDropDown}
+            />
+          </form>
+        </Card>
+      )}
 
-{ editableSample ?
-  <Card className={classes.bullet1}>
-    <EditableHeader
-      head = "Sample"
-      edit = {editableSample ? "Edit" : "Save"}
-      isEditable = {props.editDataset}
-      variant = "h6"
-      handleHeaderChange = {handleHeaderChange}/>
-    <Divider />
-    <Typography variant = "subtitle2" style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</Typography>
-    <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{sample.name}</Typography>
-    <Typography variant = "subtitle2" style = {{color: "#5bc0be",  marginBottom: "0px"}}>Description</Typography>
-    <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{sample.description}</Typography>
-    <Typography variant = "subtitle2" style = {{color: "#5bc0be" , marginBottom: "0px"}}>URL</Typography>
-    <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{sample.url}</Typography>
-    <Typography variant = "subtitle2" style = {{color: "#5bc0be" , marginBottom: "0px"}}>Sample Descriptors</Typography>
-    {
-      sample.sampleDescriptors && sample.sampleDescriptors.map((row,index )=> {
-        const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`
-        return(
-          <Chip
-            size="medium"
-            variant="outlined"
-            label={ret}
-            color ="primary"
-          />)
-      })
-    }
-
-  </Card> :
-  <Card className = {classes.bullet1}>
-    <form onSubmit={handleSampleSubmit}>
-      <EditableHeader
-        head = "Sample"
-        edit = {editableSample ? "Edit" : "Save"}
-        isEditable = {props.editDataset}
-        variant = "h6"
-        handleHeaderChange = {handleHeaderChange}/>
-  <Divider/>
-      <EditableDropDown
-        name="sample"
-        state={sample.name}
-        classes = {classes}
-        list= {sampleEx}
-        handleDropDownChange = {handleChangeForDropDown}/>
-
-
-</form>
-</Card> }
-
-
-
-
-{ !editableProvider &&
-  <Card className={classes.bullet2}>
-    <div style = {{display: "flex", justifyContent: "space-between"}}>
-    <h3 style={{ color: "green" }}>Provider</h3>
+      {!editableProvider && (
+        <Card className={classes.bullet2}>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <h3 style={{ color: "green" }}>Provider</h3>
+          </div>
+          <Divider />
+          <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>Name</h4>
+          <h4 style={{ marginTop: "0px" }}>{provider.name}</h4>
+          {provider.providerGroup && (
+            <div>
+              <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>Group</h4>
+              <h4 style={{ marginTop: "0px" }}>{provider.providerGroup}</h4>
+            </div>
+          )}
+          {provider.department && (
+            <div>
+              <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                Department
+              </h4>
+              <h4 style={{ marginTop: "0px" }}>{provider.department}</h4>
+            </div>
+          )}
+          {provider.affiliation && (
+            <div>
+              <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                Affiliation
+              </h4>
+              <h4 style={{ marginTop: "0px" }}>{provider.affiliation}</h4>
+            </div>
+          )}
+          {provider.url && (
+            <div>
+              <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>URL</h4>
+              <h4 style={{ marginTop: "0px" }}>{provider.url}</h4>
+            </div>
+          )}
+          {provider.contact && (
+            <div>
+              <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>Contact</h4>
+              <h4 style={{ marginTop: "0px" }}>{provider.contact}</h4>
+            </div>
+          )}
+          {provider.username && (
+            <div>
+              <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>
+                Username
+              </h4>
+              <h4 style={{ marginTop: "0px" }}>{provider.username}</h4>
+            </div>
+          )}
+          {provider.email && (
+            <div>
+              <h4 style={{ color: "#5bc0be", marginBottom: "0px" }}>Email</h4>
+              <h4 style={{ marginTop: "0px" }}>{provider.email}</h4>
+            </div>
+          )}
+        </Card>
+      )}
     </div>
-    <Divider />
-    <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</h4>
-    <h4 style={{marginTop: "0px"}}>{provider.name}</h4>
-    { provider.providerGroup && <div>
-      <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Group</h4>
-      <h4 style={{marginTop: "0px"}}>{provider.providerGroup}</h4>
-      </div>
-    }
-    { provider.department && <div>
-      <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Department</h4>
-      <h4 style={{marginTop: "0px"}}>{provider.department}</h4>
-      </div>
-    }
-    { provider.affiliation && <div>
-      <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Affiliation</h4>
-      <h4 style={{marginTop: "0px"}}>{provider.affiliation}</h4>
-      </div>
-    }
-    { provider.url && <div>
-      <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>URL</h4>
-      <h4 style={{marginTop: "0px"}}>{provider.url}</h4>
-      </div>
-    }
-    { provider.contact && <div>
-      <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Contact</h4>
-      <h4 style={{marginTop: "0px"}}>{provider.contact}</h4>
-      </div>
-    }
-    { provider.username && <div>
-      <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Username</h4>
-      <h4 style={{marginTop: "0px"}}>{provider.username}</h4>
-      </div>
-    }
-    { provider.email && <div>
-      <h4 style = {{color: "#5bc0be", marginBottom: "0px"}}>Email</h4>
-      <h4 style={{marginTop: "0px"}}>{provider.email}</h4>
-      </div>
-    }
-
-  </Card>
-
-
- }
-
-</div>
+    <Card className={classes.bullet1}>
+      <Public state={papers} name={"Publication"} />
+    </Card>
+    <Card className={classes.bullet1}>
+      <Public state={dataFiles} name={"DataFiles"} />
+    </Card>
   </Paper>
-)
+);
 
 
 }

@@ -1,33 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import MenuAppBar from "./MenuAppBar";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import Chip from "@material-ui/core/Chip";
 import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import {Dataset} from '../../apiCalls';
-import Button from '@material-ui/core/Button';
+import { ListItem,Button,Chip,Table,TableBody,TableCell,TableHead,TableRow,IconButton,Divider,Card,makeStyles } from "@material-ui/core";
 
 
-import Typography from "@material-ui/core/Typography";
 
-
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-
-import {Dataset} from '../../apiCalls'
-import { ListItem } from "@material-ui/core";
 
 
 const useStyles = makeStyles(theme => ({
@@ -204,15 +185,17 @@ const handleClick = () => {
                        ))} */}
                    {experimentTypes &&
                      experimentTypes.map((row, index) => {
+                     
+                       console.log(row)
                        const ret = `${row["experimentType"]["name"]}`;
                        return (
-                         <Chip
+                         <ListItem><Chip
                            size="medium"
                            variant="outlined"
                            label={ret}
                            onClick={handleClick}
                            color="primary"
-                         />
+                         /></ListItem>
                        );
                      })}
                  </h4>
@@ -227,13 +210,15 @@ const handleClick = () => {
                      keywords.map((row, index) => {
                        const ret = `${row["name"]} `;
                        return (
-                         <Chip
-                           size="medium"
-                           variant="outlined"
-                           label={ret}
-                           onClick={handleClick}
-                           color="primary"
-                         />
+                         <ListItem>
+                           <Chip
+                             size="medium"
+                             variant="outlined"
+                             label={ret}
+                             onClick={handleClick}
+                             color="primary"
+                           />
+                         </ListItem>
                        );
                      })}
                  </h4>
@@ -257,15 +242,18 @@ const handleClick = () => {
 
                    {fundingSources &&
                      fundingSources.map((row, index) => {
-                       const ret = `${row["fundingSource"]["name"]} `;
+                       console.log(row)
+                       const ret = `${row["grantNumber"]} `;
                        return (
-                         <Chip
-                           size="medium"
-                           variant="outlined"
-                           label={ret}
-                           onClick={handleClick}
-                           color="primary"
-                         />
+                         <ListItem>
+                           <Chip
+                             size="medium"
+                             variant="outlined"
+                             label={ret}
+                             onClick={handleClick}
+                             color="primary"
+                           />
+                         </ListItem>
                        );
                      })}
                  </h4>
@@ -438,11 +426,7 @@ const handleClick = () => {
                      ))}
                  </TableHead>
                </Table>
-<<<<<<< HEAD
                
-=======
-              
->>>>>>> dataset-details
              </h3>
            </Card>
          </div>
@@ -455,7 +439,6 @@ export default DatasetDetails;
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -572,10 +555,6 @@ export default DatasetDetails;
            }
 
            {/* <TableHead>
-=======
-{
-  /* <TableHead>
->>>>>>> dataset-details
                  <h3>{JSON.stringify(dataset.dataFiles)}</h3>
 
                  <TableRow>
@@ -589,10 +568,5 @@ export default DatasetDetails;
                      </Button>
                    </TableCell>
                  </TableRow>
-<<<<<<< HEAD
                </TableHead> */}
 
-=======
-               </TableHead> */
-}
->>>>>>> dataset-details
