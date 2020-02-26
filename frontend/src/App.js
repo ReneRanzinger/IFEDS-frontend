@@ -10,7 +10,7 @@ import InternalServer from './components/error_pages/InternalServer';
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import AdminRoute from "./components/routes/AdminRoute";
-import DatasetDetails from "./components/pages/DatasetDetails";
+import DisplayDatasetDetail from "./components/pages/DisplayDatasetDetail";
 import DatasetDisplay from './components/pages/DatasetDisplay';
 import SampleDisplay from './components/pages/SampleDisplay';
 import AddSample from "./components/pages/AddSample";
@@ -24,7 +24,7 @@ const App = ({ location, isAuthenticated }) => (
 
     <AdminRoute location={location} path="/" exact component={HomePage} />
     <Route location={location} path="/datasettable" exact component={DatasetDisplay}/>
-    <Route location={location} path="/datasetDetail/:id" component={DatasetDetails} />
+    <Route location={location} path="/datasetDetail/:id" component={DisplayDatasetDetail} />
     <Route location={location} path="/samplelist" exact component={SampleDisplay} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
