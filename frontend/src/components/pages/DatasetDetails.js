@@ -426,7 +426,7 @@ const handleClick = () => {
                      ))}
                  </TableHead>
                </Table>
-               
+
              </h3>
            </Card>
          </div>
@@ -569,4 +569,3 @@ export default DatasetDetails;
                    </TableCell>
                  </TableRow>
                </TableHead> */}
-

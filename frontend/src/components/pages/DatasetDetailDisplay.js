@@ -18,6 +18,9 @@ import {
   TableHead,
   TableRow, Button
 } from "@material-ui/core";
+import InputLabel from '@material-ui/core/InputLabel';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import ListItem from '@material-ui/core/ListItem';
 
 
 const EditableHeader = props => {
@@ -92,37 +95,70 @@ const EditableDropDown = props => {
 }
 
 const EditableDropDownChip = props => {
-  const {name, state, handleDropDownChangeChip, classes, list} = props;
-  const [data, setData] = useState(state)
+  const {name, id, id1, state, handleDropDownChangeChip, classes, list} = props;
+  const [data, setData] = useState(state);
+  const [initialChip, setInitialChip] = useState(true);
 
   const handleChange = (e) => {
+
+    if(initialChip) {
+      state.map((row) =>
+       data.push(row[`${id}`])
+       )
+        setData([...data])
+        setInitialChip(false)
+    }
     const newValue = e.target.value;
     const temp = list.filter(e => (e.name === newValue))
-    setData(data => {
-                const data1 = [...data];
-                data1.push(temp);
-                return { ...data, data1 };
-              });
-    // handleDropDownChange(e, name)
+    setData(() => {
+                if(data.filter(tempo => tempo["name"] === temp[0]["name"]).length !== 1)
+                {
+                  data.push(temp[0])
+                }
+                 return  [...data];
+               });
   }
 
   
 
   const handleHeaderChangeForChip = (e, edit , head) => {
-    handleDropDownChangeChip(data, edit, head)
+    if(initialChip) {
+      state.map((row) =>
+       data.push(row[`${id}`])
+       )
+        setData([...data])
+        setInitialChip(false)
+
+    }
+      handleDropDownChangeChip(data, edit, head)
   }
 
   const handleDelete = (e , index) => {
+    if(initialChip) {
+      state.map((row) =>
+       data.push(row[`${id}`])
+       )
+        setData([...data])
+        setInitialChip(false)
+
+    }
+    console.log(data , index)
     setData(data => {
       const data1 = [...data];
       data1.splice(index,1);
-      return {...data, data1}
+      return [...data1]
     })
   }
 
 
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log("sub",data)
+    handleDropDownChangeChip(data, true)
+  }
 
   return(<div>
+    <form onSubmit = {handleSubmit}>
     <EditableHeader
       head = {name}
       edit = 'Save'
@@ -131,45 +167,192 @@ const EditableDropDownChip = props => {
       handleHeaderChange = {handleHeaderChangeForChip}
        />
     <Divider/>
-    <TextField
-      select
-      required
-      name={name}
-      value={data.name}
-      onChange={handleChange}
-      label={name}
-      className={classes.textField1}
-      SelectProps={{
-        native: true,
-        MenuProps: {
-          className: classes.menu,
-        },
-      }}
-      helperText="Please select sample"
-      margin="normal"
-    >
-      {list.map(option => (
 
-        <option key={option.experimentTypeId} value={option.name}>
-          {option.name}
-        </option>
-      ))}
-    </TextField>
+    <InputLabel shrink htmlFor="fundingSource">
+          {name}
+        </InputLabel>
+        <NativeSelect
+          value={data.name}
+          onChange={handleChange}
+          inputProps={{
+            name: `${name}`,
+            id: `${id}`,
+          }}
+        >
+        {list.map(option => (
+
+          <option key={option[`${id1}`]} value={option.name}>
+            {option.name}
+          </option>
+        ))}
+        </NativeSelect>
+  <div>
+    {
+      initialChip && state.map((row, index) => {
+        const ret = `${row[`${id}`]["name"]}`
+        return (
+            <Chip
+              size="medium"
+              variant="outlined"
+              label={ret}
+              color='primary'
+              onDelete={e => handleDelete(e, index)}
+            />
+        );
+
+      })
+
+    }
+  </div>
+    <div>
     { data && data.map((row, index) => {
-      console.log("An")
-      console.log(row)
-      const ret = `${row[0]}`
+      const ret = `${row["name"]}`
       return (
           <Chip
             size="medium"
             variant="outlined"
             label={ret}
+            color='primary'
             onDelete={e => handleDelete(e, index)}
           />
       );
 
     })
+    }
+
+ 
+  </div>
+</form>
+  </div>
+  )
+}
+
+const EditableDropDownChip1 = props => {
+  const {name, id, id1, state, handleDropDownChangeChip, classes, list} = props;
+  const [data, setData] = useState(state);
+  const [initialChip, setInitialChip] = useState(true);
+
+  const handleChange = (e) => {
+
+    if(initialChip) {
+      state.map((row) => {
+      console.log("set",row)
+       data.push(row)}
+       )
+        setData([...data])
+        setInitialChip(false)
+    }
+    const newValue = e.target.value;
+    const temp = list.filter(e => (e.name === newValue))
+    setData(() => {
+                if(data.filter(tempo => tempo["name"] === temp[0]["name"]).length !== 1)
+                {
+                  data.push(temp[0])
+                }
+                 return  [...data];
+               });
   }
+
+  const handleHeaderChangeForChip = (e, edit , head) => {
+    if(initialChip) {
+      state.map((row) =>
+       data.push(row)
+       )
+        setData([...data])
+        setInitialChip(false)
+
+    }
+      handleDropDownChangeChip(data, edit, head)
+  }
+
+  const handleDelete = (e , index) => {
+    if(initialChip) {
+      state.map((row) =>
+       data.push(row)
+       )
+        setData([...data])
+        setInitialChip(false)
+
+    }
+    console.log(data , index)
+    setData(data => {
+      const data1 = [...data];
+      data1.splice(index,1);
+      return [...data1]
+    })
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log("sub",data)
+    handleDropDownChangeChip(data, true)
+  }
+
+  return(<div>
+    <form onSubmit = {handleSubmit}>
+    <EditableHeader
+      head = {name}
+      edit = 'Save'
+      isEditable = {true}
+      variant = 'h6'
+      handleHeaderChange = {handleHeaderChangeForChip}
+       />
+    <Divider/>
+
+    <InputLabel shrink htmlFor="fundingSource">
+          {name}
+        </InputLabel>
+        <NativeSelect
+          value={data.name}
+          onChange={handleChange}
+          inputProps={{
+            name: `${name}`,
+            id: `${id}`,
+          }}
+        >
+        {list.map(option => (
+
+          <option key={option[`${id1}`]} value={option.name}>
+            {option.name}
+          </option>
+        ))}
+        </NativeSelect>
+  <div>
+    {
+      initialChip && state.map((row, index) => {
+        console.log(state)
+        const ret = `${row["name"]}`
+        return (
+            <Chip
+              size="medium"
+              variant="outlined"
+              label={ret}
+              color='primary'
+              onDelete={e => handleDelete(e, index)}
+            />
+        );
+
+      })
+
+    }
+  </div>
+    <div>
+    { data && data.map((row, index) => {
+      const ret = `${row["name"]}`
+      return (
+          <Chip
+            size="medium"
+            variant="outlined"
+            label={ret}
+            color='primary'
+            onDelete={e => handleDelete(e, index)}
+          />
+      );
+
+    })
+    }
+  </div>
+</form>
   </div>
   )
 }
@@ -183,7 +366,7 @@ const Public = props => {
       <EditableHeader head={name} isEditable={false} variant="h6" />
       <Divider />
       {state &&
-        state.map((row,index) => {
+        state.map((row, index) => {
           const ret = `${row["title"]} \xa0\xa0 ${row["authorList"]} \xa0\xa0  ${row["journalName"]} \xa0\xa0  ${row["pmid"]} \xa0\xa0  ${row["url"]}`;
           return (
             <ul>
@@ -193,8 +376,8 @@ const Public = props => {
                 </Typography>
               </li>
             </ul>
-        );
-          })}
+          );
+        })}
     </div>
   );
 };
@@ -210,37 +393,6 @@ const useDataStyles = makeStyles(theme => ({
   }
 }));
 
-// const Details = props => {
-//   const classes = useDataStyles6();
-//   const { state, name, variant } = props;
-
-//   return (
-//     <div>
-//       <EditableHeader head={name} isEditable={false} variant="h6" />
-//       <Divider />
-           
-//                 <Typography variant={variant} className={classes.header}>
-//                  {state.datasetName}
-//                  </Typography>
-//                  {state.description}
-            
-         
-//     </div>
-//   );
-// };
-// const useDataStyles6 = makeStyles(theme => ({
-//   root: {
-//     display: "flex",
-//     justifyContent: "space-between"
-//   },
-//   header: {
-//     color: "green",
-//     marginBottom: "0px",
-//     paddingTop: "12px"
-//   }
-// }));
-
-
 const Provider = props => {
   const classes = useDataStyles3();
   const { state, name, variant } = props;
@@ -251,7 +403,7 @@ const Provider = props => {
       <Divider />
       {state &&
         state.map((row, index) => {
-        const ret = `${row["name"]} \xa0\xa0 ${row["providerGroup"]} \xa0\xa0  ${row["department"]} \xa0\xa0  ${row["affiliation"]} \xa0\xa0  ${row["url"]} \xa0\xa0  ${row["contact"]} \xa0\xa0  ${row["username"]} \xa0\xa0  ${row["email"]}`;
+          const ret = `${row["name"]} \xa0\xa0 ${row["providerGroup"]} \xa0\xa0  ${row["department"]} \xa0\xa0  ${row["affiliation"]} \xa0\xa0  ${row["url"]} \xa0\xa0  ${row["contact"]} \xa0\xa0  ${row["username"]} \xa0\xa0  ${row["email"]}`;
           return (
             <ul>
               <li>
@@ -278,15 +430,16 @@ const useDataStyles3 = makeStyles(theme => ({
 }));
 
 
+
 const DataExperiment =props =>{
-  const classes=useDataStyles1();
+  const classes=useDataStyles();
   const{state,name}=props;
 
 return (
   <div>
     <EditableHeader
       head={name}
-      
+
       isEditable={false}
       variant="h6"
      />
@@ -307,7 +460,7 @@ return (
   </div>
 );
   }
-const useDataStyles1 = makeStyles(theme => ({
+const useDataStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     justifyContent: 'space-between'
@@ -322,7 +475,7 @@ const useDataStyles1 = makeStyles(theme => ({
 
 
 const Data = props => {
-  const classes = useDataStyles2();
+  const classes = useDataStyles1();
   const { state,name} = props;
 
 
@@ -332,7 +485,7 @@ return (
     <Divider />
     {state &&
       state.map((row, index) => {
-        const ret = `${row["name"]} `;
+        const ret = `${row[0]} `;
         return (
           <ListItem>
             <Chip
@@ -348,7 +501,7 @@ return (
 );
 }
 
-const useDataStyles2 = makeStyles(theme => ({
+const useDataStyles1 = makeStyles(theme => ({
   root: {
     display: "flex",
     justifyContent: "space-between"
@@ -359,46 +512,6 @@ const useDataStyles2 = makeStyles(theme => ({
     paddingTop: "12px"
   }
 }));
-
-
-// const Data1 = props => {
-//   const classes = useDataStyles4();
-//   const { state, name } = props;
-
-//   return (
-//     <div>
-//       <EditableHeader head={name} isEditable={false} variant="h6" />
-//       <Divider />
-//       {state &&
-//         state.map((row, index) => {
-//           const ret = `${row["name"]} `;
-//           return (
-//             <ListItem>
-//               <Chip
-//                 size="medium"
-//                 variant="outlined"
-//                 label={ret}
-//                 color="primary"
-//               />
-//             </ListItem>
-//           );
-//         })}
-//     </div>
-//   );
-// };
-
-// const useDataStyles4 = makeStyles(theme => ({
-//   root: {
-//     display: "flex",
-//     justifyContent: "space-between"
-//   },
-//   header: {
-//     color: "green",
-//     marginBottom: "0px",
-//     paddingTop: "12px"
-//   }
-// }));
-
 
 const File = props => {
   const classes = useDataStyles5();
@@ -451,97 +564,6 @@ const useDataStyles5 = makeStyles(theme => ({
   }
 }));
 
-
-
-
-
-
-
-
-
-const EditSample = props => {
-  const classes = useSampleStyles();
-  const {editableSample, sample, sampleEx} = props;
-
-  return(<div>
-    { !editableSample ?
-      <Card className={classes.bullet1}>
-        <div style = {{display: "flex", justifyContent: "space-between"}}>
-        <h3 style={{ color: "green" }}>Sample</h3>
-      {props.editDataset && <Tooltip title="Edit" onClick={{}} >
-      <IconButton aria-label="edit" >
-        <EditIcon />
-      </IconButton>
-    </Tooltip>}
-        </div>
-        <Divider />
-        <Typography variant="h4" style = {{color: "#5bc0be", marginBottom: "0px"}}>Name</Typography>
-        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.name}</Typography>
-        <Typography variant="h4" style = {{color: "#5bc0be",  marginBottom: "0px"}}>Description</Typography>
-        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.description}</Typography>
-        <Typography variant="h4" style = {{color: "#5bc0be" , marginBottom: "0px"}}>URL</Typography>
-        <Typography variant="h4" style={{marginTop: "0px"}}>{sample.url}</Typography>
-        <Typography variant="h4" style = {{color: "#5bc0be" , marginBottom: "0px"}}>Sample Descriptors</Typography>
-        {
-          sample.sampleDescriptors && sample.sampleDescriptors.map((row,index )=> {
-            const ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`
-            return(
-              <Chip
-                size="medium"
-                variant="outlined"
-                label={ret}
-                color ="primary"
-              />)
-          })
-        }
-
-      </Card> :
-      <Card className = {classes.bullet1}>
-        <form onSubmit={{}}>
-        <div style = {{display: "flex", justifyContent: "space-between"}}>
-          <h3 style={{ color: "green" }}>Sample</h3>
-          {props.editDataset && <Tooltip title="Save" type = "submit" >
-          <IconButton aria-label="save" >
-            <SaveIcon />
-          </IconButton>
-        </Tooltip>}
-      </div>
-      <Divider/>
-          <TextField
-            id="sample"
-            select
-            required
-            name="sample"
-            value={sample.name}
-            onChange={{}}
-            label="Sample"
-            className={classes.textField1}
-            SelectProps={{
-              native: true,
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            helperText="Please select sample"
-            margin="normal"
-          >
-            {sampleEx.map(option => (
-
-              <option key={option.sampleId} value={option.name}>
-                {option.name}
-              </option>
-            ))}
-          </TextField>
-
-    </form>
-  </Card> }
-</div>
-  )
-}
-
-const useSampleStyles = makeStyles(theme => ({
-
-}));
 
 const DatasetDetailDisplay = (props) =>{
   const classes = useToolbarStyles();
@@ -612,6 +634,8 @@ const [dataFiles, setDataFiles] = useState([]);
 
 const sampleEx = props.sample;
 const experiment = props.experimentType;
+const fundingSourceEx = props.fundingSource;
+const keywordEx = props.keyword
 
   const handleChange = e => {
     console.log(e.target.name)
@@ -633,8 +657,19 @@ const experiment = props.experimentType;
         setSample(sampleTest[0]) }
     }
 
-    const handleDropDownChangeChip = (data, edit, head) => {
+    const handleDropDownChangeChip = (data, edit) => {
+      console.log("submit",data)
       setExperimentTypes(data)
+    }
+
+    const handleDropDownChangeChip1 = (data, edit) => {
+      console.log("submit",data)
+      setFundingSource(data)
+    }
+
+    const handleDropDownChangeChip2 = (data, edit) => {
+      console.log("submit",data)
+      setKeywords(data)
     }
 
   const handleSubmit = e => {
@@ -671,7 +706,7 @@ const experiment = props.experimentType;
       setFundingSources(res.fundingSources)
       setDataFiles(res.dataFiles)
     //  setEditDataset(props.editDataset)
-      console.log()
+      console.log(res)
     }).catch(error => console.log(error));
   }, [params.id]);
 
@@ -895,7 +930,7 @@ return (
       <Public state={papers} name={"Publication"} />
     </Card>
     <Card className={classes.bullet1}>
-      <Public state={dataFiles} name={"DataFiles"} />
+      <File state={dataFiles} name={"DataFiles"} />
     </Card>
   </Paper>
 );
