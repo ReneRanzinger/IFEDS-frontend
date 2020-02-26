@@ -469,7 +469,7 @@ const DataExperiment =props =>{
       }
 
       )}
-      {!state[0] &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+      {!Object.entries(state).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
   }
@@ -559,7 +559,7 @@ const DataKeyword = props => {
               />
           );
         })}
-        {!state[0] &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+        {!Object.entries(state).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
 }
@@ -592,7 +592,7 @@ const DataFundingSource = props => {
               />
           );
         })}
-        {!state[0] &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+        {!Object.entries(state).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
 }
@@ -622,7 +622,7 @@ const DataPublication = props => {
             </ul>
           );
         })}
-        {!state[0] &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+        {(!Object.entries(state).length > 0) &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
 };

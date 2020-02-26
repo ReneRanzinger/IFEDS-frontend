@@ -55,7 +55,7 @@ export default function DatasetTable(props) {
   }
 
   const handleDatasetName = (id, name) => {
-    return (<Link to={`/dataset/${id}`}>{name}
+    return (<Link to={`/datasetDetail/${id}`}>{name}
     </Link>);
   }
 

@@ -23,9 +23,9 @@ const App = ({ location, isAuthenticated }) => (
   <div >
 
     <AdminRoute location={location} path="/" exact component={HomePage} />
-    <Route location={location} path="/datasettable" exact component={DatasetDisplay}/>
+    <UserRoute location={location} path="/datasettable" exact component={DatasetDisplay}/>
     <Route location={location} path="/datasetDetail/:id" component={DisplayDatasetDetail} />
-    <Route location={location} path="/samplelist" exact component={SampleDisplay} />
+    <UserRoute location={location} path="/samplelist" exact component={SampleDisplay} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
     <UserRoute location={location} path="/addsample" exact component={AddSample}/>
