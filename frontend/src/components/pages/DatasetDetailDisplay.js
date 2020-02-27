@@ -1,4 +1,5 @@
 import React, {useReducer, useState,useEffect} from 'react';
+import {useSelector} from 'react-redux';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import {makeStyles} from '@material-ui/core/styles';
@@ -18,6 +19,7 @@ import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 
 
@@ -469,7 +471,7 @@ const DataExperiment =props =>{
       }
 
       )}
-      {!state[0] &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+      {!Object.entries(state).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
   }
@@ -559,7 +561,7 @@ const DataKeyword = props => {
               />
           );
         })}
-        {!state[0] &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+        {!Object.entries(state).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
 }
@@ -592,7 +594,7 @@ const DataFundingSource = props => {
               />
           );
         })}
-        {!state[0] &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+        {!Object.entries(state).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
 }
@@ -622,7 +624,7 @@ const DataPublication = props => {
             </ul>
           );
         })}
-        {!state[0] &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+        {!Object.entries(state).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
 };
@@ -720,6 +722,7 @@ const DatasetDetailDisplay = (props) =>{
   const [editableKeyword, setEditableKeyword] = useState(false);
   const [editableFundSrc, setEditableFundSrc] = useState(false);
   const [editablePublication, setEditablePublication] = useState(false);
+  const isAuthenticated = useSelector(state => state.user.token);
   //const [provider, setProvider] = useState({});
   const {match: { params }} = props;
 //  const [editDataset, setEditDataset] = useState(false)
@@ -851,7 +854,8 @@ const keywordEx = props.keyword
 
   useEffect(() => {
     fetch(`${Dataset}/${params.id}`, {
-      method: "GET"
+      method: "GET",
+      headers: setAuthorizationHeader(isAuthenticated)
     }).then(response => response.json()).then(res => {
       setDataset(res);
       setProvider(res.provider)
