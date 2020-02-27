@@ -156,8 +156,7 @@ const handleClick = () => {
                display: "block",
                marginRight: "-200",
                width: "60%",
-               float:"right",
-               
+               float: "right"
              }}
            >
              <div>
@@ -269,7 +268,6 @@ const handleClick = () => {
                </Card>
              </div>
            </div>
-
 
            <div
              style={{

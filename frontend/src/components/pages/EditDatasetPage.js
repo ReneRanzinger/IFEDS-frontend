@@ -3,8 +3,12 @@ import {useSelector} from 'react-redux';
 import PropTypes  from 'prop-types';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import DatasetDetailDisplay from './DatasetDetailDisplay'
-import SideBar from "./Sidebar";
 import {SampleData, ExperimentType, FundingSource, Keyword} from '../../apiCalls'
+import { logout } from "../../actions/auth";
+import { connect } from "react-redux";
+import MenuAppBar from "./MenuAppBar.js";
+import SideBar from "./Sidebar";
+
 
 const useFetch = (url) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -30,15 +34,34 @@ const EditDatasetPage = (props) => {
 
   return (
     <div>
-      <SideBar props={props} />
-      {<DatasetDetailDisplay {...props}  editDataset = {true} sample = {sampleData} experimentType = {experimentType} fundingSource = {fundingSource} keyword = {keyword}/>}
+      <SideBar props={this.props} isDashBoard={"true"} />
+      {
+        <DatasetDetailDisplay
+          {...props}
+          editDataset={true}
+          sample={sampleData}
+          experimentType={experimentType}
+          fundingSource={fundingSource}
+          keyword={keyword}
+        />
+      }
     </div>
-
-  )
+  );
 }
+
+
+
 
 EditDatasetPage.propTypes = {
   logout: PropTypes.func
 }
 
-export default EditDatasetPage
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.user.token
+  };
+}
+
+
+export default connect(mapStateToProps, { logout })(EditDatasetPage);

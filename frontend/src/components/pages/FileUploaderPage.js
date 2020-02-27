@@ -5,6 +5,7 @@ import FileUploadPage from './FileUploadPage'
 import SideBar from "./Sidebar";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {Datatypes} from '../../apiCalls'
+import { connect } from "react-redux";
 
 const useFetch = (url) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -38,4 +39,8 @@ FileUploaderPage.propTypes = {
   logout: PropTypes.func
 }
 
-export default FileUploaderPage
+function mapStateToProps(state) {
+  return { isAuthenticated: state.user.token };
+}
+
+export default connect(mapStateToProps)(FileUploaderPage)

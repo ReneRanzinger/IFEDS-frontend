@@ -16,10 +16,7 @@ class Dashboard extends Component {
   {/* <DatasetTable prop={this.props} isDashBoard={"true"}/> */}
       <h1 align="center">User Profile</h1> 
 
-
-
-
-                    </div>
+    </div>
 
             );
         }

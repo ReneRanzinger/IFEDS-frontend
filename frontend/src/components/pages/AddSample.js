@@ -9,8 +9,7 @@ import Chip from '@material-ui/core/Chip';
 import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
-import Sidebar from "./Sidebar";
-import PropTypes from "prop-types";
+
 import {SampleDescriptors, SampleTypes, Sample} from '../../apiCalls'
 
 
@@ -140,9 +139,7 @@ async function handleSubmit(e) {
 
   return (
     <Paper className={classes.root}>
-      <div className="Content">
-        <Sidebar props={props} isDashBoard={"true"} />
-      </div>
+     
       <Typography variant="h5" component="h3">
         Add Sample
       </Typography>
@@ -291,13 +288,8 @@ async function handleSubmit(e) {
     </Paper>
   );
 
-  // AddSample.propTypes = {
-  //   logout: PropTypes.func
-  // };
+  
 
-  function mapStateToProps(state) {
-    return { isAuthenticated: state.user.token };
-  }
 }
 
   const useToolbarStyles = makeStyles(theme => ({
