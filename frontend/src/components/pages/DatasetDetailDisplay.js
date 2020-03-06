@@ -11,14 +11,12 @@ import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import {Dataset} from '../../apiCalls';
+import MaterialTable from 'material-table';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import {GetApp} from '@material-ui/icons'
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 
@@ -670,6 +668,46 @@ const DataSample = props => {
   );
 }
 
+const DataTable = props => {
+  const {data} = props;
+  const headCells = [
+    {
+      field: 'origFileName',
+      title: 'File Name'
+    }, {
+      field: 'size',
+      title: 'File Size',
+      searchable: false
+    }, {
+      field: 'description',
+      title: 'Description',
+      sorting: false,
+      searchable: false
+    }
+  ];
+
+return (
+  <MaterialTable
+    columns={headCells}
+    data={data}
+    actions={[
+      {
+        icon: GetApp,
+        tooltip: "Download",
+        onClick: (event, rowData) => {
+
+        }
+      }
+    ]}
+    components={{
+      Toolbar: props => (
+        <div/>
+      )
+    }} />
+)
+
+}
+
 const DataFile = props => {
   const { state, name, variant, classes } = props;
 
@@ -677,37 +715,7 @@ const DataFile = props => {
     <div>
       <EditableHeader head={name} isEditable={false} variant="h6" />
       <Divider />
-      {state &&
-        state.map((row, index) => {
-          const ret = `${row["origFileName"]} \xa0\xa0 ${row["description"]} \xa0\xa0  ${row["size"]} `;
-          return (
-            <Table
-              className={classes.bullet2}
-              aria-label="simple table"
-              borderColor="#5bc0be"
-              borderStyle="solid"
-            >
-              <TableHead>
-                <Typography variant={variant} className={classes.header}>
-                  <TableCell> original_file_name</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>data_file_size</TableCell>
-                  <TableCell>
-                    <Button style={{ color: "#5bc0be", marginBottom: "0px" }}>
-                      Download
-                    </Button>
-                  </TableCell>
-
-                  <TableRow>
-                    <TableCell> {row["origFileName"]}</TableCell>
-                    <TableCell>{row["description"]} </TableCell>
-                    <TableCell> {row["size"]}</TableCell>
-                  </TableRow>
-                </Typography>
-              </TableHead>
-            </Table>
-          );
-        })}
+      {state && (<DataTable data = {state}/>)}
     </div>
   );
 };
@@ -1073,7 +1081,8 @@ const useToolbarStyles = makeStyles(theme => ({
   bullet1: {
     marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   },
   bullet2: {
     width:"30%",
