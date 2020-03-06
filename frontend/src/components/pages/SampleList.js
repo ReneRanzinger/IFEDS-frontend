@@ -7,7 +7,6 @@ import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Sidebar from "./Sidebar";
 import {Sample, SampleData} from '../../apiCalls'
 
 const useFetch = (url, isDeleted, props) => {
@@ -90,6 +89,8 @@ export default function SampleList(props) {
   ];
 
   return (
+   
+   
     <MaterialTable
       title="Sample List"
       columns={headCells}
@@ -116,10 +117,7 @@ export default function SampleList(props) {
       components={{
         Toolbar: props => (
           <Paper>
-            <div className="Content">
-              <Sidebar props={props} isDashBoard={"true"} />
-            </div>
-            <MTableToolbar classes={{ root: classes.root }} {...props} />
+           <MTableToolbar classes={{ root: classes.root }} {...props} />
             <div style={{ display: "flex", marginLeft: "20px" }}>
               <Button color="primary" onClick={handleAddNewSample}>
                 Add New Sample

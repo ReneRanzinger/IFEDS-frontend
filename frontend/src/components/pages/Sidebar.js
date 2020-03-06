@@ -174,7 +174,7 @@ export default function PersistentDrawerLeft({props}) {
             </div>
           )}
           {!props.isAuthenticated && (
-            <Button onClick={handleLogin} color="inherit">
+            <Button onClick={handleLogin} color="inherit" margin-inline-start= "auto">
               Login
             </Button>
           )}
