@@ -699,6 +699,9 @@ return (
         }
       }
     ]}
+    options={{
+       actionsColumnIndex: -1
+     }}
     components={{
       Toolbar: props => (
         <div/>
