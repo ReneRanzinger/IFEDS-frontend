@@ -6,6 +6,7 @@ import SideBar from "./Sidebar";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {Datatypes} from '../../apiCalls'
 import { connect } from "react-redux";
+import { Helmet } from "react-helmet";
 
 const useFetch = (url) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -29,10 +30,17 @@ const FileUploaderPage = (props) => {
   return (
     <div>
       <SideBar props={props} isDashBoard={"true"} />
-      <FileUploadPage {...props} datasetTypeID = {datasetTypeID} />
+      <FileUploadPage {...props} datasetTypeID={datasetTypeID} />
+      <div>
+        <Helmet>
+          <title>UploadFile</title>
+          <meta name="description" content="Upload Dataset File" />
+          <meta name="theme-color" content="#008f68" />
+        </Helmet>
+        {/* ... */}
+      </div>
     </div>
-
-  )
+  );
 }
 
 FileUploaderPage.propTypes = {

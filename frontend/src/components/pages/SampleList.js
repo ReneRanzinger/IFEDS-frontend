@@ -8,6 +8,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import {Sample, SampleData} from '../../apiCalls'
+import { Helmet } from "react-helmet";
 
 const useFetch = (url, isDeleted, props) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -88,8 +89,16 @@ export default function SampleList(props) {
     }
   ];
 
-  return (
-   
+  return (<div>
+    
+     <div>
+          <Helmet>
+            <title>SampleDataDetails</title>
+            <meta name="description" content="Display Sample information " />
+            <meta name="theme-color" content="#008f68" />
+          </Helmet>
+          {/* ... */}
+        </div>
    
     <MaterialTable
       title="Sample List"
@@ -127,6 +136,7 @@ export default function SampleList(props) {
         )
       }}
     />
+    </div>
   );
 }
 

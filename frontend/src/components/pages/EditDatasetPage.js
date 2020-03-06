@@ -8,6 +8,7 @@ import { logout } from "../../actions/auth";
 import { connect } from "react-redux";
 import MenuAppBar from "./MenuAppBar.js";
 import SideBar from "./Sidebar";
+import { Helmet } from "react-helmet";
 
 
 const useFetch = (url) => {
@@ -45,6 +46,15 @@ const EditDatasetPage = (props) => {
           keyword={keyword}
         />
       }
+
+      <div>
+        <Helmet>
+          <title>EditDatasetDetails</title>
+          <meta name="description" content="Editing Dataset Details " />
+          <meta name="theme-color" content="#008f68" />
+        </Helmet>
+        {/* ... */}
+      </div>
     </div>
   );
 }

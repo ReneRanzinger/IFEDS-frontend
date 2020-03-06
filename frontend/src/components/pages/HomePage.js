@@ -5,6 +5,7 @@ import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 import MenuAppBar from './MenuAppBar.js';
 import Sidebar from './Sidebar.js';
+import { Helmet } from "react-helmet";
 
 /**
  * HomePage
@@ -17,9 +18,27 @@ class HomePage extends Component {
     console.log(this.props)
     return (
       <div>
-        {this.props.isAuthenticated ? <div><Sidebar props={this.props}/></div> : <div><MenuAppBar props ={this.props} /></div> 
-        }
-        <div><Table prop={this.props}/></div>
+        <div>
+          <Helmet>
+            <title>HomePage</title>
+            <meta name="description" content="Display MainPage" />
+            <meta name="theme-color" content="#008f68" />
+          </Helmet>
+          {/* ... */}
+        </div>
+
+        {this.props.isAuthenticated ? (
+          <div>
+            <Sidebar props={this.props} />
+          </div>
+        ) : (
+          <div>
+            <MenuAppBar props={this.props} />
+          </div>
+        )}
+        <div>
+          <Table prop={this.props} />
+        </div>
       </div>
     );
   }

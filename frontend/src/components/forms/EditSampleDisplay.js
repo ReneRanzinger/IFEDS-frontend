@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import SampleForm from "./SampleForm";
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
+import { Helmet } from "react-helmet";
 
 
 class EditSampleDisplay extends Component {
@@ -12,6 +13,14 @@ class EditSampleDisplay extends Component {
       <div>
         <SideBar props={this.props} isDashBoard={"true"} />
         <SampleForm {...this.props} />
+        <div>
+          <Helmet>
+            <title>EditSampleForm</title>
+            <meta name="description" content="Display SampleForm" />
+            <meta name="theme-color" content="#008f68" />
+          </Helmet>
+          {/* ... */}
+        </div>
       </div>
     );
   }

@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {DatasetFileSaveInfo,DatasetFileUpload} from '../../apiCalls'
 
+
 const ContentInside =(props)=> {
   const token = useSelector(state => state.user.token);
     return (
@@ -40,6 +41,7 @@ const ContentInside =(props)=> {
               }
               maxFiles={1}
             />
+            
     );
 }
 
@@ -110,7 +112,9 @@ handleSubmit = (event) => {
 }
 
   render() {
-    return (<Paper style = {{padding: "15px", marginTop: "10px"}}>
+    return (
+ 
+      <Paper style = {{padding: "15px", marginTop: "10px"}}>
       <form onSubmit={this.handleSubmit}>
         <div>
           <div style={{display: "flex",marginTop : "20px", marginBottom : "50px"}}>
@@ -163,6 +167,8 @@ handleSubmit = (event) => {
         </Button>
   </form>
   </Paper>
+ 
+       
     );
   }
 };

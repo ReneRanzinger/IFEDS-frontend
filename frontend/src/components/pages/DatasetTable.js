@@ -6,6 +6,7 @@ import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import {ProviderDataset, Datasets} from '../../apiCalls'
+import { Helmet } from "react-helmet";
 
 
 
@@ -51,7 +52,9 @@ export default function DatasetTable(props) {
   const handleDescription = (description) => {
     return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
       {description}
-    </ReadMoreAndLess>);
+    </ReadMoreAndLess>
+      
+    );
   }
 
   const handleDatasetName = (id, name) => {
@@ -79,7 +82,16 @@ export default function DatasetTable(props) {
     }
   ];
 
-  return (<MaterialTable title="Dataset Table" columns={headCells} data={data}
+  return (<div>
+        <div>
+          <Helmet>
+            <title>DatasetTable</title>
+            <meta name="description" content="Dataset Details Table" />
+            <meta name="theme-color" content="#008f68" />
+          </Helmet>
+          {/* ... */}
+        </div>
+  <MaterialTable title="Dataset Table" columns={headCells} data={data}
   actions={[
     {
       icon: () => {return<NoteAddOutlinedIcon/>},
@@ -107,5 +119,6 @@ export default function DatasetTable(props) {
           setDeleted(!isDeleted);
         }, 300);
       })
-    }}/>);
+    }}/>
+    </div>);
 }
