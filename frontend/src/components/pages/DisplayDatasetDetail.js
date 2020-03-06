@@ -1,11 +1,12 @@
 import React, {useState, useEffect,Component} from 'react'
 import PropTypes  from 'prop-types';
 import DatasetDetailDisplay from './DatasetDetailDisplay'
-import SideBar from "./Sidebar";
 import { logout } from "../../actions/auth";
 import { connect } from "react-redux";
+import SideBar from "./Sidebar.js";
+import MenuAppBar from "./MenuAppBar.js";
 
-  const EditDatasetPage = (props) => {
+  const DisplayDatasetDetail = (props) => {
   const {match: { params }} = props;
   const [sampleData ] = useState();
   const [experimentType] = useState();
@@ -14,7 +15,15 @@ import { connect } from "react-redux";
 
     return (
       <div>
-        <SideBar props={props} isDashBoard={"false"} />
+        {!props.isAuthenticated ? (
+          <div>
+            <MenuAppBar props={props} />
+          </div> 
+        ) : (
+          <div>
+            <SideBar props={props} />
+          </div>
+        )}
         {
           <DatasetDetailDisplay
             {...props}
@@ -31,13 +40,13 @@ import { connect } from "react-redux";
 
 
 
-EditDatasetPage.propTypes = {
+DisplayDatasetDetail.propTypes = {
   logout: PropTypes.func
 };
 
  function mapStateToProps(state) {
   return { isAuthenticated: state.user.token };
 }
-export default connect(mapStateToProps, { logout })(EditDatasetPage);
+export default connect(mapStateToProps, { logout })(DisplayDatasetDetail);
 
 
