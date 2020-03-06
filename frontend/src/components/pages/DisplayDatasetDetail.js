@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 
     return (
       <div>
-        <SideBar props={props} isDashBoard={"true"} />
+        <SideBar props={props} isDashBoard={"false"} />
         {
           <DatasetDetailDisplay
             {...props}
