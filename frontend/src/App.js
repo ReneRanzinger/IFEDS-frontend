@@ -20,14 +20,14 @@ import FileUploaderPage from "./components/pages/FileUploaderPage";
 import SampleList from "./components/pages/SampleList";
 import AddSampleDisplay from './components/pages/AddSampleDisplay';
 import datasettable from "./components/pages/DatasetTable";
-import EditDatasetPage from './components/pages/DisplayDatasetDetail';
+import EditDatasetPage from './components/pages/EditDatasetPage';
 
 const App = ({ location, isAuthenticated }) => (
   <div >
 
     <AdminRoute location={location} path="/" exact component={HomePage} />
     <UserRoute location={location} path="/datasettable" exact component={DatasetDisplay}/>
-    <UserRoute location={location} path="/datasetDetail/:id" component={DisplayDatasetDetail} />
+    <Route location={location} path="/datasetDetail/:id" component={DisplayDatasetDetail} />
     <UserRoute location={location} path="/samplelist" exact component={SampleDisplay} />
     <UserRoute location={location} path="/addsample" exact component={AddSampleDisplay} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
@@ -38,7 +38,7 @@ const App = ({ location, isAuthenticated }) => (
     <UserRoute location={location} path="/dashboard" exact component={DashboardPage}/>
     <UserRoute location={location} path="/adddatasetfile/:id" exact component={FileUploaderPage}/>
     <UserRoute location={location} path="/editdataset/:id" exact component={EditDatasetPage}/>
-   
+
 
   </div>
 );

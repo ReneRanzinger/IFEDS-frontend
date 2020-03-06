@@ -34,7 +34,7 @@ const EditDatasetPage = (props) => {
 
   return (
     <div>
-      <SideBar props={this.props} isDashBoard={"true"} />
+      <SideBar props={props} isDashBoard={"true"} />
       {
         <DatasetDetailDisplay
           {...props}
