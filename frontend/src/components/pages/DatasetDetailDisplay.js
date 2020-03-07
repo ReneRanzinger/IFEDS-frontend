@@ -690,6 +690,11 @@ return (
   <MaterialTable
     columns={headCells}
     data={data}
+    localization={{
+      header: {
+          actions: 'Download'
+      }
+        }}
     actions={[
       {
         icon: GetApp,
