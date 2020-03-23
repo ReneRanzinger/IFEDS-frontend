@@ -10,7 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
-import {Dataset} from '../../apiCalls';
+import {Dataset, PaperID} from '../../apiCalls';
 import MaterialTable from 'material-table';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -31,7 +31,7 @@ const EditableHeader = props => {
   }
   return(
     <div className = {classes.root}>
-      <Typography variant={variant} className = {classes.header}>
+      <Typography variant={variant} className = {variant === "h6" ?classes.header : classes.header1}>
         {head}
       </Typography>
       { isEditable &&
@@ -51,6 +51,11 @@ const useEditableHeaderStyles = makeStyles(theme => ({
   },
   header: {
     color: "green",
+    marginBottom: "0px",
+    paddingTop: "12px"
+  },
+  header1: {
+    color: "#5bc0be",
     marginBottom: "0px",
     paddingTop: "12px"
   }
@@ -163,7 +168,7 @@ const EditableDropDownChip = props => {
       head = {name}
       edit = 'Save'
       isEditable = {true}
-      variant = 'h6'
+      variant = 'subtitle2'
       handleHeaderChange = {handleHeaderChangeForChip}
        />
 
@@ -300,10 +305,9 @@ const EditableDropDownChip1 = props => {
       head = {name}
       edit = 'Save'
       isEditable = {true}
-      variant = 'h6'
+      variant = 'subtitle2'
       handleHeaderChange = {handleHeaderChangeForChip}
        />
-    <Divider/>
 
     <InputLabel shrink htmlFor="fundingSource">
           {name}
@@ -311,6 +315,7 @@ const EditableDropDownChip1 = props => {
         <NativeSelect
           value={data.name}
           onChange={handleChange}
+          variant = 'filled'
           inputProps={{
             name: `${name}`,
             id: `${id}`,
@@ -390,7 +395,14 @@ const EditablePublicationDetail = props => {
 
   const handleSubmit1 = e => {
     e.preventDefault()
-    setError(true)
+    console.log("target",data)
+      fetch(`${PaperID}/${data}`, {
+        method: "GET",
+        headers: setAuthorizationHeader(props.isAuthenticated)
+      }).then(response => response.json()).then(res => {
+        console.log(res)
+      }).catch(error => {console.log(error); setError(true)});
+  //  document.getElementById("paper").reset();
     console.log("anubhav",data)
   }
 
@@ -723,6 +735,7 @@ const DataFile = props => {
     <div>
       <EditableHeader head={name} isEditable={false} variant="h6" />
       <Divider />
+      <div style = {{marginBottom : "12px"}}/>
       {state && (<DataTable data = {state}/>)}
     </div>
   );
@@ -884,9 +897,9 @@ const keywordEx = props.keyword
     }).catch(error => console.log(error));
   }, [params.id]);
 
-return( <Paper className = {classes.root}>
+return( <div className = {classes.root}>
 <div style = {{display:"block", width: "66.6%", position: "relative", marginRight: "8px"}}>
-    <Card className = {classes.bullet}>
+    <Card className = {classes.bullet} variant="outlined">
 
       { !editable ?
         <DatasetDet
@@ -907,7 +920,7 @@ return( <Paper className = {classes.root}>
           name = {"Experiment Type"}
           edit = {"Edit"}
           isEditable = {props.editDataset}
-          variant = "h6"
+          variant = "subtitle2"
           handleHeaderChange = {handleHeaderChange}
           />
         :
@@ -926,7 +939,7 @@ return( <Paper className = {classes.root}>
           name = {"Keyword"}
           edit = {"Edit"}
           isEditable = {props.editDataset}
-          variant = "h6"
+          variant = "subtitle2"
           handleHeaderChange = {handleHeaderChange}
           />
         :
@@ -945,7 +958,7 @@ return( <Paper className = {classes.root}>
           name = {"Funding Source"}
           edit = {"Edit"}
           isEditable = {props.editDataset}
-          variant = "h6"
+          variant = "subtitle2"
           handleHeaderChange = {handleHeaderChange}
           />
         :
@@ -965,14 +978,15 @@ return( <Paper className = {classes.root}>
       state = {publications}
       name = "Publications"
       edit = "Edit"
-      isEditable = {false}
+      isEditable = {props.editDataset}
       variant = "h6"
       classes = {classes}
       handleHeaderChange = {handleHeaderChange}
       /> :
       <EditablePublicationDetail
         name = "Publications"
-        handleHeaderChange = {handleHeaderChange}/>
+        handleHeaderChange = {handleHeaderChange}
+        isAuthenticated = {isAuthenticated}/>
 
   }
 </Card>
@@ -1062,7 +1076,7 @@ return( <Paper className = {classes.root}>
 
 
 </div>
-  </Paper>
+</div>
 )
 
 
@@ -1076,7 +1090,8 @@ const useToolbarStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
     display: "flex",
     position: "relative",
-    height: "auto"
+    height: "auto",
+    backgroundColor : "#ebf0ec"
   },
   header: {
     marginBottom: "0px",
@@ -1084,13 +1099,18 @@ const useToolbarStyles = makeStyles(theme => ({
   },
   bullet: {
     paddingLeft: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingRight: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    border: "groove",
+    boxShadow: "none"
   },
   bullet1: {
     marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-    paddingRight: theme.spacing(2)
+    paddingRight: theme.spacing(2),
+    border: "groove",
+    boxShadow: "none"
   },
   bullet2: {
     width:"30%",
