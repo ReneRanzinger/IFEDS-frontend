@@ -3,8 +3,12 @@
     "title": "Home",
     "meta": [
       {
-        "name": "description",
-        "content": "home page"
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
+        "content": ""
       }
     ]
   },
@@ -12,7 +16,11 @@
     "title": "Login",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -21,7 +29,11 @@
     "title": "DashBoard",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -30,7 +42,11 @@
     "title": "Add Sample",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
      
@@ -40,7 +56,11 @@
     "title": "Add Sample Display",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -49,7 +69,11 @@
     "title": "Dataset Table",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -58,7 +82,11 @@
     "title": "Display Dataset",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -67,7 +95,11 @@
     "title": "Edit Dataset",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -76,7 +108,11 @@
     "title": "File Upload",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -85,7 +121,11 @@
     "title": "Sample List ",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -94,7 +134,11 @@
     "title": "Edit Sample Form ",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
@@ -103,7 +147,11 @@
     "title": "Edit Sample Display ",
     "meta": [
       {
-        "name": "",
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]
