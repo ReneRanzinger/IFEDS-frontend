@@ -1099,27 +1099,18 @@ const useToolbarStyles = makeStyles(theme => ({
   },
   bullet: {
     paddingLeft: theme.spacing(2),
-<<<<<<< HEAD
-    paddingBottom: theme.spacing(2),
-    backgroundColor: "lightyellow"
-=======
     paddingRight: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     border: "groove",
     boxShadow: "none"
->>>>>>> d5155b59e5e73aac5ad4115c9b9d3342a49fe9e8
   },
   bullet1: {
     marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
     paddingBottom: theme.spacing(2),
-<<<<<<< HEAD
-    backgroundColor: "lightyellow"
-=======
     paddingRight: theme.spacing(2),
     border: "groove",
     boxShadow: "none"
->>>>>>> d5155b59e5e73aac5ad4115c9b9d3342a49fe9e8
   },
   bullet2: {
     width: "30%",
