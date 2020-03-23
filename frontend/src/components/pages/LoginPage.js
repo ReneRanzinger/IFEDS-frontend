@@ -5,6 +5,8 @@ import LoginForm from "../forms/LoginForm";
 import { login } from "../../actions/auth";
 import Navbar from "./Navbar";
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 
 class LoginPage extends React.Component {
@@ -15,11 +17,9 @@ class LoginPage extends React.Component {
       <div>
         <div>
           <Helmet>
-            <title>LoginPage</title>
-            <meta name="description" content="LoginForm" />
-            <meta name="theme-color" content="#008f68" />
+            <title>{head.login.title}</title>
+            {getMeta(head.login)}
           </Helmet>
-          {/* ... */}
         </div>
         <Navbar props={this.props} />
         <LoginForm submit={this.submit} />

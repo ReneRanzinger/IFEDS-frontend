@@ -1068,36 +1068,38 @@ const useToolbarStyles = makeStyles(theme => ({
   },
   bullet: {
     paddingLeft: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    backgroundColor: "lightyellow"
   },
   bullet1: {
     marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
+    backgroundColor: "lightyellow"
   },
   bullet2: {
-    width:"30%",
+    width: "30%",
     marginLeft: theme.spacing(2),
     marginTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     paddingLeft: theme.spacing(2)
   },
-  textField1 :{
+  textField1: {
     marginRight: theme.spacing(15)
   },
-  textField2 :{
+  textField2: {
     marginTop: theme.spacing(2.3)
   },
-  nameField :{
+  nameField: {
     width: "90%",
     marginTop: theme.spacing(2.3),
     marginRight: theme.spacing(15)
   },
   valueField: {
-    marginTop:theme.spacing(2.3),
+    marginTop: theme.spacing(2.3),
     marginRight: theme.spacing(11)
   },
-  tick : {
+  tick: {
     marginTop: theme.spacing(5),
     marginLeft: theme.spacing(15)
   },
@@ -1106,7 +1108,7 @@ const useToolbarStyles = makeStyles(theme => ({
     paddingTop: theme.spacing(5)
   },
   menu: {
-    width: 200,
+    width: 200
   }
 }));
 

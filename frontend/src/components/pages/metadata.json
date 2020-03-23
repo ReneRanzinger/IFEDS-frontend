@@ -1,0 +1,94 @@
+{
+  "home": {
+    "title": "Home",
+    "meta": [
+      {
+        "name": "description",
+        "content": "home page"
+      }
+    ]
+  },
+  "login": {
+    "title": "Login",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  },
+  "dashboard": {
+    "title": "DashBoard",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  },
+   "addsample": {
+    "title": "Add Sample",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+     
+    ]
+  },
+   "addsampledisplay": {
+    "title": "Add Sample Display",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  },
+   "datasettable": {
+    "title": "Dataset Table",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  },
+  "displaydataset": {
+    "title": "Display Dataset",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  },
+  "editdataset": {
+    "title": "Edit Dataset",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  },
+  "fileupload": {
+    "title": "File Upload",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  },
+  "samplelist": {
+    "title": "Sample List ",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  }
+  
+}

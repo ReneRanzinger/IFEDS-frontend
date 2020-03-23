@@ -9,6 +9,8 @@ import { connect } from "react-redux";
 import MenuAppBar from "./MenuAppBar.js";
 import SideBar from "./Sidebar";
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 
 const useFetch = (url) => {
@@ -49,11 +51,9 @@ const EditDatasetPage = (props) => {
 
       <div>
         <Helmet>
-          <title>EditDatasetDetails</title>
-          <meta name="description" content="Editing Dataset Details " />
-          <meta name="theme-color" content="#008f68" />
+          <title>{head.editdataset.title}</title>
+          {getMeta(head.editdataset)}
         </Helmet>
-        {/* ... */}
       </div>
     </div>
   );

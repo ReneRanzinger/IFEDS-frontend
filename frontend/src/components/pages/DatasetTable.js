@@ -7,6 +7,8 @@ import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import {ProviderDataset, Datasets} from '../../apiCalls'
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 
 
@@ -84,12 +86,10 @@ export default function DatasetTable(props) {
 
   return (<div>
         <div>
-          <Helmet>
-            <title>DatasetTable</title>
-            <meta name="description" content="Dataset Details Table" />
-            <meta name="theme-color" content="#008f68" />
-          </Helmet>
-          {/* ... */}
+      <Helmet>
+        <title>{head.datasettable.title}</title>
+        {getMeta(head.datasettable)}
+      </Helmet>
         </div>
   <MaterialTable title="Dataset Table" columns={headCells} data={data}
   actions={[

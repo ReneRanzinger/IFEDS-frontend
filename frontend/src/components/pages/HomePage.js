@@ -6,10 +6,9 @@ import PropTypes from "prop-types";
 import MenuAppBar from './MenuAppBar.js';
 import Sidebar from './Sidebar.js';
 import { Helmet } from "react-helmet";
+import {head} from "./head.js";
+import {getMeta} from "./head.js";
 
-/**
- * HomePage
- */
 
 
 class HomePage extends Component {
@@ -20,11 +19,9 @@ class HomePage extends Component {
       <div>
         <div>
           <Helmet>
-            <title>HomePage</title>
-            <meta name="description" content="Display MainPage" />
-            <meta name="theme-color" content="#008f68" />
+            <title>{head.home.title}</title>
+            {getMeta(head.home)}
           </Helmet>
-          {/* ... */}
         </div>
 
         {this.props.isAuthenticated ? (

@@ -10,6 +10,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 import {SampleDescriptors, SampleTypes, Sample} from '../../apiCalls'
 
@@ -289,11 +291,9 @@ async function handleSubmit(e) {
       </Paper>
       <div>
         <Helmet>
-          <title>Sample Data Display</title>
-          <meta name="description" content="Display Sample " />
-          <meta name="theme-color" content="#008f68" />
+          <title>{head.addsample.title}</title>
+          {getMeta(head.addsample)}
         </Helmet>
-        {/* ... */}
       </div>
     </div>
   );

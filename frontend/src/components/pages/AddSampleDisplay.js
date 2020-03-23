@@ -5,6 +5,8 @@ import AddSample from "./AddSample";
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 class AddSampleDisplay extends Component {
   render() {
@@ -14,11 +16,9 @@ class AddSampleDisplay extends Component {
         <AddSample {...this.props} />
         <div>
           <Helmet>
-            <title>AddSample</title>
-            <meta name="description" content="Display Add Sample form " />
-            <meta name="theme-color" content="#008f68" />
+            <title>{head.addsampledisplay.title}</title>
+            {getMeta(head.addsampledisplay)}
           </Helmet>
-          {/* ... */}
         </div>
       </div>
     );

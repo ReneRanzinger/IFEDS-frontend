@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import SideBar from "./Sidebar.js";
 import MenuAppBar from "./MenuAppBar.js";
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
   const DisplayDatasetDetail = (props) => {
   const {match: { params }} = props;
@@ -18,11 +20,9 @@ import { Helmet } from "react-helmet";
       <div>
         <div>
           <Helmet>
-            <title>DatasetDetails</title>
-            <meta name="description" content="Display Public DatasetDetails" />
-            <meta name="theme-color" content="#008f68" />
+            <title>{head.displaydataset.title}</title>
+            {getMeta(head.displaydataset)}
           </Helmet>
-          {/* ... */}
         </div>
         {!props.isAuthenticated ? (
           <div>

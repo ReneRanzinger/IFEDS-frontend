@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import {Sample, SampleData} from '../../apiCalls'
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 const useFetch = (url, isDeleted, props) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -92,12 +94,10 @@ export default function SampleList(props) {
   return (<div>
     
      <div>
-          <Helmet>
-            <title>SampleDataDetails</title>
-            <meta name="description" content="Display Sample information " />
-            <meta name="theme-color" content="#008f68" />
-          </Helmet>
-          {/* ... */}
+      <Helmet>
+        <title>{head.samplelist.title}</title>
+        {getMeta(head.samplelist)}
+      </Helmet>
         </div>
    
     <MaterialTable

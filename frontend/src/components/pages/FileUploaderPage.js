@@ -7,6 +7,8 @@ import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {Datatypes} from '../../apiCalls'
 import { connect } from "react-redux";
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 const useFetch = (url) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -33,11 +35,9 @@ const FileUploaderPage = (props) => {
       <FileUploadPage {...props} datasetTypeID={datasetTypeID} />
       <div>
         <Helmet>
-          <title>UploadFile</title>
-          <meta name="description" content="Upload Dataset File" />
-          <meta name="theme-color" content="#008f68" />
+          <title>{head.fileupload.title}</title>
+          {getMeta(head.fileupload)}
         </Helmet>
-        {/* ... */}
       </div>
     </div>
   );

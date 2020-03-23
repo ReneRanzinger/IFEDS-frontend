@@ -6,6 +6,8 @@ import PropTypes  from 'prop-types';
 import {logout} from "../../actions/auth";
 import Sidebar from './Sidebar';
 import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 class Dashboard extends Component {
   render() {
@@ -18,9 +20,8 @@ class Dashboard extends Component {
               <h1 align="center">User Profile</h1>
               <div>
                 <Helmet>
-                  <title>DashBoard</title>
-                  <meta name="description" content="Display DashBoard" />
-                  <meta name="theme-color" content="#008f68" />
+                  <title>{head.dashboard.title}</title>
+                  {getMeta(head.dashboard)}
                 </Helmet>
                 {/* ... */}
               </div>
