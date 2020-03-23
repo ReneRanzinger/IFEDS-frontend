@@ -14,3 +14,4 @@ export const DatasetFileUpload = `${base_url}/dataset/file/upload`;
 export const ExperimentType = `${base_url}/experiment_types`
 export const FundingSource = `${base_url}/funding_sources`
 export const Keyword = `${base_url}/keywords`
+export const PaperID = `${base_url}/paper_meta_data`

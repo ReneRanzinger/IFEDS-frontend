@@ -110,11 +110,7 @@ async function handleSubmit(e) {
   console.log(name.value)
   const response =  await fetch(Sample,{
      method: "POST",
-     headers: {
-         "Content-Type" : "application/json",
-         "Accept": "application/json",
-         'Authorization': bearer+isAuthenticated
-     },
+     headers: setAuthorizationHeader(isAuthenticated),
      body: JSON.stringify({
          "name": name.value,
          "sample_type_id" : parseInt(sType.value),
@@ -298,7 +294,7 @@ async function handleSubmit(e) {
     </div>
   );
 
-  
+
 
 }
 
