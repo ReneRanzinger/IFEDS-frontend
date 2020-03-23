@@ -89,6 +89,24 @@
         "content": ""
       }
     ]
+  },
+  "editsampleform": {
+    "title": "Edit Sample Form ",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
+  },
+  "editsampledisplay": {
+    "title": "Edit Sample Display ",
+    "meta": [
+      {
+        "name": "",
+        "content": ""
+      }
+    ]
   }
   
 }

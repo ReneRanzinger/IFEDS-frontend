@@ -5,7 +5,8 @@ import SampleForm from "./SampleForm";
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
-
+import { head } from "../pages/head.js";
+import { getMeta } from "../pages/head.js";
 
 class EditSampleDisplay extends Component {
   render() {
@@ -15,11 +16,9 @@ class EditSampleDisplay extends Component {
         <SampleForm {...this.props} />
         <div>
           <Helmet>
-            <title>EditSampleForm</title>
-            <meta name="description" content="Display SampleForm" />
-            <meta name="theme-color" content="#008f68" />
+            <title>{head.editsampledisplay.title}</title>
+            {getMeta(head.editsampledisplay)}
           </Helmet>
-          {/* ... */}
         </div>
       </div>
     );

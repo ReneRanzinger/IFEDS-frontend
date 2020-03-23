@@ -11,6 +11,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 import {Sample, SampleTypes, SampleDescriptors} from '../../apiCalls'
 import { Helmet } from "react-helmet";
+import { head } from "../pages/head.js";
+import { getMeta } from "../pages/head.js";
 
 const useFetch = (url,props) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -172,11 +174,9 @@ useEffect(() => {
     <div>
       <div>
         <Helmet>
-          <title>SampleForm</title>
-          <meta name="description" content="Show Sample Form" />
-          <meta name="theme-color" content="#008f68" />
+          <title>{head.editsampleform.title}</title>
+          {getMeta(head.editsampleform)}
         </Helmet>
-        {/* ... */}
       </div>
       <Paper className={classes.root}>
         <Typography variant="h5" component="h3">
