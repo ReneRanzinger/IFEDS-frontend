@@ -56,7 +56,7 @@ export default function SampleForm(props) {
     (state, newState) => ({ ...state, ...newState }),
     {
       name: "",
-      sampleTypeId : "",
+      sample_type_id : "",
       url : "",
       description: "",
       sample_descriptors : []
@@ -112,7 +112,7 @@ async function handleSubmit(e) {
   e.preventDefault();
   let listOfSampleDesc = sampleDesc['data'].map((a,row) => {
       let sampleDescId = sampleDescriptor.filter(x => x["name"]=== a[0])[0]["sample_descriptor_id"];
-      let  sampleDescriptorArray = { "sample_descriptor_id" :sampleDescId,
+      let  sampleDescriptorArray = { "sample_descriptor_id" : parseInt(sampleDescId),
                                      "sample_descriptor_value": a[1],
                                      "unit_of_measurment":a[2]}
 
@@ -127,7 +127,7 @@ async function handleSubmit(e) {
      },
      body: JSON.stringify({
          "name": sampleData["name"],
-         "sample_type_id" : parseInt(sampleData["sampleTypeId"]),
+         "sample_type_id" : parseInt(sampleData["sample_type_id"]),
          "url" : sampleData["url"],
          "description": sampleData["description"],
          "sample_descriptors" : listOfSampleDesc
@@ -199,12 +199,12 @@ useEffect(() => {
               fullWidth
             />
             <TextField
-              id="sampleTypeId"
+              id="sample_type_id"
               select
               required
-              name="sampleTypeId"
-              value={sampleData.sampleTypeId}
-              defaultValue={sampleData.sampleTypeId}
+              name="sample_type_id"
+              value={sampleData.sample_type_id}
+              defaultValue={sampleData.sample_type_id}
               onChange={handleChange1}
               label="Sample Type"
               className={classes.textField1}
@@ -218,7 +218,7 @@ useEffect(() => {
               margin="normal"
             >
               {sampleType.map(option => (
-                <option key={option.sampleTypeId} value={option.sampleTypeId}>
+                <option key={option.sample_type_id} value={option.sample_type_id}>
                   {option.name}
                 </option>
               ))}
