@@ -67,7 +67,6 @@ export default function SampleList(props) {
   }
 
   const handleAddNewSample = () => {
-    console.log(props)
     props.prop.history.push("/addsample")
   }
 
@@ -92,14 +91,14 @@ export default function SampleList(props) {
   ];
 
   return (<div>
-    
+
      <div>
       <Helmet>
         <title>{head.samplelist.title}</title>
         {getMeta(head.samplelist)}
       </Helmet>
         </div>
-   
+
     <MaterialTable
       title="Sample List"
       columns={headCells}
@@ -128,7 +127,7 @@ export default function SampleList(props) {
           <Paper>
            <MTableToolbar classes={{ root: classes.root }} {...props} />
             <div style={{ display: "flex", marginLeft: "20px" }}>
-              <Button color="primary" onClick={handleAddNewSample}>
+              <Button color="primary" variant="contained" onClick={handleAddNewSample}>
                 Add New Sample
               </Button>
             </div>

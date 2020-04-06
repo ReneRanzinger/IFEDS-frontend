@@ -49,7 +49,7 @@
         "name": "Keywords",
         "content": ""
       }
-     
+
     ]
   },
    "addsampledisplay": {
@@ -65,6 +65,19 @@
       }
     ]
   },
+  "adddatasetdisplay": {
+   "title": "Add Dataset Display",
+   "meta": [
+     {
+       "name": "Add Dataset",
+       "content": ""
+     },
+     {
+       "name": "Keywords",
+       "content": ""
+     }
+   ]
+ },
    "datasettable": {
     "title": "Dataset Table",
     "meta": [
@@ -156,5 +169,5 @@
       }
     ]
   }
-  
+
 }
