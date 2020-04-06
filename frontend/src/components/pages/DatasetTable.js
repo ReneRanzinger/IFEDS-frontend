@@ -56,7 +56,7 @@ export default function DatasetTable(props) {
   const classes = useToolbarStyles();
 
   const handleDescription = (description) => {
-    return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
+    return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="   read more" readLessText="   ...read less">
       {description}
     </ReadMoreAndLess>
 
@@ -78,8 +78,8 @@ export default function DatasetTable(props) {
       title: 'Dataset Name',
       render: rowData => handleDatasetName(rowData.datasetId, rowData.datasetName)
     }, {
-      field: 'providerName',
-      title: 'Author'
+      field: 'num_of_files',
+      title: 'Number of files'
     }, {
       field: 'sampleName',
       title: 'Sample Name'
@@ -92,7 +92,7 @@ export default function DatasetTable(props) {
     }
   ];
 
-  return (<div>
+  return (<div className = {classes.paper}>
         <div>
       <Helmet>
         <title>{head.datasettable.title}</title>
@@ -149,6 +149,9 @@ const useToolbarStyles = makeStyles(theme => ({
   root: {
     flex: 1
 
+  },
+  paper: {
+    marginTop: theme.spacing(2)
   },
   spacer: {
     flex:1
