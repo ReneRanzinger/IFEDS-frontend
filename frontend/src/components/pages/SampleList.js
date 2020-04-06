@@ -76,7 +76,7 @@ export default function SampleList(props) {
       title: 'Sample Name'
     }, {
       field: 'sampleTypeName',
-      title: 'Sample Type Name'
+      title: 'Sample Type'
     }, {
       field: 'description',
       title: 'Sample Description',
