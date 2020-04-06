@@ -78,10 +78,6 @@ export default function SampleList(props) {
       field: 'sampleTypeName',
       title: 'Sample Type Name'
     }, {
-      field: 'url',
-      title: 'Url',
-      render: rowData => handleUrl(rowData.url)
-    }, {
       field: 'description',
       title: 'Sample Description',
       sorting: false,
@@ -90,7 +86,7 @@ export default function SampleList(props) {
     }
   ];
 
-  return (<div>
+  return (<div className = {classes.paper}>
 
      <div>
       <Helmet>
@@ -143,6 +139,9 @@ const useToolbarStyles = makeStyles(theme => ({
   root: {
     flex: 1
 
+  },
+  paper: {
+    marginTop: theme.spacing(2)
   },
   spacer: {
     flex:1
