@@ -1,23 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import MenuAppBar from './MenuAppBar';
-// import DatasetTable from './DatasetTable';
 import PropTypes  from 'prop-types';
 import {logout} from "../../actions/auth";
 import Sidebar from './Sidebar';
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
 import { getMeta } from "./head.js";
+import DashboardDetail from "./DashboardDetail"
 
 class Dashboard extends Component {
   render() {
           return (
             <div className="Content">
               <Sidebar props={this.props} isDashBoard={"true"} />
-              {/* <MenuAppBar props = {this.props} isDashBoard={"false"} /> */}
-              {console.log(this.props)}
-              {/* <DatasetTable prop={this.props} isDashBoard={"true"}/> */}
-              <h1 align="center">User Profile</h1>
+              <DashboardDetail {...this.props} />
               <div>
                 <Helmet>
                   <title>{head.dashboard.title}</title>
@@ -28,6 +24,8 @@ class Dashboard extends Component {
             </div>
           );
         }
+
+
 }
 Dashboard.propTypes = {
   logout: PropTypes.func

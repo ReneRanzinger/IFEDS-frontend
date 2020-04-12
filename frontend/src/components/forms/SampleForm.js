@@ -49,7 +49,7 @@ export default function SampleForm(props) {
   const sDescriptor = useFormInput();
   const [value,setValue] = useState();
   const [measurement, setMeasurement] = useState();
-  const [sampleDesc, setSampleDesc] = useState({data: [["Species", "Random", "micro"]]});
+  const [sampleDesc, setSampleDesc] = useState({data: []});
   const [isDescriptorAdded,setIsDescriptorAdded] = useState(false);
   const [isThereAnySampleDesc,setIsThereAnySampleDesc] = useState(true);
   const [sampleData, setSampleData] = useReducer(

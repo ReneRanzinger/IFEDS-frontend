@@ -13,13 +13,9 @@ import AdminRoute from "./components/routes/AdminRoute";
 import DisplayDatasetDetail from "./components/pages/DisplayDatasetDetail";
 import DatasetDisplay from './components/pages/DatasetDisplay';
 import SampleDisplay from './components/pages/SampleDisplay';
-import AddSample from "./components/pages/AddSample";
-import SampleForm from "./components/forms/SampleForm";
 import FileUploaderPage from "./components/pages/FileUploaderPage";
-//import Editdetail from './components/pages/Editdetail';
-import SampleList from "./components/pages/SampleList";
 import AddSampleDisplay from './components/pages/AddSampleDisplay';
-import datasettable from "./components/pages/DatasetTable";
+import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
 //import passwordreset from './components/pages/passwordreset';
@@ -35,12 +31,11 @@ const App = ({ location, isAuthenticated }) => (
     <UserRoute location={location} path="/addsample" exact component={AddSampleDisplay} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
-    {/* <UserRoute location={location} path="/passwordreset" exact component={passwordreset} /> */}
     <UserRoute location={location} path="/editsample/:id" exact component={EditSampleDisplay}/>
     <UserRoute location={location} path="/dashboard" exact component={DashboardPage}/>
     <UserRoute location={location} path="/adddatasetfile/:id" exact component={FileUploaderPage}/>
     <UserRoute location={location} path="/editdataset/:id" exact component={EditDatasetPage}/>
-    <UserRoute location={location} path="/forgotpassword" exact component={ForgotPassword} />
+    <UserRoute location={location} path="/adddataset" exact component={AddDatasetDisplay} />
 
   </div>
 );

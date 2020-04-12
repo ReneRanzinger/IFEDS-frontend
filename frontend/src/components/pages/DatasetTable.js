@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import MaterialTable from 'material-table';
+import MaterialTable, {MTableToolbar} from 'material-table';
 import {Link} from 'react-router-dom';
+import {makeStyles} from '@material-ui/core/styles';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import NoteAddOutlinedIcon from '@material-ui/icons/NoteAddOutlined';
 import {ProviderDataset, Datasets} from '../../apiCalls'
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
 import { getMeta } from "./head.js";
@@ -50,12 +53,13 @@ export default function DatasetTable(props) {
   const isAuthenticated = useSelector(state => state.user.token);
   const [isDeleted, setDeleted] = useState(false);
   const [data] = useFetch(ProviderDataset, isDeleted, props);
+  const classes = useToolbarStyles();
 
   const handleDescription = (description) => {
-    return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
+    return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="   read more" readLessText="   ...read less">
       {description}
     </ReadMoreAndLess>
-      
+
     );
   }
 
@@ -64,14 +68,18 @@ export default function DatasetTable(props) {
     </Link>);
   }
 
+  const handleAddNewDataset = () => {
+    props.prop.history.push("/adddataset")
+  }
+
   const headCells = [
     {
       field: 'datasetName',
       title: 'Dataset Name',
       render: rowData => handleDatasetName(rowData.datasetId, rowData.datasetName)
     }, {
-      field: 'providerName',
-      title: 'Author'
+      field: 'num_of_files',
+      title: 'Number of files'
     }, {
       field: 'sampleName',
       title: 'Sample Name'
@@ -84,7 +92,7 @@ export default function DatasetTable(props) {
     }
   ];
 
-  return (<div>
+  return (<div className = {classes.paper}>
         <div>
       <Helmet>
         <title>{head.datasettable.title}</title>
@@ -119,6 +127,44 @@ export default function DatasetTable(props) {
           setDeleted(!isDeleted);
         }, 300);
       })
-    }}/>
+    }}
+
+    components={{
+      Toolbar: props => (
+        <Paper>
+         <MTableToolbar classes={{ root: classes.root }} {...props} />
+          <div style={{ display: "flex", marginLeft: "20px" }}>
+            <Button color="primary" variant="contained" onClick={handleAddNewDataset}>
+              Add New Dataset
+            </Button>
+          </div>
+        </Paper>
+      )
+    }}
+  />
     </div>);
 }
+
+const useToolbarStyles = makeStyles(theme => ({
+  root: {
+    flex: 1
+
+  },
+  paper: {
+    marginTop: theme.spacing(2)
+  },
+  spacer: {
+    flex:1
+  },
+  spacer1: {
+    flexGrow: 2,
+    marginRight: theme.spacing(2)}
+  ,
+  textField: {
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+  menu: {
+    width: 200,
+  }
+}));
