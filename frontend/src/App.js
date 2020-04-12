@@ -22,6 +22,8 @@ import AddSampleDisplay from './components/pages/AddSampleDisplay';
 import datasettable from "./components/pages/DatasetTable";
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
+//import passwordreset from './components/pages/passwordreset';
+import ForgotPassword from './components/pages/ForgotPassword';
 
 const App = ({ location, isAuthenticated }) => (
   <div >
@@ -33,13 +35,12 @@ const App = ({ location, isAuthenticated }) => (
     <UserRoute location={location} path="/addsample" exact component={AddSampleDisplay} />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
     <GuestRoute location={location} path="/500" exact component={InternalServer}/>
-
-
+    {/* <UserRoute location={location} path="/passwordreset" exact component={passwordreset} /> */}
     <UserRoute location={location} path="/editsample/:id" exact component={EditSampleDisplay}/>
     <UserRoute location={location} path="/dashboard" exact component={DashboardPage}/>
     <UserRoute location={location} path="/adddatasetfile/:id" exact component={FileUploaderPage}/>
     <UserRoute location={location} path="/editdataset/:id" exact component={EditDatasetPage}/>
-
+    <UserRoute location={location} path="/forgotpassword" exact component={ForgotPassword} />
 
   </div>
 );

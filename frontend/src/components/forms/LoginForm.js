@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+//import forgotpassword from './pages/ForgotPassword.js';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -73,7 +74,7 @@ export default function SignIn({submit}) {
         </Button>
         <Grid container="container">
           <Grid item="item" xs="xs">
-            <Link href="#" variant="body2">
+            <Link to="/forgotpassword" variant="body2">
               Forgot password?
             </Link>
           </Grid>

@@ -5,18 +5,28 @@ import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Button from "@material-ui/core/Button";
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Collapse from '@material-ui/core/Collapse';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import StarBorder from '@material-ui/icons/StarBorder';
 
 
 const drawerWidth = 240;
@@ -24,6 +34,15 @@ const drawerWidth = 240;
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
+  },
+
+  root1: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+  },
+  nested: {
+    paddingLeft: theme.spacing(4),
   },
 
   appBar: {
@@ -88,7 +107,7 @@ export default function PersistentDrawerLeft({props}) {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open1 = Boolean(anchorEl);
-
+  const [open2, setOpen1] = React.useState(false);
 
    const handleMenu = event => {
      setAnchorEl(event.currentTarget);
@@ -118,7 +137,12 @@ export default function PersistentDrawerLeft({props}) {
     setOpen(false);
   };
 
+  const handleClick = ()=>{
+    setOpen1(!open2);
+  };
+  
   return (
+
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -198,18 +222,85 @@ export default function PersistentDrawerLeft({props}) {
             )}
           </IconButton>
         </div>
-        <List>
+        {/* <List>
           {[
             ["Home", "/dashboard"],
-            ["List of Datasets", "/datasettable"],
-            ["List of Samples", "/samplelist"]
+            ["Data", "/datasettable"],
+            [" Sample", "/samplelist"]
           ].map((text, index) => (
             <Link to ={text[1]}>
             <ListItem button="button" key={index} component="a" Link to="text[1]">
               {text[0]}
             </ListItem>
+              <ListItemText primary="Inbox" />
+              {open ? <ExpandLess /> : <ExpandMore />}
             </Link>
           ))}
+        </List> */}
+
+        <List
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+          className={classes.root1}
+        >
+          <ListItem button>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <Link to="/dashboard"> <ListItemText primary="Home" /></Link>
+          </ListItem>
+          <ListItem button onClick={handleClick}>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Data" />
+            {open ? <ExpandMore /> : <ExpandLess />}
+          </ListItem>
+          <Collapse in={open2} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <Link to="/datasettable"> <ListItemText primary="Dataset" /></Link>
+               
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                
+                <Link to="/samplelist"><ListItemText primary="Samples" /></Link>
+              </ListItem>
+            </List>
+          </Collapse>
+          <List>
+          <ListItem button onClick={handleClick}>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+            {open ? <ExpandMore /> : <ExpandLess />}
+          </ListItem>
+          <Collapse in={open2} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary="Password" />
+               
+              </ListItem>
+                <ListItem button className={classes.nested}>
+                  <ListItemIcon>
+                    <StarBorder />
+                  </ListItemIcon>
+                  
+                  <ListItemText primary="Account Settings" />
+                </ListItem>
+            </List>
+          </Collapse>
+          </List>
         </List>
 
       </Drawer>
