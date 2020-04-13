@@ -233,7 +233,7 @@ useEffect(() => {
               defaultValue={sampleData.url}
               onChange={handleChange1}
               label="URL"
-              type="email"
+              type="url"
               fullWidth
             />
           </div>

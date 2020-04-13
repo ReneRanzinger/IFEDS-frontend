@@ -187,7 +187,7 @@ async function handleSubmit(e) {
               id="url"
               {...url}
               label="URL"
-              type="email"
+              type="url"
               fullWidth
             />
           </div>
