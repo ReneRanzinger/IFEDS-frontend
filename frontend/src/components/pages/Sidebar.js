@@ -1,10 +1,12 @@
 import React from "react";
+import {useSelector} from 'react-redux';
 import clsx from "clsx";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import Avatar from '@material-ui/core/Avatar';
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -17,14 +19,11 @@ import Button from "@material-ui/core/Button";
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
 import StarBorder from '@material-ui/icons/StarBorder';
 
@@ -44,7 +43,12 @@ const useStyles = makeStyles(theme => ({
   nested: {
     paddingLeft: theme.spacing(4),
   },
-
+  image : {
+    marginRight : theme.spacing(2)
+  },
+  logo : {
+    marginTop : theme.spacing(0.5)
+  },
   appBar: {
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.sharp,
@@ -101,8 +105,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PersistentDrawerLeft({props}) {
+const PersistentDrawerLeft = ({props})=> {
   const classes = useStyles();
+  const applicationSetting = useSelector(state => state.setting);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -111,22 +116,20 @@ export default function PersistentDrawerLeft({props}) {
   const [open3, setOpen2] = React.useState(false);
   const [open4, setOpen3] = React.useState(false);
 
+
    const handleMenu = event => {
      setAnchorEl(event.currentTarget);
    };
 
    const handleClose = () => {
-     //props.history.push("/dashboard");
      setAnchorEl(null);
    };
 
    const handleLogin = () => {
-     //    console.log(props);
      props.history.push("/login");
    };
 
    const handleLogout = () => {
-     //  submit();
      props.logout();
      props.history.push("/");
    };
@@ -150,7 +153,8 @@ export default function PersistentDrawerLeft({props}) {
   const handleAdminClick = () => {
     setOpen3(!open4);
   };
-  
+
+
   return (
 
     <div className={classes.root}>
@@ -171,9 +175,12 @@ export default function PersistentDrawerLeft({props}) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">
-            <Link to="/">IFEDS</Link>
+          <div className = {classes.root}>
+          <Avatar variant= "square" className = {classes.image} alt="Database Logo" src={applicationSetting[1] ? applicationSetting[1].value : null} />
+          <Typography variant="h6" className = {classes.logo}>
+            <Link to="/">{applicationSetting[0] ? applicationSetting[0].value : null}</Link>
           </Typography>
+        </div>
           {props.isAuthenticated && (
             <div style={{ justifyContent: "flex-end", marginLeft: "auto" }}>
               <div>
@@ -273,18 +280,18 @@ export default function PersistentDrawerLeft({props}) {
                   <StarBorder />
                 </ListItemIcon>
                 <Link to="/datasettable"> <ListItemText primary="Dataset" /></Link>
-               
+
               </ListItem>
               <ListItem button className={classes.nested}>
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>
-                
+
                 <Link to="/samplelist"><ListItemText primary="Samples" /></Link>
               </ListItem>
             </List>
           </Collapse>
-          
+
           <ListItem button onClick={handleProfileClick}>
             <ListItemIcon>
               <SendIcon />
@@ -299,13 +306,13 @@ export default function PersistentDrawerLeft({props}) {
                   <StarBorder />
                 </ListItemIcon>
                 <Link to="/passwordchange"><ListItemText primary="Password Change" /></Link>
-               
+
               </ListItem>
                 <ListItem button className={classes.nested}>
                   <ListItemIcon>
                     <StarBorder />
                   </ListItemIcon>
-                  
+
                   <ListItemText primary="Account Settings" />
                 </ListItem>
             </List>
@@ -342,7 +349,7 @@ export default function PersistentDrawerLeft({props}) {
               </ListItem>
             </List>
           </Collapse>
-          
+
         </List>
 
       </Drawer>
@@ -356,8 +363,6 @@ export default function PersistentDrawerLeft({props}) {
       </main>
     </div>
   );
-
-
-
-
 }
+
+export default PersistentDrawerLeft

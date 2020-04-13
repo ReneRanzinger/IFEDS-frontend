@@ -12,9 +12,7 @@ import {getMeta} from "./head.js";
 
 
 class HomePage extends Component {
-  //submit = () => this.props.logout().then(() => this.props.history.push("/"));
   render() {
-    console.log(this.props)
     return (
       <div>
         <div>

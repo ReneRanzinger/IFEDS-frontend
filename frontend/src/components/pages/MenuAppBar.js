@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,8 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import Sidebar from './Sidebar';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,14 +19,27 @@ const useStyles = makeStyles(theme => ({
   menuButton: {
     marginRight: theme.spacing(2)
   },
+  root1: {
+    display : "flex"
+  },
+  image : {
+    marginRight : theme.spacing(2)
+  },
+  logo : {
+    marginTop : theme.spacing(0.5)
+  },
+  button : {
+    marginLeft : "auto"
+  },
   title: {
     flexGrow: 1
-  
+
   }
 }));
 
 export default function MenuAppBar({props,isDashBoard}) {
   const classes = useStyles();
+  const applicationSetting = useSelector(state => state.setting);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -39,7 +53,6 @@ export default function MenuAppBar({props,isDashBoard}) {
   };
 
   const handleLogin = () => {
-    //    console.log(props);
     props.history.push("/login");
   };
 
@@ -51,12 +64,14 @@ export default function MenuAppBar({props,isDashBoard}) {
   return (<div className={classes.root}>
     <AppBar position="static">
       <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-          {isDashBoard &&< Sidebar />}
-        </IconButton>
-        <Typography variant="h6" className={classes.title}>
-          <Link to="/">IFEDS</Link>
+        <div className = {classes.root1}>
+        <Avatar variant= "square" className = {classes.image} alt="Database Logo" src={applicationSetting[1] ? applicationSetting[1].value : null} />
+        <Typography variant="h6" className = {classes.logo}>
+          <Link to="/">{applicationSetting[0] ? applicationSetting[0].value : null}</Link>
         </Typography>
+
+      </div>
+      <div className = {classes.button}>
         {
           props.isAuthenticated && (<div>
             <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleMenu} color="inherit">
@@ -79,6 +94,7 @@ export default function MenuAppBar({props,isDashBoard}) {
             Login
           </Button>)
         }
+      </div>
       </Toolbar>
     </AppBar>
   </div>);
