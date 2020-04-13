@@ -33,7 +33,6 @@ const executeOtherErrorHandler = (error) => {
 }
 
 
-
 export const login = credentials => dispatch =>
   api.user.login(credentials).then(user => {
     localStorage.ifedsAuthJWT = user.token;

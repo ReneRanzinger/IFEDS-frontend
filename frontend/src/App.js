@@ -1,7 +1,7 @@
 import React from 'react'
 import './App.css'
 import {Route} from 'react-router-dom';
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
@@ -18,12 +18,30 @@ import AddSampleDisplay from './components/pages/AddSampleDisplay';
 import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
-//import passwordreset from './components/pages/passwordreset';
-import ForgotPassword from './components/pages/ForgotPassword';
 import PasswordChange from './components/pages/PasswordChange';
+import {APPLICATION_SETTING}  from "./types";
+import {Setting} from './apiCalls'
 
-const App = ({ location, isAuthenticated }) => (
-  <div>
+const applicationSetting = data => ({
+  type: APPLICATION_SETTING,
+  data
+});
+
+const useHandleSetting = () => {
+  const dispatch = useDispatch()
+  fetch(Setting, {
+    method: "GET",
+    mode: 'cors'
+  }).then(response => response.json()).then(res => {
+    dispatch(applicationSetting(res))
+  }).catch(error => console.log(error))
+
+}
+
+const App = ({ location, isAuthenticated }) => {
+  useHandleSetting()
+  return(  <div >
+
     <AdminRoute location={location} path="/" exact component={HomePage} />
     <UserRoute
       location={location}
@@ -49,56 +67,16 @@ const App = ({ location, isAuthenticated }) => (
       component={AddSampleDisplay}
     />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
-    <GuestRoute
-      location={location}
-      path="/500"
-      exact
-      component={InternalServer}
-    />
-    <UserRoute
-      location={location}
-      path="/editsample/:id"
-      exact
-      component={EditSampleDisplay}
-    />
-    <UserRoute
-      location={location}
-      path="/dashboard"
-      exact
-      component={DashboardPage}
-    />
-    <UserRoute
-      location={location}
-      path="/adddatasetfile/:id"
-      exact
-      component={FileUploaderPage}
-    />
-    <UserRoute
-      location={location}
-      path="/editdataset/:id"
-      exact
-      component={EditDatasetPage}
-    />
-    <UserRoute
-      location={location}
-      path="/adddataset"
-      exact
-      component={AddDatasetDisplay}
-    />
-    <UserRoute
-      location={location}
-      path="/passwordchange"
-      exact
-      component={PasswordChange}
-    />
-    <UserRoute
-      location={location}
-      path="/forgotpassword"
-      exact
-      component={ForgotPassword}
-    />
+    <GuestRoute location={location} path="/500" exact component={InternalServer}/>
+    <UserRoute location={location} path="/editsample/:id" exact component={EditSampleDisplay}/>
+    <UserRoute location={location} path="/dashboard" exact component={DashboardPage}/>
+    <UserRoute location={location} path="/adddatasetfile/:id" exact component={FileUploaderPage}/>
+    <UserRoute location={location} path="/editdataset/:id" exact component={EditDatasetPage}/>
+    <UserRoute location={location} path="/adddataset" exact component={AddDatasetDisplay} />
+	<UserRoute location={location} path="/passwordchange" exact component={PasswordChange} />
+
   </div>
-);
+)};
 
 App.propTypes = {
   location: PropTypes.shape({
