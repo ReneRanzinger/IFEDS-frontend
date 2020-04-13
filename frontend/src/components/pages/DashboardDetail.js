@@ -6,13 +6,11 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
-import {Provider, DatasetNo, SampleNo} from '../../apiCalls'
-import Image from '../../utils/sample.png'
+import {Provider, Dashboard} from '../../apiCalls'
 
 
 const useFetch = (url) => {
@@ -38,7 +36,9 @@ const useStyles = makeStyles(theme => ({
   },
   submain: {
     width : '30%',
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   },
   bullet1: {
     width : "30%",
@@ -146,17 +146,11 @@ const CardDataDisplay = (props) => {
   return (
     <Card className={classes.submain} onClick = {handleClick}>
       <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={Image}
-          title="Dataset"
-        />
+        <Typography variant = "h6" className = {classes.header}>{`List of ${title}`}</Typography>
+        <Divider />
       <CardContent className = {classes.content}>
-          <Typography gutterBottom variant="h5" component="h2">
+          <Typography variant="h1" component="h2">
             {props.number}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {`List of ${title}`}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -168,8 +162,7 @@ const CardDataDisplay = (props) => {
 export default function DashboardDetail(props) {
   const classes = useStyles();
   const [provider] = useFetch(Provider);
-  const [datasetNo] = useFetch(DatasetNo);
-  const [sampleNo] = useFetch(SampleNo);
+  const [dashboard] = useFetch(Dashboard);
 
   return(<div className = {classes.root}>
 
@@ -178,12 +171,12 @@ export default function DashboardDetail(props) {
        {...props}
        classes = {classes}
        title = "Dataset"
-       number = "3"/>
+       number = {dashboard.num_of_dataset}/>
      <CardDataDisplay
        {...props}
        classes = {classes}
        title = "Sample"
-       number = "1"/>
+       number = {dashboard.num_of_samples}/>
      </div>
          <ProviderDetail
            {...props}
