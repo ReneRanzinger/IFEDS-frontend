@@ -108,6 +108,8 @@ export default function PersistentDrawerLeft({props}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open1 = Boolean(anchorEl);
   const [open2, setOpen1] = React.useState(false);
+  const [open3, setOpen2] = React.useState(false);
+
 
    const handleMenu = event => {
      setAnchorEl(event.currentTarget);
@@ -137,8 +139,12 @@ export default function PersistentDrawerLeft({props}) {
     setOpen(false);
   };
 
-  const handleClick = ()=>{
+  const handleDataClick = ()=>{
     setOpen1(!open2);
+  };
+
+  const handleAdminClick = () => {
+    setOpen2(!open3);
   };
   
   return (
@@ -249,7 +255,7 @@ export default function PersistentDrawerLeft({props}) {
             </ListItemIcon>
             <Link to="/dashboard"> <ListItemText primary="Home" /></Link>
           </ListItem>
-          <ListItem button onClick={handleClick}>
+          <ListItem button onClick={handleDataClick}>
             <ListItemIcon>
               <SendIcon />
             </ListItemIcon>
@@ -275,14 +281,14 @@ export default function PersistentDrawerLeft({props}) {
             </List>
           </Collapse>
           <List>
-          <ListItem button onClick={handleClick}>
+          <ListItem button onClick={handleAdminClick}>
             <ListItemIcon>
               <SendIcon />
             </ListItemIcon>
             <ListItemText primary="Profile" />
             {open ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
-          <Collapse in={open2} timeout="auto" unmountOnExit>
+          <Collapse in={open3} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem button className={classes.nested}>
                 <ListItemIcon>
