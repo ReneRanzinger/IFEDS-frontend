@@ -218,7 +218,7 @@ useEffect(() => {
               margin="normal"
             >
               {sampleType.map(option => (
-                <option key={option.sample_type_id} value={option.sample_type_id}>
+                <option key={option.sampleTypeId} value={option.sampleTypeId}>
                   {option.name}
                 </option>
               ))}
