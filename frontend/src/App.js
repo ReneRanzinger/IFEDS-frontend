@@ -19,7 +19,8 @@ import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
 //import passwordreset from './components/pages/passwordreset';
-import ForgotPassword from './components/pages/ForgotPassword';
+//import ForgotPassword from './components/pages/ForgotPassword';
+import PasswordChange from './components/pages/PasswordChange';
 
 const App = ({ location, isAuthenticated }) => (
   <div >
@@ -36,6 +37,7 @@ const App = ({ location, isAuthenticated }) => (
     <UserRoute location={location} path="/adddatasetfile/:id" exact component={FileUploaderPage}/>
     <UserRoute location={location} path="/editdataset/:id" exact component={EditDatasetPage}/>
     <UserRoute location={location} path="/adddataset" exact component={AddDatasetDisplay} />
+    <UserRoute location={location} path="/passwordchange" exact component={PasswordChange} />
 
   </div>
 );

@@ -109,7 +109,7 @@ export default function PersistentDrawerLeft({props}) {
   const open1 = Boolean(anchorEl);
   const [open2, setOpen1] = React.useState(false);
   const [open3, setOpen2] = React.useState(false);
-
+  const [open4, setOpen3] = React.useState(false);
 
    const handleMenu = event => {
      setAnchorEl(event.currentTarget);
@@ -143,8 +143,12 @@ export default function PersistentDrawerLeft({props}) {
     setOpen1(!open2);
   };
 
-  const handleAdminClick = () => {
+  const handleProfileClick = () => {
     setOpen2(!open3);
+  };
+
+  const handleAdminClick = () => {
+    setOpen3(!open4);
   };
   
   return (
@@ -280,8 +284,8 @@ export default function PersistentDrawerLeft({props}) {
               </ListItem>
             </List>
           </Collapse>
-          <List>
-          <ListItem button onClick={handleAdminClick}>
+          
+          <ListItem button onClick={handleProfileClick}>
             <ListItemIcon>
               <SendIcon />
             </ListItemIcon>
@@ -294,7 +298,7 @@ export default function PersistentDrawerLeft({props}) {
                 <ListItemIcon>
                   <StarBorder />
                 </ListItemIcon>
-                <ListItemText primary="Password" />
+                <Link to="/passwordchange"><ListItemText primary="Password Change" /></Link>
                
               </ListItem>
                 <ListItem button className={classes.nested}>
@@ -306,7 +310,39 @@ export default function PersistentDrawerLeft({props}) {
                 </ListItem>
             </List>
           </Collapse>
-          </List>
+
+          <ListItem button onClick={handleAdminClick}>
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Administor" />
+            {open ? <ExpandMore /> : <ExpandLess />}
+          </ListItem>
+          <Collapse in={open4} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                <ListItemText primary="New User" />
+
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+
+                <ListItemText primary="User Permission" />
+              </ListItem>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <StarBorder />
+                </ListItemIcon>
+                 <ListItemText primary="Dictionairies" />
+              </ListItem>
+            </List>
+          </Collapse>
+          
         </List>
 
       </Drawer>

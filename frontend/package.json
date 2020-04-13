@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
+    "formik": "^2.1.4",
     "jwt-decode": "^2.2.0",
     "material-table": "^1.54.1",
     "react": "^16.9.0",
@@ -20,7 +21,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "resumablejs": "^1.1.0",
-    "webpack": "^4.40.2"
+    "webpack": "^4.40.2",
+    "yup": "^0.28.3"
   },
   "scripts": {
     "start": "env-cmd -f .env.development react-scripts start",
