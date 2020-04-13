@@ -19,26 +19,84 @@ import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
 //import passwordreset from './components/pages/passwordreset';
-//import ForgotPassword from './components/pages/ForgotPassword';
+import ForgotPassword from './components/pages/ForgotPassword';
 import PasswordChange from './components/pages/PasswordChange';
 
 const App = ({ location, isAuthenticated }) => (
-  <div >
-
+  <div>
     <AdminRoute location={location} path="/" exact component={HomePage} />
-    <UserRoute location={location} path="/datasettable" exact component={DatasetDisplay}/>
-    <Route location={location} path="/datasetDetail/:id" component={DisplayDatasetDetail} />
-    <UserRoute location={location} path="/samplelist" exact component={SampleDisplay} />
-    <UserRoute location={location} path="/addsample" exact component={AddSampleDisplay} />
+    <UserRoute
+      location={location}
+      path="/datasettable"
+      exact
+      component={DatasetDisplay}
+    />
+    <Route
+      location={location}
+      path="/datasetDetail/:id"
+      component={DisplayDatasetDetail}
+    />
+    <UserRoute
+      location={location}
+      path="/samplelist"
+      exact
+      component={SampleDisplay}
+    />
+    <UserRoute
+      location={location}
+      path="/addsample"
+      exact
+      component={AddSampleDisplay}
+    />
     <GuestRoute location={location} path="/login" exact component={LoginPage} />
-    <GuestRoute location={location} path="/500" exact component={InternalServer}/>
-    <UserRoute location={location} path="/editsample/:id" exact component={EditSampleDisplay}/>
-    <UserRoute location={location} path="/dashboard" exact component={DashboardPage}/>
-    <UserRoute location={location} path="/adddatasetfile/:id" exact component={FileUploaderPage}/>
-    <UserRoute location={location} path="/editdataset/:id" exact component={EditDatasetPage}/>
-    <UserRoute location={location} path="/adddataset" exact component={AddDatasetDisplay} />
-    <UserRoute location={location} path="/passwordchange" exact component={PasswordChange} />
-
+    <GuestRoute
+      location={location}
+      path="/500"
+      exact
+      component={InternalServer}
+    />
+    <UserRoute
+      location={location}
+      path="/editsample/:id"
+      exact
+      component={EditSampleDisplay}
+    />
+    <UserRoute
+      location={location}
+      path="/dashboard"
+      exact
+      component={DashboardPage}
+    />
+    <UserRoute
+      location={location}
+      path="/adddatasetfile/:id"
+      exact
+      component={FileUploaderPage}
+    />
+    <UserRoute
+      location={location}
+      path="/editdataset/:id"
+      exact
+      component={EditDatasetPage}
+    />
+    <UserRoute
+      location={location}
+      path="/adddataset"
+      exact
+      component={AddDatasetDisplay}
+    />
+    <UserRoute
+      location={location}
+      path="/passwordchange"
+      exact
+      component={PasswordChange}
+    />
+    <UserRoute
+      location={location}
+      path="/forgotpassword"
+      exact
+      component={ForgotPassword}
+    />
   </div>
 );
 

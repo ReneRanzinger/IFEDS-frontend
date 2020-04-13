@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import forgotpassword from './pages/ForgotPassword.js';
+//import ForgotPassword from './pages/ForgotPassword.js';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -54,34 +54,62 @@ export default function SignIn({submit}) {
 
   }
 
-  return (<Container component="main" maxWidth="xs">
-    <CssBaseline/>
-    <div className={classes.paper}>
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Login
+        </Typography>
 
-      <Avatar className={classes.avatar}>
-        <LockOutlinedIcon/>
-      </Avatar>
-      <Typography component="h1" variant="h5">
-        Login
-      </Typography>
+        <form className={classes.form} onSubmit={handleSubmit}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required="required"
+            fullWidth="fullWidth"
+            id="username"
+            label="UserName"
+            name="username"
+            autoComplete="username"
+            autoFocus="autoFocus"
+            onChange={e => setUsername(e.target.value)}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required="required"
+            fullWidth="fullWidth"
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={e => setPassword(e.target.value)}
+          />
 
-      <form className={classes.form} onSubmit={handleSubmit}>
-        <TextField variant="outlined" margin="normal" required="required" fullWidth="fullWidth" id="username" label="UserName" name="username" autoComplete="username" autoFocus="autoFocus" onChange={e => setUsername(e.target.value)}/>
-        <TextField variant="outlined" margin="normal" required="required" fullWidth="fullWidth" name="password" label="Password" type="password" id="password" autoComplete="current-password" onChange={e => setPassword(e.target.value)}/>
-
-        <Button type="submit" fullWidth="fullWidth" variant="contained" color="primary" className={classes.submit}>
-          Sign In
-        </Button>
-        <Grid container="container">
-          <Grid item="item" xs="xs">
-            <Link to="/forgotpassword" variant="body2">
-              Forgot password?
-            </Link>
+          <Button
+            type="submit"
+            fullWidth="fullWidth"
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign In
+          </Button>
+          <Grid container="container">
+            <Grid item="item" xs="xs">
+              <Link to="/forgotpassword" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
           </Grid>
-         
-        </Grid>
-      </form>
-    </div>
-    <Box mt={8}></Box>
-  </Container>);
+        </form>
+      </div>
+      <Box mt={8}></Box>
+    </Container>
+  );
 }

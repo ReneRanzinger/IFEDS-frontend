@@ -9,8 +9,7 @@
 //     homeButton,
 //     forgotButton,
 //     inputStyle,
-//     HeaderBar,
-// } from '@material-ui/core';
+//     HeadBar} from '@material-ui/core';
 
 // const title = {
 //     pageTitle: 'Forgot Password Screen',
@@ -46,7 +45,7 @@
 //         } else {
 //             try {
 //                 const response = await axios.post(
-//                     'http://localhost:3003/forgotPassword',
+//                     '',
 //                     {
 //                         email,
 //                     },
