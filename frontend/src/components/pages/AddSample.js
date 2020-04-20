@@ -59,7 +59,7 @@ export default function AddSample(props) {
   const [sampleDescriptor] = useFetch(SampleDescriptors);
   const [sampleType] = useFetch(SampleTypes);
   const isAuthenticated = useSelector(state => state.user.token);
-  let bearer = 'Bearer '
+  const sidebar = useSelector(state => state.sidebar);
 
   const handleClose = () => {
     props.history.push("/samplelist");
@@ -138,7 +138,7 @@ async function handleSubmit(e) {
 
   return (
     <div>
-      <Paper className={classes.root}>
+      <Paper className={sidebar ? classes.root1 : classes.root}>
         <Typography variant="h5" component="h3">
           Add Sample
         </Typography>
@@ -298,10 +298,27 @@ async function handleSubmit(e) {
 
 }
 
+
+const drawerWidth = 240;
+
   const useToolbarStyles = makeStyles(theme => ({
     root: {
       padding: theme.spacing(3, 2),
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacing(2),
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      })
+    },
+    root1: {
+      padding: theme.spacing(3, 2),
+      marginTop: theme.spacing(2),
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen
+      })
     },
     textField1 :{
       marginRight: theme.spacing(15)

@@ -1,5 +1,5 @@
 import React from "react";
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import clsx from "clsx";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -26,6 +26,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import SendIcon from '@material-ui/icons/Send';
 import StarBorder from '@material-ui/icons/StarBorder';
+import {SIDEBAR_OPEN}  from "../../types";
 
 
 const drawerWidth = 240;
@@ -105,11 +106,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const sideBarOpen = data => ({
+  type: SIDEBAR_OPEN,
+  data
+});
+
 const PersistentDrawerLeft = ({props})=> {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const applicationSetting = useSelector(state => state.setting);
+  const sidebar = useSelector(state => state.sidebar);
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(sidebar);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open1 = Boolean(anchorEl);
   const [open2, setOpen1] = React.useState(false);
@@ -126,20 +134,24 @@ const PersistentDrawerLeft = ({props})=> {
    };
 
    const handleLogin = () => {
+     dispatch(sideBarOpen(false))
      props.history.push("/login");
    };
 
    const handleLogout = () => {
      props.logout();
+     dispatch(sideBarOpen(false))
      props.history.push("/");
    };
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    dispatch(sideBarOpen(true))
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    dispatch(sideBarOpen(false))
   };
 
   const handleDataClick = ()=>{

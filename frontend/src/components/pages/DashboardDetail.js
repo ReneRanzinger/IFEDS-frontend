@@ -30,10 +30,24 @@ const useFetch = (url) => {
   return [data, setData];
 }
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '97%',
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  root1: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   submain: {
     width : '30%',
@@ -173,8 +187,9 @@ export default function DashboardDetail(props) {
   const classes = useStyles();
   const [provider] = useFetch(Provider);
   const [dashboard] = useFetch(Dashboard);
+  const sidebar = useSelector(state => state.sidebar);
 
-  return(<div className = {classes.root}>
+  return(<div className = {sidebar ? classes.root1 : classes.root}>
 
     <div style = {{display : "flex", justifyContext : "space-around", marginTop : "70px"}}>
      <CardDataDisplay

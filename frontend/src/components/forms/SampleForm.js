@@ -69,6 +69,7 @@ export default function SampleForm(props) {
       setSampleData({ [name]: newValue });
     };
   const isAuthenticated = useSelector(state => state.user.token);
+  const sidebar = useSelector(state => state.sidebar);
   let bearer = 'Bearer '
 
   const handleClose = () => {
@@ -178,7 +179,7 @@ useEffect(() => {
           {getMeta(head.editsampleform)}
         </Helmet>
       </div>
-      <Paper className={classes.root}>
+      <Paper className={sidebar ? classes.root1 : classes.root}>
         <Typography variant="h5" component="h3">
           Edit Sample
         </Typography>
@@ -337,10 +338,26 @@ useEffect(() => {
   );
 }
 
+const drawerWidth = 240;
+
   const useToolbarStyles = makeStyles(theme => ({
     root: {
       padding: theme.spacing(3, 2),
-      marginTop: theme.spacing(2)
+      marginTop: theme.spacing(2),
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      })
+    },
+    root1: {
+      padding: theme.spacing(3, 2),
+      marginTop: theme.spacing(2),
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(["margin", "width"], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen
+      })
     },
     textField1 :{
       marginRight: theme.spacing(15)
