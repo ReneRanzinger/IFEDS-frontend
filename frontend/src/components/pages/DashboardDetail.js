@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
+import Link from '@material-ui/core/Link';
 import Card from "@material-ui/core/Card";
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -36,9 +37,7 @@ const useStyles = makeStyles(theme => ({
   },
   submain: {
     width : '30%',
-    marginLeft: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
+    marginLeft: theme.spacing(2)
   },
   bullet1: {
     width : "30%",
@@ -58,6 +57,12 @@ const useStyles = makeStyles(theme => ({
   header: {
     color: "green",
     marginBottom: theme.spacing(0),
+    marginLeft: theme.spacing(2),
+    paddingTop: theme.spacing(2)
+  },
+  header1: {
+    color: "green",
+    marginBottom: theme.spacing(0),
     paddingTop: theme.spacing(2)
   },
   heading: {
@@ -69,7 +74,11 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2)
   },
   content: {
-    textAlign : "right"
+    textAlign : "center"
+  },
+  divider: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2)
   }
 }));
 
@@ -78,12 +87,12 @@ const ProviderDetail = (props) => {
 
   const handleClick = e => {
     // TODO: This link needs to point to Edit Profile Page
-      props.history.push("/datasettable")
+      props.history.push("/profile")
   }
 
   return(<Card className = {classes.bullet1}>
     <div className = {classes.edit}>
-      <Typography variant = "h6" className = {classes.header}>Provider</Typography>
+      <Typography variant = "h6" className = {classes.header1}>Provider</Typography>
         <Tooltip title = "Edit" onClick={handleClick} >
           <IconButton aria-label="Edit" >
             <EditIcon/>
@@ -136,7 +145,7 @@ const CardDataDisplay = (props) => {
   const {classes, title} = props;
 
   const handleClick = e => {
-    if (title === 'Dataset') {
+    if (title === 'Datasets') {
       props.history.push("/datasettable")
     } else {
       props.history.push('/samplelist')
@@ -146,12 +155,13 @@ const CardDataDisplay = (props) => {
   return (
     <Card className={classes.submain} onClick = {handleClick}>
       <CardActionArea>
-        <Typography variant = "h6" className = {classes.header}>{`List of ${title}`}</Typography>
-        <Divider />
-      <CardContent className = {classes.content}>
-          <Typography variant="h1" component="h2">
+        <Typography variant = "h6" className = {classes.header}>{title}</Typography>
+        <Divider className = {classes.divider}/>
+        <CardContent className = {classes.content}>
+          <Link href= {title === "Datasets" ? "/datasettable" : "/samplelist"}><Typography variant="h1" component="h2">
             {props.number}
           </Typography>
+        </Link>
         </CardContent>
       </CardActionArea>
     </Card>
@@ -170,12 +180,12 @@ export default function DashboardDetail(props) {
      <CardDataDisplay
        {...props}
        classes = {classes}
-       title = "Dataset"
+       title = "Datasets"
        number = {dashboard.num_of_dataset}/>
      <CardDataDisplay
        {...props}
        classes = {classes}
-       title = "Sample"
+       title = "Samples"
        number = {dashboard.num_of_samples}/>
      </div>
          <ProviderDetail
