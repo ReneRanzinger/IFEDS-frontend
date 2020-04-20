@@ -25,17 +25,12 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import SendIcon from '@material-ui/icons/Send';
-<<<<<<< HEAD
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import HomeIcon from "@material-ui/icons/Home";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PortraitIcon from "@material-ui/icons/Portrait";
 import StorageIcon from "@material-ui/icons/Storage";
-=======
-import StarBorder from '@material-ui/icons/StarBorder';
-import {SIDEBAR_OPEN}  from "../../types";
-
->>>>>>> 05d2a1ad1d2b6b624f2d651ac0912a3e5b237173
+import { SIDEBAR_OPEN } from "../../types";
 
 const drawerWidth = 240;
 
