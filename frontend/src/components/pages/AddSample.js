@@ -6,8 +6,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
-import Tooltip from '@material-ui/core/Tooltip';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
@@ -50,7 +48,7 @@ export default function AddSample(props) {
   const url = useFormInput(null);
   const description = useFormInput(null);
   const sType = useFormInput();
-  const sDescriptor = useFormInput();
+  const [sDescriptor, setSDescriptor] = useState();
   const [value,setValue] = useState();
   const [measurement, setMeasurement] = useState();
   const [sampleDesc, setSampleDesc] = useState({data: []});
@@ -71,7 +69,7 @@ export default function AddSample(props) {
     setSampleDesc(sampleDesc => {
       const data = [...sampleDesc.data];
   for (var i = 0; i < sampleDesc["data"].length; i++) {
-  if (sampleDesc["data"][i][0] === sDescriptor.value && sampleDesc["data"][i][1] === value && sampleDesc["data"][i][2] === measurement) {
+  if (sampleDesc["data"][i][0] === sDescriptor && sampleDesc["data"][i][1] === value ) {
     count = true;
     break;
   }
@@ -79,12 +77,16 @@ export default function AddSample(props) {
 
     if(!count) {
       if(measurement!= null) {
-      data.push([sDescriptor.value, value , measurement]);
+      data.push([sDescriptor, value , measurement]);
     } else {
-      data.push([sDescriptor.value, value , ""]);
+      data.push([sDescriptor, value , ""]);
     }}
       return {...sampleDesc , data}
     });
+    setValue("")
+    setMeasurement("")
+    setSDescriptor("")
+
     setIsDescriptorAdded(true);
   }
 
@@ -96,10 +98,13 @@ export default function AddSample(props) {
     setValue(e.target.value)
   }
 
+  const handleSDescriptorChange = (e) => {
+    setSDescriptor(e.target.value)
+  }
+
 async function handleSubmit(e) {
   e.preventDefault();
   let listOfSampleDesc = sampleDesc['data'].map((a,row) => {
-      console.log(sampleDescriptor);
       let sampleDescId = sampleDescriptor.filter(x => x["name"]=== a[0])[0]["sample_descriptor_id"];
       let  sampleDescriptorArray = { "sample_descriptor_id" :sampleDescId,
                                      "sample_descriptor_value": a[1],
@@ -107,8 +112,7 @@ async function handleSubmit(e) {
 
       return sampleDescriptorArray
   })
-  console.log(name.value)
-  const response =  await fetch(Sample,{
+  fetch(Sample,{
      method: "POST",
      headers: setAuthorizationHeader(isAuthenticated),
      body: JSON.stringify({
@@ -203,14 +207,15 @@ async function handleSubmit(e) {
               fullWidth
             />
           </div>
-          <form id="form1">
+          <form id="form1" >
             <div style={{ display: "flex", marginTop: "20px" }}>
               <TextField
                 id="sample_descriptor"
                 select
                 label="Sample Descriptor"
                 className={classes.textField1}
-                {...sDescriptor}
+                value = {sDescriptor}
+                onChange = {e => handleSDescriptorChange(e)}
                 SelectProps={{
                   native: true,
                   MenuProps: {
@@ -230,6 +235,7 @@ async function handleSubmit(e) {
               <TextField
                 id="value"
                 label="Value"
+                value={value}
                 onChange={e => handleChangeForValue(e)}
                 className={classes.valueField}
                 type="text"
@@ -237,21 +243,17 @@ async function handleSubmit(e) {
               <TextField
                 margin="dense"
                 className={classes.textField2}
+                value={measurement}
                 id="unit_of_measurment"
                 onChange={e => handleChangeForMeasurement(e)}
                 label="Measurement Unit"
                 type="text"
               />
-              <Tooltip title="Add Sample Descriptor">
-                <AddCircleIcon
-                  className={classes.tick}
-                  onClick={e => handleAddDescriptor(e)}
-                />
-              </Tooltip>
-              <Typography className={classes.label}>
-                {" "}
-                Add Sample Descriptor{" "}
-              </Typography>
+
+            <Button  type = "submit" className={classes.label} variant = "contained" color = "primary" onClick={e => handleAddDescriptor(e)} >
+
+                Add Sample Descriptor
+              </Button>
             </div>
           </form>
           <div style={{ marginTop: "40px" }}>
@@ -259,7 +261,7 @@ async function handleSubmit(e) {
               sampleDesc.data.map((row, index) => {
                 const ret = `${row[0]} :\xa0\xa0   ${row[1]}   \xa0   ${row[2]}`;
                 return (
-                  <div>
+                  <div className = {classes.tick}>
                     <Chip
                       size="medium"
                       variant="outlined"
@@ -335,12 +337,12 @@ const drawerWidth = 240;
       marginRight: theme.spacing(11)
     },
     tick : {
-      marginTop: theme.spacing(5),
-      marginLeft: theme.spacing(15)
+      marginTop: theme.spacing(1)
     },
     label: {
+      marginTop: theme.spacing(3),
       marginLeft: theme.spacing(3),
-      paddingTop: theme.spacing(5)
+      marginBottom: theme.spacing(3)
     },
     menu: {
       width: 200,
