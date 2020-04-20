@@ -25,8 +25,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import SendIcon from '@material-ui/icons/Send';
-import StarBorder from '@material-ui/icons/StarBorder';
-
+import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import HomeIcon from "@material-ui/icons/Home";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import PortraitIcon from "@material-ui/icons/Portrait";
+import StorageIcon from "@material-ui/icons/Storage";
 
 const drawerWidth = 240;
 
@@ -156,7 +159,6 @@ const PersistentDrawerLeft = ({props})=> {
 
 
   return (
-
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
@@ -175,12 +177,19 @@ const PersistentDrawerLeft = ({props})=> {
           >
             <MenuIcon />
           </IconButton>
-          <div className = {classes.root}>
-          <Avatar variant= "square" className = {classes.image} alt="Database Logo" src={applicationSetting[1] ? applicationSetting[1].value : null} />
-          <Typography variant="h6" className = {classes.logo}>
-            <Link to="/">{applicationSetting[0] ? applicationSetting[0].value : null}</Link>
-          </Typography>
-        </div>
+          <div className={classes.root}>
+            <Avatar
+              variant="square"
+              className={classes.image}
+              alt="Database Logo"
+              src={applicationSetting[1] ? applicationSetting[1].value : null}
+            />
+            <Typography variant="h6" className={classes.logo}>
+              <Link to="/">
+                {applicationSetting[0] ? applicationSetting[0].value : null}
+              </Link>
+            </Typography>
+          </div>
           {props.isAuthenticated && (
             <div style={{ justifyContent: "flex-end", marginLeft: "auto" }}>
               <div>
@@ -215,7 +224,11 @@ const PersistentDrawerLeft = ({props})=> {
             </div>
           )}
           {!props.isAuthenticated && (
-            <Button onClick={handleLogin} color="inherit" margin-inline-start= "auto">
+            <Button
+              onClick={handleLogin}
+              color="inherit"
+              margin-inline-start="auto"
+            >
               Login
             </Button>
           )}
@@ -262,13 +275,18 @@ const PersistentDrawerLeft = ({props})=> {
         >
           <ListItem button>
             <ListItemIcon>
-              <SendIcon />
+              <HomeIcon />
+              {/* <SendIcon /> */}
             </ListItemIcon>
-            <Link to="/dashboard"> <ListItemText primary="Home" /></Link>
+            <Link to="/dashboard">
+              {" "}
+              <ListItemText primary="Home" />
+            </Link>
           </ListItem>
           <ListItem button onClick={handleDataClick}>
             <ListItemIcon>
-              <SendIcon />
+              <StorageIcon/>
+              {/* <SendIcon /> */}
             </ListItemIcon>
             <ListItemText primary="Data" />
             {open ? <ExpandMore /> : <ExpandLess />}
@@ -277,24 +295,31 @@ const PersistentDrawerLeft = ({props})=> {
             <List component="div" disablePadding>
               <ListItem button className={classes.nested}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <ArrowRightIcon />
+                  {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/datasettable"> <ListItemText primary="Dataset" /></Link>
-
+                <Link to="/datasettable">
+                  {" "}
+                  <ListItemText primary="Dataset" />
+                </Link>
               </ListItem>
               <ListItem button className={classes.nested}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <ArrowRightIcon />
+                  {/* <StarBorder /> */}
                 </ListItemIcon>
 
-                <Link to="/samplelist"><ListItemText primary="Samples" /></Link>
+                <Link to="/samplelist">
+                  <ListItemText primary="Samples" />
+                </Link>
               </ListItem>
             </List>
           </Collapse>
 
           <ListItem button onClick={handleProfileClick}>
             <ListItemIcon>
-              <SendIcon />
+              <AccountCircleIcon />
+              {/* <SendIcon /> */}
             </ListItemIcon>
             <ListItemText primary="Profile" />
             {open ? <ExpandMore /> : <ExpandLess />}
@@ -303,24 +328,28 @@ const PersistentDrawerLeft = ({props})=> {
             <List component="div" disablePadding>
               <ListItem button className={classes.nested}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <ArrowRightIcon />
+                  {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/passwordchange"><ListItemText primary="Password Change" /></Link>
-
+                <Link to="/passwordchange">
+                  <ListItemText primary="Password Change" />
+                </Link>
               </ListItem>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <StarBorder />
-                  </ListItemIcon>
+              <ListItem button className={classes.nested}>
+                <ListItemIcon>
+                  <ArrowRightIcon />
+                  {/* <StarBorder /> */}
+                </ListItemIcon>
 
-                  <ListItemText primary="Account Settings" />
-                </ListItem>
+                <ListItemText primary="Account Settings" />
+              </ListItem>
             </List>
           </Collapse>
 
           <ListItem button onClick={handleAdminClick}>
             <ListItemIcon>
-              <SendIcon />
+              <PortraitIcon />
+              {/* <SendIcon /> */}
             </ListItemIcon>
             <ListItemText primary="Administor" />
             {open ? <ExpandMore /> : <ExpandLess />}
@@ -329,29 +358,29 @@ const PersistentDrawerLeft = ({props})=> {
             <List component="div" disablePadding>
               <ListItem button className={classes.nested}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <ArrowRightIcon />
+                  {/* <StarBorder /> */}
                 </ListItemIcon>
                 <ListItemText primary="New User" />
-
               </ListItem>
               <ListItem button className={classes.nested}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <ArrowRightIcon />
+                  {/* <StarBorder /> */}
                 </ListItemIcon>
 
                 <ListItemText primary="User Permission" />
               </ListItem>
               <ListItem button className={classes.nested}>
                 <ListItemIcon>
-                  <StarBorder />
+                  <ArrowRightIcon />
+                  {/* <StarBorder /> */}
                 </ListItemIcon>
-                 <ListItemText primary="Dictionairies" />
+                <ListItemText primary="Dictionairies" />
               </ListItem>
             </List>
           </Collapse>
-
         </List>
-
       </Drawer>
       <main
         className={clsx(classes.content, {

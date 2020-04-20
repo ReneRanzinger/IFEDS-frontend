@@ -6,6 +6,7 @@
   "dependencies": {
     "@material-ui/core": "^4.5.0",
     "@material-ui/icons": "^4.4.3",
+    "axios": "^0.19.2",
     "formik": "^2.1.4",
     "jwt-decode": "^2.2.0",
     "material-table": "^1.54.1",

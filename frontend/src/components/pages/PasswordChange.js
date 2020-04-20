@@ -13,11 +13,31 @@ import Sidebar from './Sidebar';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
+import { classExpression } from '@babel/types';
+
+
+// useEffect(() => {
+//        const {
+//          match: { params }
+//        } = props;
+//        console.log(params);
+//        fetch(`${Password}`,
+//           {method:"GET",
+//           headers: setAuthorizationHeader(isAuthenticated)})
+//          .then(response => {
+//            console.log(response);
+//            return response.json();
+//          })
+
+ 
 
 class PasswordChange extends Component {
     state = {
         passChangeSuccess: false,
     }
+
+
+    
 
     
 
@@ -64,7 +84,7 @@ class PasswordChange extends Component {
     }
 
     render() {
-        return (
+       return (
           <div className="Content">
             <Sidebar props={this.props} isDashBoard={"true"} />
             <Formik
@@ -108,7 +128,9 @@ class PasswordChange extends Component {
                 ) : (
                   <Paper variant="outlined" square elevation={10}>
                     <form className="form" onSubmit={handleSubmit}>
-                      <FormControl fullWidth margin="dense">
+                      <FormControl>
+                        
+                        {/* margin="dense" */}
                         <InputLabel
                           htmlFor="password-current"
                           error={Boolean(
@@ -139,7 +161,7 @@ class PasswordChange extends Component {
                         </FormHelperText>
                       </FormControl>
                       <FormControl
-                        fullWidth
+                        //fullWidth
                         margin="dense"
                         error={Boolean(touched.newPass && errors.newPass)}
                       >
@@ -167,8 +189,8 @@ class PasswordChange extends Component {
                         </FormHelperText>
                       </FormControl>
                       <FormControl
-                        fullWidth
-                        margin="dense"
+                        //fullWidth
+                        //margin="dense"
                         error={Boolean(
                           touched.confirmPass && errors.confirmPass
                         )}
