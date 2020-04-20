@@ -17,10 +17,24 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {ExperimentType, FundingSource, Keyword, PaperID, SampleData, Datasets} from '../../apiCalls'
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: '97%',
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  root1: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: theme.spacing(32),
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   submain: {
     marginTop: theme.spacing(3)
@@ -851,6 +865,7 @@ export default function AddDataset(props) {
   const [keywords, setKeywords] = useState({data: []});
   const [papers, setPapers] = useState({data: []})
   const isAuthenticated = useSelector(state => state.user.token);
+  const sidebar = useSelector(state => state.sidebar);
 
   const isStepOptional = step => {
   //  return step === 1;
@@ -925,7 +940,7 @@ export default function AddDataset(props) {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={sidebar ? classes.root1 : classes.root}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};

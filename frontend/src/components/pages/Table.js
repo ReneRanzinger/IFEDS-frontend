@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import clsx from 'clsx';
@@ -16,7 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
-import * as errorHandlerActions from '../../actions/auth';
+//import * as errorHandlerActions from '../../actions/auth';
 import Headcells from '../../utils/setTableHeader';
 import {Datasets} from '../../apiCalls'
 import Snackbar from '@material-ui/core/Snackbar';
@@ -145,6 +146,8 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired
 };
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles(theme => ({
   super: {
     overflow: 'visible'
@@ -154,7 +157,23 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
     '& > * + *': {
       marginTop: theme.spacing(2),
-    }
+    },
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  root1: {
+    marginTop: theme.spacing(1),
+  '& > * + *': {
+    marginTop: theme.spacing(2),
+  },
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   paper: {
     width: '99%',
@@ -228,6 +247,7 @@ export default function EnhancedTable(props) {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [open, setOpen] = useState(false);
+  const sidebar = useSelector(state => state.sidebar);
 
 
   const openAlert= () => {
@@ -288,7 +308,7 @@ export default function EnhancedTable(props) {
 
   const lowerCaseQuery = query.toLowerCase();
   return (<div className={classes.super}>
-    <div className={classes.root}>
+    <div className={sidebar ? classes.root1 : classes.root}>
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}
         message = "Session Expired !! Logging Out!"/>
 

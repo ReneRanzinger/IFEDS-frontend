@@ -752,6 +752,7 @@ const DatasetDetailDisplay = (props) =>{
   const [editableFundSrc, setEditableFundSrc] = useState(false);
   const [editablePublication, setEditablePublication] = useState(false);
   const isAuthenticated = useSelector(state => state.user.token);
+  const sidebar = useSelector(state => state.sidebar);
   //const [provider, setProvider] = useState({});
   const {match: { params }} = props;
 //  const [editDataset, setEditDataset] = useState(false)
@@ -897,7 +898,7 @@ const keywordEx = props.keyword
     }).catch(error => console.log(error));
   }, [params.id]);
 
-return( <div className = {classes.root}>
+return( <div className = {sidebar ? classes.root1 : classes.root}>
 <div style = {{display:"block", width: "66.6%", position: "relative", marginRight: "8px"}}>
     <Card className = {classes.bullet} variant="outlined">
 
@@ -1082,7 +1083,7 @@ return( <div className = {classes.root}>
 
 }
 
-
+const drawerWidth = 240;
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
@@ -1091,7 +1092,25 @@ const useToolbarStyles = makeStyles(theme => ({
     display: "flex",
     position: "relative",
     height: "auto",
-    backgroundColor : "#ebf0ec"
+    backgroundColor : "#ebf0ec",
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  root1: {
+    padding: theme.spacing(3, 2),
+    marginTop: theme.spacing(2),
+    display: "flex",
+    position: "relative",
+    height: "auto",
+    backgroundColor : "#ebf0ec",
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   header: {
     marginBottom: "0px",

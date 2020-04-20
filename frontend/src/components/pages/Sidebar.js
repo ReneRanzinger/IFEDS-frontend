@@ -1,5 +1,5 @@
 import React from "react";
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import clsx from "clsx";
 import {makeStyles, useTheme} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -25,11 +25,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import SendIcon from '@material-ui/icons/Send';
+<<<<<<< HEAD
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import HomeIcon from "@material-ui/icons/Home";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PortraitIcon from "@material-ui/icons/Portrait";
 import StorageIcon from "@material-ui/icons/Storage";
+=======
+import StarBorder from '@material-ui/icons/StarBorder';
+import {SIDEBAR_OPEN}  from "../../types";
+
+>>>>>>> 05d2a1ad1d2b6b624f2d651ac0912a3e5b237173
 
 const drawerWidth = 240;
 
@@ -108,11 +114,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const sideBarOpen = data => ({
+  type: SIDEBAR_OPEN,
+  data
+});
+
 const PersistentDrawerLeft = ({props})=> {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const applicationSetting = useSelector(state => state.setting);
+  const sidebar = useSelector(state => state.sidebar);
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(sidebar);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open1 = Boolean(anchorEl);
   const [open2, setOpen1] = React.useState(false);
@@ -129,20 +142,24 @@ const PersistentDrawerLeft = ({props})=> {
    };
 
    const handleLogin = () => {
+     dispatch(sideBarOpen(false))
      props.history.push("/login");
    };
 
    const handleLogout = () => {
      props.logout();
+     dispatch(sideBarOpen(false))
      props.history.push("/");
    };
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    dispatch(sideBarOpen(true))
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    dispatch(sideBarOpen(false))
   };
 
   const handleDataClick = ()=>{

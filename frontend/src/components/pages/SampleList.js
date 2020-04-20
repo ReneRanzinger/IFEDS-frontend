@@ -49,6 +49,7 @@ const fetchDelete = (id, isAuthenticated, props) => {
 
 export default function SampleList(props) {
   const isAuthenticated = useSelector(state => state.user.token);
+  const sidebar = useSelector(state => state.sidebar);
   const [isDeleted, setDeleted] = useState(false);
   const [data] = useFetch(SampleData, isDeleted, props);
   const classes = useToolbarStyles();
@@ -86,7 +87,7 @@ export default function SampleList(props) {
     }
   ];
 
-  return (<div className = {classes.paper}>
+  return (<div className = {sidebar ? classes.root1 : classes.paper}>
 
      <div>
       <Helmet>
@@ -135,13 +136,28 @@ export default function SampleList(props) {
   );
 }
 
+const drawerWidth = 240;
+
 const useToolbarStyles = makeStyles(theme => ({
   root: {
     flex: 1
 
   },
+  root1: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginTop: theme.spacing(2),
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
   paper: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
   },
   spacer: {
     flex:1
