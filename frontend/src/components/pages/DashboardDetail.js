@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import Link from '@material-ui/core/Link';
 import Card from "@material-ui/core/Card";
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -172,10 +171,9 @@ const CardDataDisplay = (props) => {
         <Typography variant = "h6" className = {classes.header}>{title}</Typography>
         <Divider className = {classes.divider}/>
         <CardContent className = {classes.content}>
-          <Link href= {title === "Datasets" ? "/datasettable" : "/samplelist"}><Typography variant="h1" component="h2">
+          <Typography variant="h1" component="h2" color="primary">
             {props.number}
           </Typography>
-        </Link>
         </CardContent>
       </CardActionArea>
     </Card>
