@@ -19,6 +19,7 @@ import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
 import PasswordChange from './components/pages/PasswordChange';
+import DisplayUserPermission from './components/pages/DisplayUserPermission';
 import {APPLICATION_SETTING}  from "./types";
 import {Setting} from './apiCalls'
 import ForgotPassword from "./components/pages/ForgotPassword";
@@ -120,6 +121,12 @@ const App = ({ location, isAuthenticated }) => {
         path="/forgotpassword"
         exact
         component={ForgotPassword}
+      />
+      <UserRoute
+        location={location}
+        path="/userpermission"
+        exact
+        component={DisplayUserPermission}
       />
     </div>
   );};

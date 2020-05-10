@@ -19,3 +19,4 @@ export const Provider = `${base_url}/getProvider`
 export const Dashboard = `${base_url}/dashboard`
 export const Setting = `${base_url}/get_settings`
 export const Password = `${base_url}/change_password`;
+export const Permission = `${base_url}/permissions`;
