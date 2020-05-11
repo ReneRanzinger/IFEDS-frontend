@@ -19,10 +19,12 @@ import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
 import PasswordChange from './components/pages/PasswordChange';
+import DisplayUserPermission from './components/pages/DisplayUserPermission';
 import {APPLICATION_SETTING}  from "./types";
 import {Setting} from './apiCalls'
 import ForgotPassword from "./components/pages/ForgotPassword";
 import CreateUserDisplay from "./components/pages/CreateUserDisplay";
+
 
 const applicationSetting = data => ({
   type: APPLICATION_SETTING,
@@ -117,11 +119,11 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={PasswordChange}
       />
-      <GuestRoute
+      <UserRoute
         location={location}
-        path="/forgotpassword"
+        path="/userpermission"
         exact
-        component={ForgotPassword}
+        component={DisplayUserPermission}
       />
     </div>
   );};
