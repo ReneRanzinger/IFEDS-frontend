@@ -605,9 +605,11 @@ const Papers = props => {
   const [paperData, setPaperData]  = useReducer(
     (state, newState) => ({ ...state, ...newState }), { })
   const [paperDataTotal, setPaperDataTotal] = useState(props.papers)
+  const [error, setError] = useState(false)
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log("paperDataTotal",paperDataTotal)
     props.handlePaperSubmit(paperDataTotal)
     props.handleNext()
   }
@@ -627,26 +629,39 @@ const Papers = props => {
       const name = e.target.name;
       const newValue = e.target.value;
       setPaperData({ [name]: newValue });
+      setError(false)
     };
 
   const handleAdd = e => {
       e.preventDefault()
-      let count=false;
-      setPaperDataTotal(paperDataTotal => {
-        const data = [...paperDataTotal.data]
-        for (var i = 0; i < paperDataTotal["data"].length; i++) {
-        if (paperDataTotal["data"][i][0] === paperData.paper ) {
-          count = true;
-          break;
-        }
-      }
-      if(!count) {
-        data.push([paperData.paper]);
-      }
-        return {...paperDataTotal , data}
-      });
-      setIsPaperAdded(true);
-      setPaperData({'paper' : ''})
+      console.log("paperData",paperData)
+      fetch(`${PaperID}/${paperData.paper}`, {
+        method: "GET",
+        mode: 'cors',
+        headers: setAuthorizationHeader(props.isAuthenticated)
+      }).then(response => response.json()).then(res => {
+        console.log("res",res)
+          if (res.status === 500 || res.status === 404){
+            setError(true)
+          }
+            else {let count=false;
+            setPaperDataTotal(paperDataTotal => {
+              const data = [...paperDataTotal.data]
+              for (var i = 0; i < paperDataTotal["data"].length; i++) {
+              if (paperDataTotal["data"][i][0] === paperData.paper ) {
+                count = true;
+                break;
+              }
+            }
+            if(!count) {
+              data.push([paperData.paper]);
+            }
+              return {...paperDataTotal , data}
+            });
+            setIsPaperAdded(true);
+            setPaperData({'paper' : ''})}
+      }).catch(error => console.log(error));
+
     }
 
   return(<div>
@@ -658,7 +673,7 @@ const Papers = props => {
           className={{/*classes.textField1 */}}
           value = {paperData.paper}
           onChange = {handleChange1}
-          helperText="Please type Paper ID"
+          helperText={error ? " Paper with given pubmed id not found/valid " : "Please type Paper ID"}
           margin="normal"
         />
         <Button className = {props.classes.button1} color="primary" variant="contained" onClick={e => handleAdd(e)}>
@@ -853,7 +868,6 @@ export default function AddDataset(props) {
   const [experimentType] = useFetch(ExperimentType);
   const [fundingSource] = useFetch(FundingSource);
   const [keyword] = useFetch(Keyword);
-  const [paper] = useFetch(PaperID);
   const [sample] = useFetch(SampleData);
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
@@ -982,7 +996,6 @@ export default function AddDataset(props) {
               experimentType = {experimentType}
               fundingSource = {fundingSource}
               keyword = {keyword}
-              paper = {paper}
               handleDatasetSubmit ={handleDatasetSubmit}
               dataset = {dataset}
               sampleData = {sampleData}
