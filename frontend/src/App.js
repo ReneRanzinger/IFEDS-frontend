@@ -21,7 +21,7 @@ import EditSampleDisplay from './components/forms/EditSampleDisplay';
 import PasswordChange from './components/pages/PasswordChange';
 import {APPLICATION_SETTING}  from "./types";
 import {Setting} from './apiCalls'
-import ForgotPassword from "./components/pages/ForgotPassword";
+
 
 const applicationSetting = data => ({
   type: APPLICATION_SETTING,
@@ -115,12 +115,7 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={PasswordChange}
       />
-      <GuestRoute
-        location={location}
-        path="/forgotpassword"
-        exact
-        component={ForgotPassword}
-      />
+     
     </div>
   );};
 

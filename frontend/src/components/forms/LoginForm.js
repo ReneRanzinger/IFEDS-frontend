@@ -10,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import ForgotPassword from '../pages/ForgotPassword.js';
+
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -37,22 +37,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+
+
 export default function SignIn({submit}) {
-  
 
 
-
+   
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+ const classes = useStyles();
 
-  const classes = useStyles();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     submit({email: username, password: password});
 
   }
+
+   
 
   return (
     <Container component="main" maxWidth="xs">
@@ -74,6 +77,7 @@ export default function SignIn({submit}) {
             id="username"
             label="UserName"
             name="username"
+            placeholder="Enter username"
             autoComplete="username"
             autoFocus="autoFocus"
             onChange={e => setUsername(e.target.value)}
@@ -86,6 +90,7 @@ export default function SignIn({submit}) {
             name="password"
             label="Password"
             type="password"
+            placeholder="Enter password"
             id="password"
             autoComplete="current-password"
             onChange={e => setPassword(e.target.value)}
@@ -102,7 +107,7 @@ export default function SignIn({submit}) {
           </Button>
           <Grid container="container">
             <Grid item="item" xs="xs">
-              <Link href="/forgotpassword" variant="body2">
+              <Link href="" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
