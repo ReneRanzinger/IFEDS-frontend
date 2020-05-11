@@ -106,7 +106,6 @@ export default function DatasetTable(props) {
       icon: () => {return<NoteAddOutlinedIcon/>},
       tooltip: 'Add File',
       onClick: (event, rowData) => {
-        console.log(props);
         props.prop.history.push(`/adddatasetfile/${rowData.datasetId}`);
       }
     },

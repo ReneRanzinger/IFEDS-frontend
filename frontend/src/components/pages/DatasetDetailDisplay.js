@@ -1,7 +1,7 @@
 import React, {useReducer, useState,useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import Link from '@material-ui/core/Link';
 import {makeStyles} from '@material-ui/core/styles';
 import Card from "@material-ui/core/Card";
 import IconButton from '@material-ui/core/IconButton';
@@ -115,7 +115,6 @@ const EditableDropDownChip = props => {
     }
     const newValue = e.target.value;
     const temp = list.filter(e => (e.name === newValue))
-    console.log(initialChip)
     setData(() => {
                 if(data.filter(tempo => tempo["name"] === temp[0]["name"]).length !== 1)
                 {
@@ -216,7 +215,7 @@ const EditableDropDownChip = props => {
   </div>
     <div>
     { data && data.map((row, index) => {
-      console.log("ram",row)
+
       let ret;
       if(row[id]) {
       ret = `${row[`${id}`]["name"]}`;}
@@ -332,7 +331,7 @@ const EditableDropDownChip1 = props => {
   <div>
     {
       initialChip && state.map((row, index) => {
-        console.log("State",state)
+
         const ret = `${row["name"]}`
         return (
             <Chip
@@ -395,7 +394,7 @@ const EditablePublicationDetail = props => {
 
   const handleSubmit1 = e => {
     e.preventDefault()
-    console.log("target",data)
+
       fetch(`${PaperID}/${data}`, {
         method: "GET",
         headers: setAuthorizationHeader(props.isAuthenticated)
@@ -403,7 +402,7 @@ const EditablePublicationDetail = props => {
         console.log(res)
       }).catch(error => {console.log(error); setError(true)});
   //  document.getElementById("paper").reset();
-    console.log("anubhav",data)
+
   }
 
   return(<div>
@@ -549,7 +548,7 @@ const EditableDatasetDet = props => {
 
 const DataKeyword = props => {
   const{state,name, edit, isEditable, variant, handleHeaderChange}=props;
-  console.log("keyword",state)
+
   return (
     <div>
       <EditableHeader
@@ -623,12 +622,21 @@ const DataPublication = props => {
       <Divider />
       {state &&
         state.map((row, index) => {
+
           const ret = `${row["title"]} \xa0\xa0 ${row["authorList"]} \xa0\xa0  ${row["journalName"]} \xa0\xa0  ${row["pmid"]} \xa0\xa0  ${row["url"]}`;
           return (
             <ul>
               <li>
-                <Typography variant="subtitle2" className={classes.header}>
-                  {ret}
+                <Link href = {row["url"]} >
+                  <Typography variant="subtitle2" >
+                    {row["title"]}
+                  </Typography>
+                </Link>
+                <Typography variant="body2" >
+                  {`Author:\xa0\xa0 ${row["authorList"]}`}
+                </Typography>
+                <Typography variant="body2" >
+                  {`PMID:\xa0\xa0 ${row["pmid"]}`}
                 </Typography>
               </li>
             </ul>

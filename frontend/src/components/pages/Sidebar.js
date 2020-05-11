@@ -141,6 +141,10 @@ const PersistentDrawerLeft = ({props})=> {
      props.history.push("/login");
    };
 
+   const handleUserPermission = () => {
+     props.history.push("/userpermission");
+   }
+
    const handleLogout = () => {
      props.logout();
      dispatch(sideBarOpen(false))
@@ -375,7 +379,7 @@ const PersistentDrawerLeft = ({props})=> {
                 </ListItemIcon>
                 <ListItemText primary="New User" />
               </ListItem>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {handleUserPermission}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
