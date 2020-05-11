@@ -51,6 +51,9 @@ const useStyles = makeStyles(theme => ({
   url1: {
     width: "50%"
   },
+  review : {
+    paddingLeft: theme.spacing(2)
+  },
   experiment : {
     marginTop: theme.spacing(0)
   },
@@ -641,20 +644,21 @@ const Papers = props => {
         headers: setAuthorizationHeader(props.isAuthenticated)
       }).then(response => response.json()).then(res => {
         console.log("res",res)
-          if (res.status === 500 || res.status === 404){
+          if (res.status === 500 || res.status === 404 || res.status === 400){
             setError(true)
           }
             else {let count=false;
             setPaperDataTotal(paperDataTotal => {
               const data = [...paperDataTotal.data]
               for (var i = 0; i < paperDataTotal["data"].length; i++) {
-              if (paperDataTotal["data"][i][0] === paperData.paper ) {
+                console.log("paperDataTotal",paperDataTotal)
+              if (paperDataTotal["data"][i][0] === res.pmid ) {
                 count = true;
                 break;
               }
             }
             if(!count) {
-              data.push([paperData.paper]);
+              data.push([res]);
             }
               return {...paperDataTotal , data}
             });
@@ -681,15 +685,21 @@ const Papers = props => {
         </Button>
           {isPaperAdded && <div className = {props.classes.submain}>
             <Divider className = {props.classes.divider}/>{paperDataTotal.data.map((row, index) => {
-            const ret = `${row[0]} `;
+
             return (
-                <Chip
-                  size="medium"
-                  color="primary"
-                  label={ret}
-                  onDelete={e => handleDelete(e, index)}
-                  className = {props.classes.chip}
-                />
+              <ul>
+                <li>
+                  <Typography variant="subtitle2" >
+                    {row[0]["title"]}
+                  </Typography>
+                <Typography variant="body2" >
+                  {`Author:\xa0\xa0 ${row[0]["authorList"]}`}
+                </Typography>
+                <Typography variant="body2" >
+                  {`PMID:\xa0\xa0 ${row[0]["pmid"]}`}
+                </Typography>
+                </li>
+              </ul>
             );
           })}
           <Divider className = {props.classes.submain}/></div>}
@@ -740,7 +750,8 @@ const Review = props => {
       return keywordId
     })
     let paper = data.papers.data.map((row, index) => {
-      return parseInt(row[0])
+      console.log("paper", row)
+      return parseInt(row[0]["pmid"])
     })
 
     let sampleId = props.sample.filter(x => x["name"] === data.sample)[0]["sampleId"]
@@ -766,7 +777,7 @@ const Review = props => {
 
 
   return(
-    <Paper >
+    <Paper className = {props.classes.review} >
       <form onSubmit = {handleSubmit}>
       <div >
         <Typography variant = "h6" style = {{color: "green", marginBottom: "0px", paddingTop: "12px"}}>Add Dataset Review</Typography>
@@ -797,19 +808,19 @@ const Review = props => {
           /> </div>: <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
       <Divider />
       <Typography variant = "subtitle2" style = {{color: "#5bc0be", marginBottom: "0px", paddingTop: "12px"}}>Experiment Types</Typography>
-        {data.experiment.data ? data.experiment.data.map((row,index) => {return(<div>
+        {data.experiment.data ? data.experiment.data.map((row,index) => {return(<ul><li><div>
           <Typography variant = "subtitle2" fontWeight="fontWeightBold" style={{marginTop: "0px"}}>{`Name : \xa0 ${row[0]}`}</Typography>
           {row[1] ? <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{`Description : \xa0 ${row[1]}`}</Typography> : <Typography style={{marginTop: "0px",marginBottom: "12px"}}/>}
-        </div>)}) :
+        </div></li></ul>)}) :
       <Typography variant = "subtitle2"  style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
       <Divider/>
         <Typography variant = "subtitle2" style = {{color: "#5bc0be", marginBottom: "0px", paddingTop: "12px"}}>Funding Source</Typography>
-          {data.funding.data ? data.funding.data.map((row,index) => {return(<div><div style = {{display: "flex"}}>
+          {data.funding.data ? data.funding.data.map((row,index) => {return(<ul><li><div><div style = {{display: "flex"}}>
             <Typography variant = "subtitle2" fontWeight="fontWeightBold" style={{marginTop: "0px"}}>{`Name : \xa0 ${row[0]}`}</Typography>
             <Typography variant = "subtitle2" fontWeight="fontWeightBold" style={{marginTop: "0px"}}>{` \xa0 \xa0 \xa0 \xa0 Grant No. : \xa0 ${row[1]}`}</Typography>
             </div>
-            {row[2] ? <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{`URL : \xa0 ${row[2]}`}</Typography> : <Typography style={{marginTop: "0px",marginBottom: "12px"}}/>}
-          </div>)}) :
+            {row[2] ? <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>{`Url : \xa0 ${row[2]}`}</Typography> : <Typography style={{marginTop: "0px",marginBottom: "12px"}}/>}
+          </div></li></ul>)}) :
         <Typography variant = "subtitle2"  style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
       <Divider/>
         <Typography variant = "subtitle2" style = {{color: "#5bc0be", marginBottom: "0px", paddingTop: "12px"}}>Keywords</Typography>
@@ -822,11 +833,21 @@ const Review = props => {
         <Divider />
           <Typography variant = "subtitle2" style = {{color: "#5bc0be", marginBottom: "0px", paddingTop: "12px"}}>Papers</Typography>
             {data.papers.data ? <div style = {{marginTop: "0px",marginBottom: "12px"}}>
-            {data.papers.data.map((row,index) => {return(<Chip
-                size="medium"
-                variant="outlined"
-                label={row}
-              />)})} </div>: <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+            {data.papers.data.map((row,index) => {return(
+              <ul>
+                <li>
+                  <Typography variant="subtitle2" >
+                    {row[0]["title"]}
+                  </Typography>
+                <Typography variant="body2" >
+                  {`Author:\xa0\xa0 ${row[0]["authorList"]}`}
+                </Typography>
+                <Typography variant="body2" >
+                  {`PMID:\xa0\xa0 ${row[0]["pmid"]}`}
+                </Typography>
+                </li>
+              </ul>
+            )})} </div>: <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
           <Divider />
       <div>
         <StepBottom {...props} />
