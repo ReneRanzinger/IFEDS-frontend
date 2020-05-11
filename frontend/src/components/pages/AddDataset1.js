@@ -820,6 +820,14 @@ const Review = props => {
               label={row}
             />)})} </div>: <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
         <Divider />
+          <Typography variant = "subtitle2" style = {{color: "#5bc0be", marginBottom: "0px", paddingTop: "12px"}}>Papers</Typography>
+            {data.papers.data ? <div style = {{marginTop: "0px",marginBottom: "12px"}}>
+            {data.papers.data.map((row,index) => {return(<Chip
+                size="medium"
+                variant="outlined"
+                label={row}
+              />)})} </div>: <Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+          <Divider />
       <div>
         <StepBottom {...props} />
       </div>
