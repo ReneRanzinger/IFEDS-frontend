@@ -4,16 +4,14 @@ import MaterialTable from 'material-table';
 import {makeStyles} from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
 import {Permission} from '../../apiCalls';
+import Switch from '@material-ui/core/Switch';
 import Tooltip from '@material-ui/core/Tooltip';
-import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 const UserPermission = (props) => {
   const [usersDetails, setUsersDetails] = useState([]);
-  const [changed, setChanged] = useReducer((state, newState) => ({ ...state, ...newState }),false);
+  //const [disable, setDisable] = useReducer((state, newState) => ({ ...state, ...newState }),false);
+  const [changed, setChanged] = useState(false)
   const isAuthenticated = useSelector(state => state.user.token);
   const sidebar = useSelector(state => state.sidebar);
   const classes = useToolbarStyles();
@@ -26,7 +24,7 @@ const UserPermission = (props) => {
     }).then(response => response.json()).then(res => {
       setUsersDetails(res);
     }).catch(error => console.log(error));
-  }, [isAuthenticated], changed);
+  },[isAuthenticated,changed]);
 
   const handlePermission = (permission_level) => {
 
@@ -36,27 +34,26 @@ const UserPermission = (props) => {
     </div>)
   }
 
-  const handleActiveUser = (permission_level) => {
-
+  const handleActiveUser = (active) => {
     return(<div className = {classes.check}>
-      { permission_level === "active" &&
+      { active &&
       <CheckIcon color = "primary"/>}
     </div>)
   }
 
  const handleAdmin = (e,data,action) => {
-  e.preventDefault()
-  //console.log(data)
-
   fetch(`${Permission}/${action}/${data.provider_id}`, {
     method: "PUT",
     mode: 'cors',
     headers: setAuthorizationHeader(isAuthenticated)
   }).then(response => response.json()).then(res => {
     setChanged(!changed);
+    setUsersDetails(null)
   }).catch(error => console.log(error));
 
  }
+
+
   const headCells = [
     {
       field: 'username',
@@ -79,7 +76,7 @@ const UserPermission = (props) => {
       title: 'Active User',
       sorting: false,
       searchable: false,
-      render: rowData => handleActiveUser(rowData.permission_level)
+      render: rowData => handleActiveUser(rowData.active)
     }
   ];
 
@@ -89,35 +86,56 @@ const UserPermission = (props) => {
     columns={headCells}
     data={usersDetails}
     actions={[
-      {
-        icon: () => {return<ThumbUpAltIcon color="primary"/>},
-        tooltip: 'Promote to Admin',
-        onClick: (event, rowData) => {
-          //props.prop.history.push(`/adddatasetfile/${rowData.datasetId}`);
-        }
+
+        rowData => ({
+
+          icon: () => {return (rowData.permission_level === "admin" ? <Switch
+            checked={true}
+            onChange={event => handleAdmin(event,rowData,'demote')}
+            name="Demote"
+            color="primary"
+            size="small"
+            label="Demote"
+          /> : <Switch
+            checked={false}
+            onChange={event => handleAdmin(event,rowData,'promote')}
+            name="Promote"
+            color="primary"
+            size="small"
+            label="Promote"
+          /> )}
 
 
-    }
+        }),
+        rowData => ({
+
+          icon: () => {return (rowData.active  ? <Switch
+            checked={true}
+            onChange={event => handleAdmin(event,rowData,'disable')}
+            name="disable"
+            color="primary"
+            size="small"
+          /> : <Switch
+            checked={false}
+            onChange={event => handleAdmin(event,rowData,'enable')}
+            name="enable"
+            color="primary"
+            size="small"
+          /> )}
+        //  tooltip: 'Promote to Admin',
+        //  onClick: (event, rowData) => handleAdmin(event,rowData,rowData.permission_level === "admin" ? 'demote':'promote')
+
+
+        })
+
+
+
+
     ]}
     options={{
        actionsColumnIndex: -1
      }}
-     components={{
-       Action: props => (
-         <div>
-           {console.log("anu", props)}
 
-           {props.data && props.data.permission_level === "admin" ?
-            <Tooltip title="Demote Admin">
-             <ThumbDownIcon color="primary" onClick={e => handleAdmin(e, props.data,"demote")}/>
-             </Tooltip > :
-             <Tooltip title="Promote to Admin" >
-               <ThumbUpAltIcon color = "primary" onClick={e => handleAdmin(e, props.data,"promote")}/>
-             </Tooltip>}
-
-         </div>
-       )
-     }}
   /></div>)
 }
 
