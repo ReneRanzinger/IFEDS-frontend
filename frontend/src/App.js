@@ -22,7 +22,6 @@ import PasswordChange from './components/pages/PasswordChange';
 import DisplayUserPermission from './components/pages/DisplayUserPermission';
 import {APPLICATION_SETTING}  from "./types";
 import {Setting} from './apiCalls'
-import ForgotPassword from "./components/pages/ForgotPassword";
 import CreateUserDisplay from "./components/pages/CreateUserDisplay";
 
 
