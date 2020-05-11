@@ -116,12 +116,6 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={PasswordChange}
       />
-      <GuestRoute
-        location={location}
-        path="/forgotpassword"
-        exact
-        component={ForgotPassword}
-      />
       <UserRoute
         location={location}
         path="/userpermission"
