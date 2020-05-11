@@ -22,6 +22,7 @@ import PasswordChange from './components/pages/PasswordChange';
 import {APPLICATION_SETTING}  from "./types";
 import {Setting} from './apiCalls'
 import ForgotPassword from "./components/pages/ForgotPassword";
+import CreateUserDisplay from "./components/pages/CreateUserDisplay";
 
 const applicationSetting = data => ({
   type: APPLICATION_SETTING,
@@ -44,6 +45,7 @@ const App = ({ location, isAuthenticated }) => {
   return (
     <div>
       <AdminRoute location={location} path="/" exact component={HomePage} />
+      <AdminRoute location={location} path="/CreateUser" exact component={CreateUserDisplay} />
       <UserRoute
         location={location}
         path="/datasettable"
