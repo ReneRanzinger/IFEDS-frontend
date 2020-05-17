@@ -191,6 +191,7 @@ const useToolbarStyles = makeStyles(theme => ({
     width: 200,
   },
   chip : {
-    marginRight : theme.spacing(1)
+    marginRight : theme.spacing(1),
+    marginBottom : theme.spacing(1)
   }
 }));
