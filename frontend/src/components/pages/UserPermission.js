@@ -1,16 +1,17 @@
-import React, {useState, useReducer, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import MaterialTable from 'material-table';
 import {makeStyles} from '@material-ui/core/styles';
 import CheckIcon from '@material-ui/icons/Check';
 import {Permission} from '../../apiCalls';
 import Switch from '@material-ui/core/Switch';
-import Tooltip from '@material-ui/core/Tooltip';
+import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 
 const UserPermission = (props) => {
   const [usersDetails, setUsersDetails] = useState([]);
-  //const [disable, setDisable] = useReducer((state, newState) => ({ ...state, ...newState }),false);
   const [changed, setChanged] = useState(false)
   const isAuthenticated = useSelector(state => state.user.token);
   const sidebar = useSelector(state => state.sidebar);
@@ -46,9 +47,8 @@ const UserPermission = (props) => {
     method: "PUT",
     mode: 'cors',
     headers: setAuthorizationHeader(isAuthenticated)
-  }).then(response => response.json()).then(res => {
+  }).then(response => {
     setChanged(!changed);
-    setUsersDetails(null)
   }).catch(error => console.log(error));
 
  }
@@ -64,7 +64,6 @@ const UserPermission = (props) => {
       title: 'Email',
       sorting: false,
       searchable: false
-      //render: rowData => handleDescription(rowData.description)
     },
     {
       field: 'permission_level',
@@ -81,7 +80,14 @@ const UserPermission = (props) => {
   ];
 
 
-  return (<div className = {sidebar ? classes.root1 : classes.root}><MaterialTable
+  return (<div className = {sidebar ? classes.root1 : classes.root}>
+    <div>
+     <Helmet>
+       <title>{head.userpermission.title}</title>
+       {getMeta(head.userpermission)}
+     </Helmet>
+       </div>
+       <MaterialTable
     title="User Permission"
     columns={headCells}
     data={usersDetails}
@@ -96,20 +102,43 @@ const UserPermission = (props) => {
             color="primary"
             size="small"
             label="Demote"
-          /> : <Switch
+          /> : (rowData.active ? <Switch
             checked={false}
             onChange={event => handleAdmin(event,rowData,'promote')}
             name="Promote"
             color="primary"
             size="small"
             label="Promote"
-          /> )}
+          />:<Switch
+            checked={false}
+            onChange={event => handleAdmin(event,rowData,'promote')}
+            disabled
+            name="Promote"
+            color="primary"
+            size="small"
+            label="Promote"
+          /> ))},
+          tooltip: rowData.active ? (rowData.permission_level === "admin" ?'Demote from Admin':'Promote to Admin') : "First Enable the user"
 
 
         }),
         rowData => ({
 
-          icon: () => {return (rowData.active  ? <Switch
+          icon: () => {return rowData.permission_level === "admin" ? (rowData.active  ? <Switch
+            checked={true}
+            onChange={event => handleAdmin(event,rowData,'disable')}
+            name="disable"
+            disabled
+            color="primary"
+            size="small"
+          /> : <Switch
+            checked={false}
+            onChange={event => handleAdmin(event,rowData,'enable')}
+            disabled
+            name="enable"
+            color="primary"
+            size="small"
+          /> ):(rowData.active  ? <Switch
             checked={true}
             onChange={event => handleAdmin(event,rowData,'disable')}
             name="disable"
@@ -121,10 +150,8 @@ const UserPermission = (props) => {
             name="enable"
             color="primary"
             size="small"
-          /> )}
-        //  tooltip: 'Promote to Admin',
-        //  onClick: (event, rowData) => handleAdmin(event,rowData,rowData.permission_level === "admin" ? 'demote':'promote')
-
+          /> )},
+         tooltip: rowData.permission_level === "admin" ? ('To disable, demote from Admin') : (rowData.active  ? 'Disable' : 'Enable')
 
         })
 
