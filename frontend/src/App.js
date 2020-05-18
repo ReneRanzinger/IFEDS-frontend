@@ -20,6 +20,7 @@ import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
 import PasswordChange from './components/pages/PasswordChange';
 import DisplayUserPermission from './components/pages/DisplayUserPermission';
+import EditProfileDisplay from './components/pages/EditProfileDisplay'
 import {APPLICATION_SETTING}  from "./types";
 import {Setting} from './apiCalls'
 import CreateUserDisplay from "./components/pages/CreateUserDisplay";
@@ -123,6 +124,12 @@ const App = ({ location, isAuthenticated }) => {
         path="/userpermission"
         exact
         component={DisplayUserPermission}
+      />
+    <UserRoute
+      location={location}
+      path="/editprofile"
+      exact
+      component={EditProfileDisplay}
       />
     </div>
   );};

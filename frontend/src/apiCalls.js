@@ -16,6 +16,7 @@ export const FundingSource = `${base_url}/funding_sources`
 export const Keyword = `${base_url}/keywords`
 export const PaperID = `${base_url}/paper_mata_data`
 export const Provider = `${base_url}/getProvider`
+export const UpdateProvider = `${base_url}/update_provider`
 export const Dashboard = `${base_url}/dashboard`
 export const Setting = `${base_url}/get_settings`
 export const Password = `${base_url}/change_password`;
