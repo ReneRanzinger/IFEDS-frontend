@@ -102,9 +102,8 @@ EnhancedTableHead.propTypes = {
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-    textAlign: 'center'
+    paddingLeft: theme.spacing(0),
+    textAlign: 'left'
   },
   highlight: theme.palette.type === 'light'
     ? {
@@ -355,12 +354,12 @@ export default function EnhancedTable(props) {
                       </TableCell>
                       <TableCell align="left">{row.providerName}</TableCell>
                       <TableCell align="left">{row.sampleName}</TableCell>
-                      <TableCell align="left"><ReadMoreAndLess className="read-more-content"
+                      <TableCell align="left">{row.description && <ReadMoreAndLess className="read-more-content"
                                                                charLimit={125}
                                                                readMoreText="...read more"
                                                                readLessText="...read less">
                                               {row.description}
-                                                </ReadMoreAndLess>
+                                            </ReadMoreAndLess>}
                       </TableCell>
                     </TableRow>
                   );
