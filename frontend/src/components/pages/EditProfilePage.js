@@ -1,5 +1,6 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import {useSelector} from 'react-redux';
+import { useHistory } from 'react-router-dom'
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import TextField from '@material-ui/core/TextField';
 import {makeStyles} from '@material-ui/core/styles';
@@ -11,26 +12,12 @@ import { Helmet } from "react-helmet";
 import { head } from "../pages/head.js";
 import { getMeta } from "../pages/head.js";
 
-const useFetch = (url,props) => {
-  const isAuthenticated = useSelector(state => state.user.token);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetch(url, {
-      method: "GET",
-      mode: 'cors',
-      headers: setAuthorizationHeader(isAuthenticated)
-    }).then(response => response.json()).then(res => {
-      setData(res);
-    }).catch(error => console.log(error));
-  }, [isAuthenticated, url]);
-  return [data, setData];
-}
+import Grid from '@material-ui/core/Grid';
 
 
 export default function EditProfilePage(props) {
   const classes = useToolbarStyles();
-  const [provider] = useFetch(Provider);
+  const history = useHistory();
 
   const [providerData, setProviderData] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
@@ -56,7 +43,7 @@ export default function EditProfilePage(props) {
   const sidebar = useSelector(state => state.sidebar);
 
   const handleClose = () => {
-    props.history.push("/dashboard");
+    history.push("/dashboard");
 
   }
 
@@ -85,7 +72,7 @@ export default function EditProfilePage(props) {
         "url": providerData["url"],
         "username": providerData["username"]
        })
-     }).then(res => props.history.push("/dashboard")
+     }).then(res => history.push("/dashboard")
    ).catch(error => console.log(error))
 
 }
@@ -101,38 +88,45 @@ export default function EditProfilePage(props) {
         </Helmet>
       </div>
       <Paper className={sidebar ? classes.root1 : classes.root}>
-        <Typography variant="h5" component="h3">
+        <div className = {classes.header}><Typography variant="h5" component="h3">
           Edit Profile
         </Typography>
+      </div>
         <form className={classes.form} onSubmit={handleSubmit}>
-          <div style={{ marginTop: "20px", width: "56.7%" }}>
-            <TextField
-              disabled
-              id="name"
-              label="Username"
-              name="name"
-              size="small"
-              value={providerData.username}
-              defaultValue={providerData.username}
-              onChange={handleChange}
-              className={classes.nameField}
-              type="text"
-            />
-
-            <TextField
-              margin="dense"
-              disabled
-              className={classes.textField2}
-              size="medium"
-              id="email"
-              name="email"
-              value={providerData.email}
-              defaultValue={providerData.email}
-              onChange={handleChange}
-              label="Email"
-              type="email"
-            />
-
+          <Grid container spacing={3}>
+            <div className = {classes.fieldAlign}>
+              <Grid item xs={6}>
+              <TextField
+                disabled
+                id="username"
+                label="Username"
+                name="name"
+                size="small"
+                value={providerData.username}
+                defaultValue={providerData.username}
+                onChange={handleChange}
+                className={classes.textField2}
+                type="text"
+              />
+          </Grid>
+          <Grid item xs={6}>
+              <TextField
+                margin="dense"
+                disabled
+                className={classes.textField2}
+                size="medium"
+                id="email"
+                name="email"
+                value={providerData.email}
+                defaultValue={providerData.email}
+                onChange={handleChange}
+                label="Email"
+                type="email"
+              />
+          </Grid>
+          </div>
+          <div className = {classes.fieldAlign}>
+          <Grid item xs={6}>
             <TextField
               autoFocus
               margin="dense"
@@ -146,34 +140,44 @@ export default function EditProfilePage(props) {
               label="Name"
               type="text"
             />
+        </Grid>
+        <Grid item xs={6}>
             <TextField
               margin="dense"
               className={classes.textField2}
+              size="medium"
+              id="contact"
+              name="contact"
+              value={providerData.contact}
+              defaultValue={providerData.contact}
+              onChange={handleChange}
+              label="Contact"
+              type="text"
+              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            />
+        </Grid>
+      </div>
+      <div className = {classes.fieldAlign}>
+      <Grid item xs={12}>
+            <TextField
+              margin="dense"
+              className={classes.textField1}
               size="medium"
               id="url"
               name="url"
               value={providerData.url}
               defaultValue={providerData.url}
               onChange={handleChange}
+              fullWidth
               label="Url"
               type="url"
             />
+        </Grid>
+      </div>
+
             <TextField
               margin="dense"
-              className={classes.textField2}
-              size="medium"
-              id="email"
-              name="email"
-              value={providerData.email}
-              defaultValue={providerData.email}
-              onChange={handleChange}
-              label="Email"
-              type="email"
-              fullWidth
-            />
-            <TextField
-              margin="dense"
-              className={classes.textField2}
+              className={classes.textField1}
               size="medium"
               id="department"
               name="department"
@@ -186,7 +190,7 @@ export default function EditProfilePage(props) {
             />
             <TextField
               margin="dense"
-              className={classes.textField2}
+              className={classes.textField1}
               size="medium"
               id="affiliation"
               name="affiliation"
@@ -199,7 +203,7 @@ export default function EditProfilePage(props) {
             />
             <TextField
               margin="dense"
-              className={classes.textField2}
+              className={classes.textField1}
               size="medium"
               id="providerGroup"
               name="providerGroup"
@@ -211,9 +215,8 @@ export default function EditProfilePage(props) {
               fullWidth
             />
 
-          </div>
 
-
+</Grid>
 
           <div style={{ marginTop: "40px" }}>
             <Button
@@ -228,6 +231,7 @@ export default function EditProfilePage(props) {
               Save
             </Button>
           </div>
+
         </form>
       </Paper>
     </div>
@@ -255,23 +259,32 @@ const drawerWidth = 240;
         duration: theme.transitions.duration.enteringScreen
       })
     },
+    fieldAlign : {
+      display : "contents"
+    },
+    form : {
+      marginLeft: theme.spacing(2),
+    },
+    header : {
+      margin: theme.spacing(2)
+    },
     textField1 :{
-      marginRight: theme.spacing(15)
+      marginTop: theme.spacing(2.3),
+      width: "75%"
     },
     textField2 :{
-      marginTop: theme.spacing(2.3)
+      marginTop: theme.spacing(2.3),
+      width : "50%"
     },
     nameField :{
-      marginTop: theme.spacing(2.3),
-      marginRight: theme.spacing(15)
+      marginTop: theme.spacing(2.3)
     },
     valueField: {
       marginTop:theme.spacing(2.3),
       marginRight: theme.spacing(11)
     },
-    tick : {
-      marginTop: theme.spacing(5),
-      marginLeft: theme.spacing(15)
+    formDiv : {
+      marginTop: theme.spacing(2)
     },
     label: {
       marginLeft: theme.spacing(3),
