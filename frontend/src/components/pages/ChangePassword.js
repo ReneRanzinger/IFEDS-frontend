@@ -1,12 +1,12 @@
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { Auth } from "aws-amplify";
 import {useSelector} from 'react-redux'
 import { useHistory } from "react-router-dom";
 import { FormGroup, FormControl } from "react-bootstrap";
 import {ControlLabel} from "react-bootstrap";
 import LoaderButton from "./LoaderButton";
-import { useFormFields } from "../libs/hooksLib";
-import { onError } from "../libs/errorLib";
+// import { useFormFields } from "../libs/hooksLib";
+// import { onError } from "../libs/errorLib";
 import "./ChangePassword.css";
 //import Sidebar from './Sidebar';
 import PropTypes from "prop-types";
@@ -40,28 +40,23 @@ export default function ChangePassword(props) {
   const history = useHistory();
   const classes = useStyles();
   const sidebar = useSelector(state => state.sidebar);
-
-  // const handleFieldChange =(e) => {
-  //   name = e.target.name;
-  //   value = e.target.value;
-  //   setAuthorizationHea
-  // }
-  
   const [isChanging, setIsChanging] = useState(false);
+  const [fields, setFields] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      password: "",
+      oldPassword: "",
+      confirmPassword: ""
+    }
+  );
 
-
-
-  const [fields, handleFieldChange] = useFormFields({
-    password: "",
-    oldPassword: "",
-    confirmPassword: ""
-  });
-
-  // const [fields, handleFieldChange] = useReducer((){
-  //   password: "",
-  //   oldPassword: "",
-  //   confirmPassword: ""
-  // });
+ 
+    const handleFieldChange = (e) => {
+     
+        const name = e.target.name;
+        const value = e.target.value;
+        setFields({[name]: value });
+    }
 
 
 
@@ -85,16 +80,19 @@ export default function ChangePassword(props) {
   const handleChangeClick = (event) => {
     event.preventDefault();
 
+         console.log("name", fields.password);
+         console.log("value", fields.oldPassword);
     setIsChanging(true);
 
     fetch(Password, {
         method: "POST",
         mode: "cors",
         headers: setAuthorizationHeader(isAuthenticated),
-        body: {
-          new_password: fields.password,
-          old_password: fields.oldpassword
-        }
+        body:JSON.stringify({
+          "new_password": fields.password,
+          "old_password": fields.oldPassword
+        })
+        
       })
         .then(response => response.json())
         .then(res => {
@@ -122,7 +120,7 @@ export default function ChangePassword(props) {
     <div className={sidebar ? classes.root1 : classes.root}>
       <Card className={classes.bullet1}>
         <div className="ChangePassword">
-          <form onSubmit={handleChangeClick}>
+          <form onSubmit={e => handleChangeClick(e)}>
             <FormGroup bsSize="large" controlId="oldPassword">
               <ControlLabel>Old Password :</ControlLabel>
               <FormControl
@@ -131,7 +129,8 @@ export default function ChangePassword(props) {
                 required="required"
                 fullWidth="fullWidth"
                 type="password"
-                onChange={handleFieldChange}
+                name = "oldPassword"
+                onChange={e => handleFieldChange(e)}
                 value={fields.oldPassword}
               />
             </FormGroup>
@@ -144,7 +143,8 @@ export default function ChangePassword(props) {
                 required="required"
                 fullWidth="fullWidth"
                 type="password"
-                onChange={handleFieldChange}
+                name="password"
+                onChange={e => handleFieldChange(e)}
                 value={fields.password}
               />
             </FormGroup>
@@ -156,7 +156,8 @@ export default function ChangePassword(props) {
                 required="required"
                 fullWidth="fullWidth"
                 type="password"
-                onChange={handleFieldChange}
+                name = "confirmPassword"
+                onChange={e => handleFieldChange(e)}
                 value={fields.confirmPassword}
               />
             </FormGroup>
