@@ -10,6 +10,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+//import { AvForm, AvGroup, AvInput, AvFeedback } from "availity-reactstrap-validation";
+import ResetPasswordPage from "../pages/ResetPasswordPageContainer.js";
+
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,25 +42,45 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
 export default function SignIn({submit}) {
-
-
-   
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const [username, setUsername] = useState("");
+const [password, setPassword] = useState("");
  const classes = useStyles();
 
+ 
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
+    
     submit({email: username, password: password});
 
   }
+//   const validate = (values) => {
+//   const errors = {};
+//   const requiredFields = ["username", "password"];
+//   requiredFields.forEach(field => {
+//     if (!values[field]) {
+//       errors[field] = "Required";
+//     }
+//   });
+//   return errors;
+// };
 
-   
+const validate = (values) =>{
+const errors = [];
 
+  if (username.length === 0) {
+    errors.push("Name can't be empty");
+  }
+
+ if (password.length < 6) {
+    errors.push("Password should be at least 6 characters long");
+  }
+
+  return errors;
+}
+
+ 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -81,7 +105,10 @@ export default function SignIn({submit}) {
             autoComplete="username"
             autoFocus="autoFocus"
             onChange={e => setUsername(e.target.value)}
+            helpertext="Enter Password"
+           
           />
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -94,6 +121,8 @@ export default function SignIn({submit}) {
             id="password"
             autoComplete="current-password"
             onChange={e => setPassword(e.target.value)}
+            helpertext="Enter Password"
+           
           />
 
           <Button
@@ -107,7 +136,7 @@ export default function SignIn({submit}) {
           </Button>
           <Grid container="container">
             <Grid item="item" xs="xs">
-              <Link href="" variant="body2">
+              <Link href="/resetpasswordpagecontainer" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
@@ -118,3 +147,4 @@ export default function SignIn({submit}) {
     </Container>
   );
 }
+

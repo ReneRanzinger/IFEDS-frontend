@@ -24,13 +24,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import SendIcon from '@material-ui/icons/Send';
+//import SendIcon from '@material-ui/icons/Send';
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import HomeIcon from "@material-ui/icons/Home";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PortraitIcon from "@material-ui/icons/Portrait";
 import StorageIcon from "@material-ui/icons/Storage";
 import { SIDEBAR_OPEN } from "../../types";
+
 
 const drawerWidth = 240;
 
@@ -347,7 +348,7 @@ const PersistentDrawerLeft = ({props})=> {
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/passwordchange">
+                <Link to="/displaychangepassword">
                   <ListItemText primary="Password Change" />
                 </Link>
               </ListItem>

@@ -11,5 +11,8 @@ export default {
             "username": credentials.email,
             "password": credentials.password
         })
-      }).then(res => res.json()) }
+      }).then(res => res.json()) 
+      
+    
+    }
 };

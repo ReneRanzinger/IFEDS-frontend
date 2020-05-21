@@ -277,7 +277,16 @@ export default connect(mapStateToProps, { logout: actions.logout })(
 //\xa0\xa0 ${row["url"]} \xa0\xa0  ${row["grantNumber"]}
 
 
-
+setSampleData({ [name]: newValue }); useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      name: "",
+      sample_type_id : "",
+      url : "",
+      description: "",
+      sample_descriptors : []
+    }
+  ); 
 
 
 

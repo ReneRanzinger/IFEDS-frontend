@@ -18,11 +18,13 @@ import AddSampleDisplay from './components/pages/AddSampleDisplay';
 import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
-import PasswordChange from './components/pages/PasswordChange';
 import DisplayUserPermission from './components/pages/DisplayUserPermission';
 import {APPLICATION_SETTING}  from "./types";
-import {Setting} from './apiCalls'
-
+import {Setting, Authenticate} from './apiCalls'
+import ResetPasswordPage from './components/pages/ResetPasswordPage';
+import { ResetPasswordPageContainer } from './components/pages/ResetPasswordPageContainer';
+import {Authentication} from './components/authentication.js'
+import DisplayChangePassword from "./components/pages/DisplayChangePassword";
 
 const applicationSetting = data => ({
   type: APPLICATION_SETTING,
@@ -112,21 +114,27 @@ const App = ({ location, isAuthenticated }) => {
       />
       <UserRoute
         location={location}
-        path="/passwordchange"
-        exact
-        component={PasswordChange}
-      />
-      <GuestRoute
-        location={location}
-        path="/forgotpassword"
-        exact
-        component={ForgotPassword}
-      />
-      <UserRoute
-        location={location}
         path="/userpermission"
         exact
         component={DisplayUserPermission}
+      />
+      <UserRoute
+        location={location}
+        path="/resetpasswordpage"
+        exact
+        component={ResetPasswordPage}
+      />
+      <UserRoute
+        location={location}
+        path="/resetpasswordpagecontainer"
+        exact
+        component={ResetPasswordPageContainer}
+      />
+      <UserRoute
+        location={location}
+        path="/displaychangepassword"
+        exact
+        component={DisplayChangePassword}
       />
     </div>
   );};
