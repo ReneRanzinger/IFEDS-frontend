@@ -41,13 +41,21 @@ export default function ChangePassword(props) {
   const classes = useStyles();
   const sidebar = useSelector(state => state.sidebar);
 
-  const handleFieldChange =(e) => {
-    name = e.target.name;
-    value = e.target.value;
-    setAuthorizationHea
-  }
+  // const handleFieldChange =(e) => {
+  //   name = e.target.name;
+  //   value = e.target.value;
+  //   setAuthorizationHea
+  // }
   
   const [isChanging, setIsChanging] = useState(false);
+
+
+
+  const [fields, handleFieldChange] = useFormFields({
+    password: "",
+    oldPassword: "",
+    confirmPassword: ""
+  });
 
   // const [fields, handleFieldChange] = useReducer((){
   //   password: "",
