@@ -6,8 +6,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
-import Tooltip from '@material-ui/core/Tooltip';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from '@material-ui/core/Button';
 import {Sample, SampleTypes, SampleDescriptors} from '../../apiCalls'
 import { Helmet } from "react-helmet";
@@ -46,7 +44,7 @@ export default function SampleForm(props) {
   const classes = useToolbarStyles();
   const [sampleDescriptor] = useFetch(SampleDescriptors,props);
   const [sampleType] = useFetch(SampleTypes,props);
-  const sDescriptor = useFormInput();
+  const [sDescriptor, setSDescriptor] = useState();
   const [value,setValue] = useState();
   const [measurement, setMeasurement] = useState();
   const [sampleDesc, setSampleDesc] = useState({data: []});
@@ -83,7 +81,7 @@ export default function SampleForm(props) {
     setSampleDesc(sampleDesc => {
       const data = [...sampleDesc.data];
   for (var i = 0; i < sampleDesc["data"].length; i++) {
-  if (sampleDesc["data"][i][0] === sDescriptor.value && sampleDesc["data"][i][1] === value && sampleDesc["data"][i][2] === measurement) {
+  if (sampleDesc["data"][i][0] === sDescriptor && sampleDesc["data"][i][1] === value ) {
     count = true;
     break;
   }
@@ -91,12 +89,15 @@ export default function SampleForm(props) {
 
     if(!count) {
       if(measurement!= null) {
-      data.push([sDescriptor.value, value , measurement]);
+      data.push([sDescriptor, value , measurement]);
     } else {
-      data.push([sDescriptor.value, value , ""]);
+      data.push([sDescriptor, value , ""]);
     }}
       return {...sampleDesc , data}
     });
+    setValue("")
+    setMeasurement("")
+    setSDescriptor("")
     setIsDescriptorAdded(true);
   }
 
@@ -106,6 +107,10 @@ export default function SampleForm(props) {
 
   const handleChangeForValue = (e) => {
     setValue(e.target.value)
+  }
+
+  const handleSDescriptorChange = (e) => {
+    setSDescriptor(e.target.value)
   }
 
 async function handleSubmit(e) {
@@ -119,7 +124,7 @@ async function handleSubmit(e) {
 
       return sampleDescriptorArray
   })
-  const response =  await fetch(`${Sample}/${params.id}`,{
+  fetch(`${Sample}/${params.id}`,{
      method: "PUT",
      headers: {
          "Content-Type" : "application/json",
@@ -144,7 +149,7 @@ useEffect(() => {
     headers: setAuthorizationHeader(isAuthenticated)
   }).then(response => response.json()).then(res => {
     setSampleData(res);
-    const tempSampleDescriptor = res["sampleToSameDescriptorBean"].map((a,row) => {
+    const tempSampleDescriptor = res["sampleDescriptors"].map((a,row) => {
     if(a["unitOfMeasurement"] != null) {
     return [a["sampleDescriptor"]["name"],a["value"],a["unitOfMeasurement"]]
   } else {
@@ -259,7 +264,8 @@ useEffect(() => {
                 select
                 label="Sample Descriptor"
                 className={classes.textField1}
-                {...sDescriptor}
+                value = {sDescriptor}
+                onChange = {e => handleSDescriptorChange(e)}
                 SelectProps={{
                   native: true,
                   MenuProps: {
@@ -269,7 +275,7 @@ useEffect(() => {
                 helperText="Please select sample Descriptor"
                 margin="normal"
               >
-                <option value={sDescriptor} />
+                <option value="" />
                 {sampleDescriptor.map(option => (
                   <option key={option.sample_descriptor_id} value={option.name}>
                     {option.name}
@@ -279,6 +285,7 @@ useEffect(() => {
               <TextField
                 id="value"
                 label="Value"
+                value={value}
                 onChange={e => handleChangeForValue(e)}
                 className={classes.valueField}
                 type="text"
@@ -287,20 +294,14 @@ useEffect(() => {
                 margin="dense"
                 className={classes.textField2}
                 id="unit_of_measurment"
+                value={measurement}
                 onChange={e => handleChangeForMeasurement(e)}
                 label="Measurement Unit"
                 type="text"
               />
-              <Tooltip title="Add Sample Descriptor">
-                <AddCircleIcon
-                  className={classes.tick}
-                  onClick={e => handleAddDescriptor(e)}
-                />
-              </Tooltip>
-              <Typography className={classes.label}>
-                {" "}
-                Add Sample Descriptor{" "}
-              </Typography>
+              <Button  type = "submit" className={classes.label} variant = "contained" color = "primary" onClick={e => handleAddDescriptor(e)} >
+                  Add Sample Descriptor
+              </Button>
             </div>
           </form>
           <div style={{ marginTop: "40px" }}>
@@ -308,7 +309,7 @@ useEffect(() => {
               sampleDesc.data.map((row, index) => {
                 const ret = `${row[0]} :\xa0\xa0   ${row[1]}   \xa0   ${row[2]}`;
                 return (
-                  <div>
+                  <div className = {classes.tick}>
                     <Chip
                       size="medium"
                       variant="outlined"
@@ -374,12 +375,12 @@ const drawerWidth = 240;
       marginRight: theme.spacing(11)
     },
     tick : {
-      marginTop: theme.spacing(5),
-      marginLeft: theme.spacing(15)
+      marginTop: theme.spacing(1)
     },
     label: {
+      marginTop: theme.spacing(3),
       marginLeft: theme.spacing(3),
-      paddingTop: theme.spacing(5)
+      marginBottom: theme.spacing(3)
     },
     menu: {
       width: 200,

@@ -19,12 +19,16 @@ import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
 import DisplayUserPermission from './components/pages/DisplayUserPermission';
+import EditProfileDisplay from './components/pages/EditProfileDisplay'
 import {APPLICATION_SETTING}  from "./types";
 import {Setting, Authenticate} from './apiCalls'
 import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import { ResetPasswordPageContainer } from './components/pages/ResetPasswordPageContainer';
 import {Authentication} from './components/authentication.js'
 import DisplayChangePassword from "./components/pages/DisplayChangePassword";
+import {Setting} from './apiCalls'
+import CreateUserDisplay from "./components/pages/CreateUserDisplay";
+
 
 const applicationSetting = data => ({
   type: APPLICATION_SETTING,
@@ -47,6 +51,7 @@ const App = ({ location, isAuthenticated }) => {
   return (
     <div>
       <AdminRoute location={location} path="/" exact component={HomePage} />
+      <AdminRoute location={location} path="/CreateUser" exact component={CreateUserDisplay} />
       <UserRoute
         location={location}
         path="/datasettable"
@@ -135,6 +140,12 @@ const App = ({ location, isAuthenticated }) => {
         path="/displaychangepassword"
         exact
         component={DisplayChangePassword}
+      />
+    <UserRoute
+      location={location}
+      path="/editprofile"
+      exact
+      component={EditProfileDisplay}
       />
     </div>
   );};

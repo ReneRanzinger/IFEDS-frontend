@@ -100,7 +100,7 @@ const ProviderDetail = (props) => {
 
   const handleClick = e => {
     // TODO: This link needs to point to Edit Profile Page
-      props.history.push("/profile")
+      props.history.push("/editprofile")
   }
 
   return(<Card className = {classes.bullet1}>

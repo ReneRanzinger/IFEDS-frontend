@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {Link} from 'react-router-dom';
+import Chip from '@material-ui/core/Chip';
 import MaterialTable,{MTableToolbar} from 'material-table';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
@@ -61,10 +61,20 @@ export default function SampleList(props) {
     </ReadMoreAndLess>);}
   }
 
-  const handleUrl = (url) => {
-    return (<Link to={url}>
-      {url}
-    </Link>);
+  const handleDescriptors = (descriptors) => {
+    return( descriptors.map((row,index ) => {
+     let ret = `${row["sampleDescriptor"]["name"]} :\xa0\xa0 ${row["value"]} \xa0\xa0  ${row["unitOfMeasurement"]}`
+    return(
+
+      <Chip
+        size="small"
+        variant="outlined"
+        label={ret}
+        color ="primary"
+        className = {classes.chip}
+      />
+  )
+}))
   }
 
   const handleAddNewSample = () => {
@@ -79,12 +89,19 @@ export default function SampleList(props) {
       field: 'sampleTypeName',
       title: 'Sample Type'
     }, {
+      field: 'sampleDescriptors',
+      title: 'Sample Descriptors',
+      sorting: false,
+      searchable: false,
+      render: rowData => handleDescriptors(rowData.sampleDescriptors)
+    },{
       field: 'description',
       title: 'Sample Description',
       sorting: false,
       searchable: false,
       render: rowData => handleDescription(rowData.description)
     }
+
   ];
 
   return (<div className = {sidebar ? classes.root1 : classes.paper}>
@@ -172,5 +189,9 @@ const useToolbarStyles = makeStyles(theme => ({
   },
   menu: {
     width: 200,
+  },
+  chip : {
+    marginRight : theme.spacing(1),
+    marginBottom : theme.spacing(1)
   }
 }));

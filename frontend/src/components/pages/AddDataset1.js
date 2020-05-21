@@ -223,10 +223,11 @@ const Sample = props => {
           </InputLabel>
           <NativeSelect
             value={data}
+            required
             onChange={handleChange}
             inputProps={{
               name: 'sample',
-              id: 'sample',
+              id: 'sample'
             }}
           >
           <option/>
