@@ -38,7 +38,7 @@
       }
     ]
   },
-   "addsample": {
+  "addsample": {
     "title": "Add Sample",
     "meta": [
       {
@@ -49,10 +49,9 @@
         "name": "Keywords",
         "content": ""
       }
-
     ]
   },
-   "addsampledisplay": {
+  "addsampledisplay": {
     "title": "Add Sample Display",
     "meta": [
       {
@@ -66,19 +65,19 @@
     ]
   },
   "adddatasetdisplay": {
-   "title": "Add Dataset Display",
-   "meta": [
-     {
-       "name": "Add Dataset",
-       "content": ""
-     },
-     {
-       "name": "Keywords",
-       "content": ""
-     }
-   ]
- },
-   "datasettable": {
+    "title": "Add Dataset Display",
+    "meta": [
+      {
+        "name": "Add Dataset",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
+        "content": ""
+      }
+    ]
+  },
+  "datasettable": {
     "title": "Dataset Table",
     "meta": [
       {
@@ -169,11 +168,67 @@
       }
     ]
   },
-  "userpermission" : {
-    "title" : "User Permission",
-    "meta" : [
+  "userpermission": {
+    "title": "User Permission",
+    "meta": [
       {
         "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
+        "content": ""
+      }
+    ]
+  },
+  "changepassword": {
+    "title": "Change Password",
+    "meta": [
+      {
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
+        "content": ""
+      }
+    ]
+  },
+  "editprofile": {
+    "title": "EditProfile",
+    "meta": [
+      {
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
+        "content": ""
+      }
+    ]
+  },
+  "createuser": {
+    "title": "Createuser",
+    "meta": [
+      {
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
+        "content": ""
+      }
+    ]
+  },
+  "datasettabledisplay": {
+    "title": "DatasettableDisplay",
+    "meta": [
+      {
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
         "content": ""
       }
     ]

@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import CreateUser from "../forms/CreateUser";
 import { logout } from "../../actions/auth";
 import PropTypes from "prop-types";
+import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
 class CreateUserDisplay extends Component {
   render() {
@@ -11,6 +14,12 @@ class CreateUserDisplay extends Component {
       <div>
         <SideBar props={this.props} isDashBoard={"true"} />
         <CreateUser prop={this.props} />
+        <div>
+          <Helmet>
+            <title>{head.createuser.title}</title>
+            {getMeta(head.createuser)}
+          </Helmet>
+        </div>
       </div>
     );
   }

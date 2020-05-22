@@ -15,11 +15,10 @@ class DisplayChangePassword extends Component {
         <Sidebar props={this.props} isDashBoard={"true"} />
         <ChangePassword {...this.props} />
         <div>
-          {/* <Helmet>
-            <title>{head.dashboard.title}</title>
-            {getMeta(head.dashboard)}
+          <Helmet>
+            <title>{head.changepassword.title}</title>
+            {getMeta(head.changepassword)}
           </Helmet>
-          ... */}
         </div>
       </div>
     );
