@@ -50,7 +50,7 @@ const App = ({ location, isAuthenticated }) => {
   useHandleSetting()
   return (
     <div>
-      <AdminRoute location={location} path="/" exact component={HomePage} />
+      <Route location={location} path="/" exact component={HomePage} />
       <AdminRoute location={location} path="/CreateUser" exact component={CreateUserDisplay} />
       <UserRoute
         location={location}
@@ -117,7 +117,7 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={AddDatasetDisplay}
       />
-      <UserRoute
+    <AdminRoute
         location={location}
         path="/userpermission"
         exact

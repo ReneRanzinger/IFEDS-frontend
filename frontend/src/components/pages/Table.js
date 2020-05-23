@@ -206,21 +206,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const useFetch = (url, props, openAlert) => {
-  const [data, setData] = useState([
-    {
-      "datasetId": 1,
-      "datasetName": "Stem Cell Data 1",
-      "sampleName": "Differenciated smooth cell",
-      "providerName": "CCRC tr",
-      "description": "Glycomics analysis performed with the stem cell data set 1."
-    }, {
-      "datasetId": 2,
-      "datasetName": "Stem Cell Data 2",
-      "sampleName": "Differenciated smooth muscle cell",
-      "providerName": "CCRC ry",
-      "description": "Glycomics analysis performed with the stem cell data set 2."
-    }
-  ]);
+  const [data, setData] = useState([  ]);
 
   useEffect(() => {
     fetch(url, {
