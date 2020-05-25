@@ -142,8 +142,9 @@ const PersistentDrawerLeft = ({props})=> {
      props.history.push("/login");
    };
 
-   const handleUserPermission = () => {
-     props.history.push("/userpermission");
+
+   const handleLinkChange = (url) => {
+     props.history.push(url);
    }
 
    const handleLogout = () => {
@@ -290,15 +291,13 @@ const PersistentDrawerLeft = ({props})=> {
           aria-labelledby="nested-list-subheader"
           className={classes.root1}
         >
-          <ListItem button>
+          <ListItem button onClick = {e => handleLinkChange("/dashboard")}>
             <ListItemIcon>
               <HomeIcon />
               {/* <SendIcon /> */}
             </ListItemIcon>
-            <Link to="/dashboard">
               {" "}
               <ListItemText primary="Home" />
-            </Link>
           </ListItem>
           <ListItem button onClick={handleDataClick}>
             <ListItemIcon>
@@ -310,25 +309,20 @@ const PersistentDrawerLeft = ({props})=> {
           </ListItem>
           <Collapse in={open2} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/datasettable")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/datasettable">
                   {" "}
                   <ListItemText primary="Dataset" />
-                </Link>
               </ListItem>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/samplelist")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-
-                <Link to="/samplelist">
                   <ListItemText primary="Samples" />
-                </Link>
               </ListItem>
             </List>
           </Collapse>
@@ -343,16 +337,14 @@ const PersistentDrawerLeft = ({props})=> {
           </ListItem>
           <Collapse in={open3} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/displaychangepassword")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/displaychangepassword">
                   <ListItemText primary="Password Change" />
-                </Link>
               </ListItem>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/editprofile")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
@@ -373,16 +365,14 @@ const PersistentDrawerLeft = ({props})=> {
           </ListItem>
           <Collapse in={open4} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/CreateUser")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/CreateUser">
                   <ListItemText primary="New User" />
-                </Link>
               </ListItem>
-              <ListItem button className={classes.nested} onClick = {handleUserPermission}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/userpermission")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
@@ -390,7 +380,7 @@ const PersistentDrawerLeft = ({props})=> {
 
                 <ListItemText primary="User Permission" />
               </ListItem>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}

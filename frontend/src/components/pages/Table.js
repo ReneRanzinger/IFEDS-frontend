@@ -186,6 +186,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'flex-end'
   },
+  tableCell: {
+    paddingTop : theme.spacing(2),
+    paddingBottom : theme.spacing(2),
+    paddingRight : theme.spacing(3)
+  },
   searchPage: {
     marginLeft: theme.spacing(4)
   },
@@ -313,7 +318,7 @@ export default function EnhancedTable(props) {
         </div>
 
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle" size={'medium'}>
+          <Table className={classes.table} aria-labelledby="tableTitle" size={'medium'} padding="none">
             <EnhancedTableHead classes={classes} order={order} orderBy={orderBy} onRequestSort={handleRequestSort}/>
             <TableBody>
               {
@@ -335,12 +340,12 @@ export default function EnhancedTable(props) {
                       key={row.datasetId}
                       selected={isItemSelected}
                     >
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                      <TableCell component="th" id={labelId} scope="row" className = {classes.tableCell} >
                         <Link to={`/datasetDetail/${row.datasetId}`}>{row.datasetName}</Link>
                       </TableCell>
-                      <TableCell align="left">{row.providerName}</TableCell>
-                      <TableCell align="left">{row.sampleName}</TableCell>
-                      <TableCell align="left">{row.description && <ReadMoreAndLess className="read-more-content"
+                      <TableCell align="left" className = {classes.tableCell} >{row.providerName}</TableCell>
+                      <TableCell align="left" className = {classes.tableCell}>{row.sampleName}</TableCell>
+                      <TableCell align="left" className = {classes.tableCell} >{row.description && <ReadMoreAndLess className="read-more-content"
                                                                charLimit={125}
                                                                readMoreText="...read more"
                                                                readLessText="...read less">
