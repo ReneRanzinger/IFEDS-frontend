@@ -28,6 +28,7 @@ import {Authentication} from './components/authentication.js'
 import DisplayChangePassword from "./components/pages/DisplayChangePassword";
 
 import CreateUserDisplay from "./components/pages/CreateUserDisplay";
+import NotFound from "./components/pages/NotFound";
 
 
 const applicationSetting = data => ({
@@ -51,7 +52,12 @@ const App = ({ location, isAuthenticated }) => {
   return (
     <div>
       <Route location={location} path="/" exact component={HomePage} />
-      <AdminRoute location={location} path="/CreateUser" exact component={CreateUserDisplay} />
+      <AdminRoute
+        location={location}
+        path="/CreateUser"
+        exact
+        component={CreateUserDisplay}
+      />
       <UserRoute
         location={location}
         path="/datasettable"
@@ -117,7 +123,7 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={AddDatasetDisplay}
       />
-    <AdminRoute
+      <AdminRoute
         location={location}
         path="/userpermission"
         exact
@@ -141,12 +147,13 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={DisplayChangePassword}
       />
-    <UserRoute
-      location={location}
-      path="/editprofile"
-      exact
-      component={EditProfileDisplay}
+      <UserRoute
+        location={location}
+        path="/editprofile"
+        exact
+        component={EditProfileDisplay}
       />
+      {/* <Route path="*" component={NotFound} /> */}
     </div>
   );};
 

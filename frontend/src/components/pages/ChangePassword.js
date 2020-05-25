@@ -15,6 +15,7 @@ import {Password} from '../../apiCalls';
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
 
 
 const useStyles = makeStyles(theme => ({
@@ -58,8 +59,11 @@ export default function ChangePassword(props) {
         setFields({[name]: value });
     }
 
-
-
+    
+function alertmessage() {
+  alert("Successfully Changed");
+}
+  
 
   // const useFetch = Password => {
   //   const isAuthenticated = useSelector(state => state.user.token);
@@ -129,7 +133,7 @@ export default function ChangePassword(props) {
                 required="required"
                 fullWidth="fullWidth"
                 type="password"
-                name = "oldPassword"
+                name="oldPassword"
                 onChange={e => handleFieldChange(e)}
                 value={fields.oldPassword}
               />
@@ -156,20 +160,22 @@ export default function ChangePassword(props) {
                 required="required"
                 fullWidth="fullWidth"
                 type="password"
-                name = "confirmPassword"
+                name="confirmPassword"
                 onChange={e => handleFieldChange(e)}
                 value={fields.confirmPassword}
               />
             </FormGroup>
-            <LoaderButton
+            <Button
               block
               type="submit"
               bsSize="large"
               disabled={!validateForm()}
               isLoading={isChanging}
+              className={classes.setFields}
+              onClick={alertmessage}
             >
               Change Password
-            </LoaderButton>
+            </Button>
           </form>
         </div>
       </Card>
