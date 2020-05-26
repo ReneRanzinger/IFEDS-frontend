@@ -119,6 +119,7 @@ const PersistentDrawerLeft = ({props})=> {
   const classes = useStyles();
   const dispatch = useDispatch();
   const applicationSetting = useSelector(state => state.setting);
+  const admin = useSelector(state => state.user.permission_level);
   const sidebar = useSelector(state => state.sidebar);
   const theme = useTheme();
   const [open, setOpen] = React.useState(sidebar);
@@ -355,14 +356,14 @@ const PersistentDrawerLeft = ({props})=> {
             </List>
           </Collapse>
 
-          <ListItem button onClick={handleAdminClick}>
+          {admin === 'admin' &&<div><ListItem button onClick={handleAdminClick}>
             <ListItemIcon>
               <PortraitIcon />
               {/* <SendIcon /> */}
             </ListItemIcon>
             <ListItemText primary="Administor" />
             {open ? <ExpandMore /> : <ExpandLess />}
-          </ListItem>
+            </ListItem>
           <Collapse in={open4} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/CreateUser")}>
@@ -388,7 +389,7 @@ const PersistentDrawerLeft = ({props})=> {
                 <ListItemText primary="Dictionairies" />
               </ListItem>
             </List>
-          </Collapse>
+          </Collapse> </div>}
         </List>
       </Drawer>
       <main
