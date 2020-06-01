@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
 import { getMeta } from "./head.js";
+import {nullField, lengthField, lengthField1,lengthField2,lengthField3} from "../../utils/validationConstant"
 
 import {SampleDescriptors, SampleTypes, Sample} from '../../apiCalls'
 
@@ -72,11 +73,7 @@ export default function AddSample(props) {
   const [sampleType] = useFetch(SampleTypes);
   const isAuthenticated = useSelector(state => state.user.token);
   const sidebar = useSelector(state => state.sidebar);
-  const nullField = "This field cannot be null. Please fill"
-  const lengthField = "Length should be less than 50 characters"
-  const lengthField1 = "Length should be less than 64 characters"
-  const lengthField2 = "Length should be less than 256 characters"
-  const lengthField3 = "Length should be less than 1000 characters"
+
 
   const [validateUserDesc, setValidateUserDesc] = useReducer(
     (state, newState) => ({ ...state, ...newState }),

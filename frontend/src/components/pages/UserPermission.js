@@ -61,20 +61,18 @@ const UserPermission = (props) => {
     },
     {
       field: 'email',
-      title: 'Email',
-      sorting: false,
-      searchable: false
+      title: 'Email'
     },
     {
       field: 'permission_level',
       title: 'Permission Level',
-      sorting: false,
       searchable: false,
+      customSort: (a,b) => a.permission_level.length - b.permission_level.length,
       render: rowData => handlePermission(rowData.permission_level)
     }, {
       title: 'Active User',
-      sorting: false,
       searchable: false,
+      customSort: (a,b) => a.active - b.active,
       render: rowData => handleActiveUser(rowData.active)
     }
   ];

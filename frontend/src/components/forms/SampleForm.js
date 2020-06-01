@@ -11,6 +11,7 @@ import {Sample, SampleTypes, SampleDescriptors} from '../../apiCalls'
 import { Helmet } from "react-helmet";
 import { head } from "../pages/head.js";
 import { getMeta } from "../pages/head.js";
+import {nullField, lengthField, lengthField1,lengthField2,lengthField3} from "../../utils/validationConstant"
 
 const useFetch = (url,props) => {
   const isAuthenticated = useSelector(state => state.user.token);
@@ -28,20 +29,19 @@ const useFetch = (url,props) => {
   return [data, setData];
 }
 
-const useFormInput = (initialValue) => {
-  const [value, setValue] = useState(initialValue);
-  function handleChange(e) {
-    setValue(e.target.value);
-  }
-   return {
-     value,
-     onChange:handleChange
-   };
-}
 
 export default function SampleForm(props) {
   const { match: { params } } = props;
   const classes = useToolbarStyles();
+  const [validateSample, setValidateSample] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      nameError : "",
+      sample_type_idError : "",
+      urlError : "",
+      descError : ""
+    }
+  );
   const [sampleDescriptor] = useFetch(SampleDescriptors,props);
   const [sampleType] = useFetch(SampleTypes,props);
   const [sDescriptor, setSDescriptor] = useState();
@@ -61,22 +61,58 @@ export default function SampleForm(props) {
     }
   );
 
+  const [validateUserDesc, setValidateUserDesc] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      descError : "",
+      valueError : "",
+      measurementError : ""
+    }
+  );
+
   const handleChange1 = e => {
       const name = e.target.name;
       const newValue = e.target.value;
+      const nameError = `${e.target.name}Error`
+      setValidateSample({...validateSample, [nameError] : "" })
       setSampleData({ [name]: newValue });
     };
   const isAuthenticated = useSelector(state => state.user.token);
   const sidebar = useSelector(state => state.sidebar);
-  let bearer = 'Bearer '
 
   const handleClose = () => {
     props.history.push("/samplelist");
 
   }
 
+  const handleValidationErrorForDesc = () => {
+    if ((sDescriptor == null || sDescriptor  === "") && (value == null || value === "") ) {
+      setValidateUserDesc({descError : nullField , valueError : nullField})
+      return true
+    }
+    else if (sDescriptor == null || sDescriptor === "") {
+      setValidateUserDesc({descError : nullField})
+      return true
+    }
+    else if (value == null || value === "") {
+      setValidateUserDesc({valueError : nullField})
+      return true
+    }
+    else if (value.length > 64) {
+      setValidateUserDesc({valueError : lengthField1})
+      return true
+    }
+    else if (measurement != null  && measurement.length > 256) {
+      setValidateUserDesc({measurementError : lengthField2})
+      return true
+    }
+    return false
+  }
+
   const handleAddDescriptor = (e) => {
     e.preventDefault();
+    const error = handleValidationErrorForDesc()
+    if (error === false) {
     let count=false;
     setSampleDesc(sampleDesc => {
       const data = [...sampleDesc.data];
@@ -99,23 +135,54 @@ export default function SampleForm(props) {
     setMeasurement("")
     setSDescriptor("")
     setIsDescriptorAdded(true);
-  }
+  }}
 
   const handleChangeForMeasurement = (e) => {
+    setValidateUserDesc({...validateUserDesc,measurementError : ""})
     setMeasurement(e.target.value)
   }
 
   const handleChangeForValue = (e) => {
+    setValidateUserDesc({...validateUserDesc,valueError : ""})
     setValue(e.target.value)
   }
 
   const handleSDescriptorChange = (e) => {
+    setValidateUserDesc({...validateUserDesc,descError : ""})
     setSDescriptor(e.target.value)
+  }
+
+  const handleValidationErrorForSample = () => {
+    const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+
+    if ((sampleData.name == null || sampleData.name  === "") && (sampleData.sample_type_id == null || sampleData.sample_type_id === "") ) {
+      setValidateSample({nameError : nullField , sample_type_idError : nullField})
+      return true
+    }
+    else if (sampleData.url.trim().length !== 0 && !pattern.test(sampleData.url)) {
+      setValidateSample({urlError : "Invalid URL"})
+      return true
+    }
+    else if (sampleData.description != null && sampleData.description.length >1000 ) {
+      setValidateSample({descError : lengthField3 })
+      return true
+    }
+    else if (sampleData.name.length > 50 || sampleData.url.length > 256) {
+      if(sampleData.name.length > 50) {
+        setValidateSample({nameError : lengthField})}
+      if(sampleData.url.length > 256) {
+        setValidateSample({...validateSample, urlError : lengthField2})}
+
+      return true
+    }
+    return false
   }
 
 async function handleSubmit(e) {
   const { match: { params } } = props;
   e.preventDefault();
+  const error = handleValidationErrorForSample()
+  if (error === false) {
   let listOfSampleDesc = sampleDesc['data'].map((a,row) => {
       let sampleDescId = sampleDescriptor.filter(x => x["name"]=== a[0])[0]["sample_descriptor_id"];
       let  sampleDescriptorArray = { "sample_descriptor_id" : parseInt(sampleDescId),
@@ -126,11 +193,7 @@ async function handleSubmit(e) {
   })
   fetch(`${Sample}/${params.id}`,{
      method: "PUT",
-     headers: {
-         "Content-Type" : "application/json",
-         "Accept": "application/json",
-         'Authorization': bearer+isAuthenticated
-     },
+     headers: setAuthorizationHeader(isAuthenticated),
      body: JSON.stringify({
          "name": sampleData["name"],
          "sample_type_id" : parseInt(sampleData["sample_type_id"]),
@@ -140,7 +203,7 @@ async function handleSubmit(e) {
      })
    }).then(res => console.log(res))
   props.history.push("/samplelist");
-}
+}}
 
 useEffect(() => {
   fetch(`${Sample}/${params.id}`, {
@@ -158,7 +221,7 @@ useEffect(() => {
   })
     setSampleDesc({data : tempSampleDescriptor})
   }).catch(error => console.log(error));
-}, [isAuthenticated]);
+}, [isAuthenticated,params.id]);
 
 /* This test useEffort ends here*/
 
@@ -188,11 +251,12 @@ useEffect(() => {
         <Typography variant="h5" component="h3">
           Edit Sample
         </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <div style={{ marginTop: "20px", width: "56.7%" }}>
             <TextField
               autoFocus
               required
+              error = {validateSample.nameError !== "" ? true : false}
               id="name"
               label="Sample Name"
               name="name"
@@ -201,6 +265,7 @@ useEffect(() => {
               defaultValue={sampleData.name}
               onChange={handleChange1}
               className={classes.nameField}
+              helperText = {validateSample.nameError ? validateSample.nameError: ""}
               type="text"
               fullWidth
             />
@@ -208,6 +273,7 @@ useEffect(() => {
               id="sample_type_id"
               select
               required
+              error = {validateSample.sample_type_idError !== "" ? true : false}
               name="sample_type_id"
               value={sampleData.sample_type_id}
               defaultValue={sampleData.sample_type_id}
@@ -220,7 +286,7 @@ useEffect(() => {
                   className: classes.menu
                 }
               }}
-              helperText="Please select sample type"
+              helperText={validateSample.sample_type_idError ? validateSample.typeError: "Please select sample type"}
               margin="normal"
             >
               {sampleType.map(option => (
@@ -232,12 +298,14 @@ useEffect(() => {
             <TextField
               margin="dense"
               className={classes.textField2}
+              error = {validateSample.urlError !== "" ? true : false}
               size="medium"
               id="url"
               name="url"
               value={sampleData.url}
               defaultValue={sampleData.url}
               onChange={handleChange1}
+              helperText = {validateSample.urlError ? validateSample.urlError: "Please input URL"}
               label="URL"
               type="url"
               fullWidth
@@ -248,12 +316,14 @@ useEffect(() => {
               id="standard-multiline-flexible"
               label="Description"
               multiline
+              error = {validateSample.descError !== "" ? true : false}
               name="description"
               value={sampleData.description}
               defaultValue={sampleData.description}
               onChange={handleChange1}
               rowsMax="4"
               margin="normal"
+              helperText = {validateSample.descError ? validateSample.descError: "Please input Description"}
               fullWidth
             />
           </div>
@@ -262,6 +332,7 @@ useEffect(() => {
               <TextField
                 id="sample_descriptor"
                 select
+                error = {validateUserDesc.descError !== "" ? true : false}
                 label="Sample Descriptor"
                 className={classes.textField1}
                 value = {sDescriptor}
@@ -272,7 +343,7 @@ useEffect(() => {
                     className: classes.menu
                   }
                 }}
-                helperText="Please select sample Descriptor"
+                helperText= {validateUserDesc.descError ?validateUserDesc.descError: "Please select sample Descriptor"}
                 margin="normal"
               >
                 <option value="" />
@@ -283,20 +354,24 @@ useEffect(() => {
                 ))}
               </TextField>
               <TextField
+                error = {validateUserDesc.valueError!== "" ? true : false }
                 id="value"
                 label="Value"
                 value={value}
                 onChange={e => handleChangeForValue(e)}
                 className={classes.valueField}
                 type="text"
+                helperText = {validateUserDesc.valueError ?validateUserDesc.valueError: "Please fill value"}
               />
               <TextField
                 margin="dense"
                 className={classes.textField2}
+                error = {validateUserDesc.measurementError !== "" ? true : false}
                 id="unit_of_measurment"
                 value={measurement}
                 onChange={e => handleChangeForMeasurement(e)}
                 label="Measurement Unit"
+                helperText = {validateUserDesc.measurementError ?validateUserDesc.measurementError: "Please fill measurement unit"}
                 type="text"
               />
               <Button  type = "submit" className={classes.label} variant = "contained" color = "primary" onClick={e => handleAddDescriptor(e)} >
