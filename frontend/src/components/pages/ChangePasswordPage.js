@@ -2,24 +2,15 @@ import React, { useState, useEffect, useReducer } from "react";
 //import { Auth } from "aws-amplify";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-// import { FormGroup, FormControl } from "react-bootstrap";
-// import {ControlLabel} from "react-bootstrap";
-// import LoaderButton from "./LoaderButton";
+
 import TextField from "@material-ui/core/TextField";
-// import { useFormFields } from "../libs/hooksLib";
-// import { onError } from "../libs/errorLib";
-//import "./ChangePassword.css";
-//import Sidebar from './Sidebar';
-import PropTypes from "prop-types";
+
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import { Password } from "../../apiCalls";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -66,7 +57,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const eye = <FontAwesomeIcon icon={faEye} />;
+
+
 
 export default function ChangePassword(props) {
   const isAuthenticated = useSelector(state => state.user.token);
