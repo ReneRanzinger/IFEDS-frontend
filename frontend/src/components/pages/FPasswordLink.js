@@ -17,8 +17,6 @@ import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "./Navbar";
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
@@ -61,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const eye = <FontAwesomeIcon icon={faEye} />;
+
 
 export default function ChangePassword(props) {
   const isAuthenticated = useSelector(state => state.user.token);

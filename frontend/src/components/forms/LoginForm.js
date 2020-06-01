@@ -45,26 +45,19 @@ const useStyles = makeStyles(theme => ({
 export default function SignIn({submit}) {
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
+// const login = useLogin();
+// const notify = useNotify();
+//const validate = useValidate();
  const classes = useStyles();
 
  
 
 const handleSubmit = (e) => {
     e.preventDefault();
-    
-    submit({email: username, password: password});
+   submit({email: username, password: password});
+    //.catch( () => notify('Invalid username or password'));
+  };
 
-  }
-//   const validate = (values) => {
-//   const errors = {};
-//   const requiredFields = ["username", "password"];
-//   requiredFields.forEach(field => {
-//     if (!values[field]) {
-//       errors[field] = "Required";
-//     }
-//   });
-//   return errors;
-// };
 
 const validate = (values) =>{
 const errors = [];
@@ -106,6 +99,7 @@ const errors = [];
             autoFocus="autoFocus"
             onChange={e => setUsername(e.target.value)}
             helpertext="Enter Password"
+            
            
           />
 
@@ -122,7 +116,7 @@ const errors = [];
             autoComplete="current-password"
             onChange={e => setPassword(e.target.value)}
             helpertext="Enter Password"
-           
+            
           />
 
           <Button
@@ -131,6 +125,7 @@ const errors = [];
             variant="contained"
             color="primary"
             className={classes.submit}
+           
           >
             Sign In
           </Button>
