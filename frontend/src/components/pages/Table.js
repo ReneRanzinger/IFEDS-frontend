@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+import TablePaginationActions from "../../utils/TablePaginationActions";
 //import * as errorHandlerActions from '../../actions/auth';
 import Headcells from '../../utils/setTableHeader';
 import {Datasets} from '../../apiCalls'
@@ -184,7 +185,8 @@ const useStyles = makeStyles(theme => ({
   },
   tableComp: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    marginBottom : theme.spacing(2)
   },
   tableCell: {
     paddingTop : theme.spacing(2),
@@ -310,11 +312,10 @@ export default function EnhancedTable(props) {
 
           <TextField className={classes.searchPage} label="Search" value={query} onChange={e => setQuery(e.target.value)}/>
 
-          <TablePagination className={classes.searchPage} rowsPerPageOptions={[5, 10, 25]} count={data.length} rowsPerPage={rowsPerPage} page={page} backIconButtonProps={{
-              'aria-label' : 'previous page'
-            }} nextIconButtonProps={{
-              'aria-label' : 'next page'
-            }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage}/>
+            <TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={data.length} rowsPerPage={rowsPerPage} page={page} SelectProps={{
+                    inputProps: { 'aria-label': 'rows per page' },
+                    native: true,
+                  }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} ActionsComponent={TablePaginationActions}/>
         </div>
 
         <div className={classes.tableWrapper}>
@@ -363,11 +364,10 @@ export default function EnhancedTable(props) {
             </TableBody>
           </Table>
         </div>
-        <TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={data.length} rowsPerPage={rowsPerPage} page={page} backIconButtonProps={{
-            'aria-label' : 'previous page'
-          }} nextIconButtonProps={{
-            'aria-label' : 'next page'
-          }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage}/>
+        <TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={data.length} rowsPerPage={rowsPerPage} page={page} SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true,
+              }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} ActionsComponent={TablePaginationActions}/>
       </Paper>
 
     </div>
