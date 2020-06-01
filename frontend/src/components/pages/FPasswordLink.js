@@ -1,16 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
-//import { Auth } from "aws-amplify";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-// import { FormGroup, FormControl } from "react-bootstrap";
-// import {ControlLabel} from "react-bootstrap";
-// import LoaderButton from "./LoaderButton";
 import TextField from "@material-ui/core/TextField";
-// import { useFormFields } from "../libs/hooksLib";
-// import { onError } from "../libs/errorLib";
-//import "./ChangePassword.css";
-//import Sidebar from './Sidebar';
-import PropTypes from "prop-types";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import { Reset} from "../../apiCalls";
 import Card from "@material-ui/core/Card";

@@ -1,23 +1,13 @@
 import React, { useState, useEffect, useReducer } from "react";
-//import { Auth } from "aws-amplify";
 import {useSelector} from 'react-redux'
 import { useHistory } from "react-router-dom";
-// import { FormGroup, FormControl } from "react-bootstrap";
-// import {ControlLabel} from "react-bootstrap";
-// import LoaderButton from "./LoaderButton";
 import TextField from "@material-ui/core/TextField";
-// import { useFormFields } from "../libs/hooksLib";
-// import { onError } from "../libs/errorLib";
-//import "./ChangePassword.css";
-//import Sidebar from './Sidebar';
 import PropTypes from "prop-types";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {Password} from '../../apiCalls';
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -58,7 +48,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
   }
 }));
 
-const eye = <FontAwesomeIcon icon={faEye} />;
+
 
 
 
@@ -99,27 +89,7 @@ export default function ChangePassword(props) {
 
    
     
-// function alertmessage() {
-//   alert("Successfully Changed");
-// }
-  
 
-  // const useFetch = Password => {
-  //   const isAuthenticated = useSelector(state => state.user.token);
-
-  //   useEffect(() => {
-  //     , [isAuthenticated, Password]);
-  // };
-  
- 
-
-  // function validateForm() {
-  //   return (
-  //     fields.oldPassword.length > 0 &&
-  //     fields.password.length > 0 &&
-  //     fields.password === fields.confirmPassword
-  //   );
-  // }
 
   const handleChangeClick = (event) => {
     event.preventDefault();
