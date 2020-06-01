@@ -1,116 +1,193 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import {
-  AvForm,
-  AvGroup,
-  AvInput,
-  AvFeedback
-} from "availity-reactstrap-validation";
-import { Button, Label } from "reactstrap";
+import React, { useState, useEffect, useReducer } from "react";
+//import { Auth } from "aws-amplify";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+// import { FormGroup, FormControl } from "react-bootstrap";
+// import {ControlLabel} from "react-bootstrap";
+// import LoaderButton from "./LoaderButton";
+import TextField from "@material-ui/core/TextField";
+// import { useFormFields } from "../libs/hooksLib";
+// import { onError } from "../libs/errorLib";
+//import "./ChangePassword.css";
+//import Sidebar from './Sidebar';
+import PropTypes from "prop-types";
+import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+import { Password } from "../../apiCalls";
+import Card from "@material-ui/core/Card";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Button from "@material-ui/core/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import {forgotpassword} from "../../apiCalls";
+import Navbar from "./Navbar";
+import { Helmet } from "react-helmet";
+import { head } from "./head.js";
+import { getMeta } from "./head.js";
 
-export default class ChangePasswordPage extends React.Component {
-  constructor(props) {
-    super(props);
+const useStyles = makeStyles(theme => ({
+  "@global": {
+    body: {
+      backgroundColor: theme.palette.common.white
+    }
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center"
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  },
+  bullet1: {
+    width: "30%",
+    marginTop: "8%",
+    marginLeft: "35%",
+    paddingLeft: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    display: "flex",
+    justifyContent: "center"
+  }
+}));
 
-    // bound functions
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleValidSubmit = this.handleValidSubmit.bind(this);
+const eye = <FontAwesomeIcon icon={faEye} />;
 
-    // component state
-    this.state = {
+export default function ChangePassword(props) {
+  const isAuthenticated = useSelector(state => state.user.token);
+  const history = useHistory();
+  const classes = useStyles();
+  const sidebar = useSelector(state => state.sidebar);
+  const [isChanging, setIsChanging] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [token, setToken] = useState("");
+  const [fields, setFields] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
       password: "",
-      passwordCheck: ""
-    };
-  }
-
-  // Handle input changes
-  handleInputChange(e) {
-    this.setState({ [e.currentTarget.id]: e.target.value });
-  }
-
-  // Handle submission once all form data is valid
-  handleValidSubmit() {
-    const formData = this.state;
-    const { sendPasswordFunction } = this.props;
-    sendPasswordFunction(formData.password);
-  }
-
-  render() {
-    const { isPasswordChanged, isLoggedIn } = this.props.authentication;
-
-    // If they just changed a password and AREN'T logged in
-    if (isPasswordChanged && !isLoggedIn) {
-      return (
-        <div className="row justify-content-center">
-          <div className="col-10 col-sm-7 col-md-5 col-lg-4">
-            <p>
-              Your changes have been saved, and you can now{" "}
-              <Link to="/login">log in</Link> with the new password.
-            </p>
-          </div>
-        </div>
-      );
+      confirmPassword: ""
     }
+  );
 
-    // If they just changed a password and ARE logged in
-    if (isPasswordChanged && isLoggedIn) {
-      return (
-        <div className="row justify-content-center">
-          <div className="col-10 col-sm-7 col-md-5 col-lg-4">
-            <p>Your new password has been saved.</p>
-          </div>
-        </div>
-      );
-    }
+  const handleFieldChange = e => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setFields({ [name]: value });
+  };
 
-    return (
-      <div className="row justify-content-center">
-        <div className="col-10 col-sm-7 col-md-5 col-lg-4">
-          <p>
-            Please enter and confirm a new password below to change the password
-            associated with this email address.
-          </p>
+  const handleClose = () => {
+    history.push("/login");
+    setOpen(false);
+  };
 
-          <AvForm onValidSubmit={this.handleValidSubmit}>
-            <AvGroup>
-              <Label for="password">Password</Label>
-              <AvInput
-                id="password"
-                minLength="8"
-                name="password"
-                onChange={this.handleInputChange}
-                onKeyPress={this.handleKeyPress}
-                placeholder="password"
-                required
-                type="password"
-                value={this.state.password}
-              />
-              <AvFeedback>
-                Passwords must be at least eight characters in length
-              </AvFeedback>
-            </AvGroup>
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-            <AvGroup>
-              <Label for="password">Confirm Password</Label>
-              <AvInput
-                id="passwordCheck"
-                minLength="8"
-                name="passwordCheck"
-                onChange={this.handleInputChange}
-                onKeyPress={this.handleKeyPress}
-                placeholder="password again"
-                required
-                type="password"
-                validate={{ match: { value: "password" } }}
-                value={this.state.passwordCheck}
-              />
-              <AvFeedback>Passwords must match</AvFeedback>
-            </AvGroup>
 
-            <Button color="primary">Change Password</Button>
-          </AvForm>
-        </div>
+  const handleChangeClick = event => {
+    event.preventDefault();
+    setIsChanging(true);
+
+    fetch(`${forgotpassword}/${token}`, {
+      method: "POST",
+      mode: "cors",
+      headers: setAuthorizationHeader(isAuthenticated),
+      body: JSON.stringify({
+        new_password: fields.password,
+        confNew_password: fields.confirmPassword
+      })
+    })
+      .then(res => {
+        history.push("/login");
+      })
+      .catch(error => console.log(error));
+  };
+
+  return (
+    <div>
+      <div>
+        <Helmet>
+          <title>{head.password_reset.title}</title>
+          {getMeta(head.password_reset)}
+        </Helmet>
       </div>
-    );
-  }
+      <Navbar props={props} />
+      <Card className={classes.bullet1}>
+        <div className="ChangePassword">
+          <form className={classes.form} onSubmit={e => handleChangeClick(e)}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required="required"
+              fullWidth="fullWidth"
+              name="password"
+              label="NewPassword"
+              type="password"
+              placeholder="Enter newpassword"
+              id="password"
+              onChange={e => handleFieldChange(e)}
+              value={fields.password}
+            />
+
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required="required"
+              fullWidth="fullWidth"
+              name="confirmPassword"
+              label="ConfirmPassword"
+              type="password"
+              placeholder="Enter newpassword"
+              id="confirmPassword"
+              onChange={e => handleFieldChange(e)}
+              value={fields.confirmPassword}
+            />
+
+            <Button
+              type="submit"
+              fullWidth="fullWidth"
+              variant="contained"
+              color="primary"
+              className={classes.setFields}
+              onClick={handleClickOpen}
+            >
+              Change Password
+            </Button>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                Password Successfully changed
+              </DialogTitle>
+
+              <DialogActions>
+                <Button onClick={handleClose} color="primary">
+                  Done
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </form>
+        </div>
+      </Card>
+    </div>
+  );
 }

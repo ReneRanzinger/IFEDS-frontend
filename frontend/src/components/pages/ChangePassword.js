@@ -2,24 +2,51 @@ import React, { useState, useEffect, useReducer } from "react";
 //import { Auth } from "aws-amplify";
 import {useSelector} from 'react-redux'
 import { useHistory } from "react-router-dom";
-import { FormGroup, FormControl } from "react-bootstrap";
-import {ControlLabel} from "react-bootstrap";
-import LoaderButton from "./LoaderButton";
+// import { FormGroup, FormControl } from "react-bootstrap";
+// import {ControlLabel} from "react-bootstrap";
+// import LoaderButton from "./LoaderButton";
+import TextField from "@material-ui/core/TextField";
 // import { useFormFields } from "../libs/hooksLib";
 // import { onError } from "../libs/errorLib";
-import "./ChangePassword.css";
+//import "./ChangePassword.css";
 //import Sidebar from './Sidebar';
 import PropTypes from "prop-types";
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {Password} from '../../apiCalls';
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 
-const useStyles = makeStyles(theme => ({
-  
+
+ const useStyles = makeStyles(theme => ({
+  '@global': {
+    body: {
+      backgroundColor: theme.palette.common.white
+    }
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1)
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2)
+  },
   bullet1: {
     width: "30%",
     marginTop: "8%",
@@ -28,10 +55,10 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: theme.spacing(2),
     paddingRight: theme.spacing(2),
     display:'flex', justifyContent:'center'
-  },
-
+  }
 }));
 
+const eye = <FontAwesomeIcon icon={faEye} />;
 
 
 
@@ -42,6 +69,7 @@ export default function ChangePassword(props) {
   const classes = useStyles();
   const sidebar = useSelector(state => state.sidebar);
   const [isChanging, setIsChanging] = useState(false);
+   const [open, setOpen] = React.useState(false);
   const [fields, setFields] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -59,10 +87,21 @@ export default function ChangePassword(props) {
         setFields({[name]: value });
     }
 
+   const handleClose = () => {
+     history.push("/dashboard");
+      setOpen(false);
+   };
+
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+
+   
     
-function alertmessage() {
-  alert("Successfully Changed");
-}
+// function alertmessage() {
+//   alert("Successfully Changed");
+// }
   
 
   // const useFetch = Password => {
@@ -72,20 +111,18 @@ function alertmessage() {
   //     , [isAuthenticated, Password]);
   // };
   
+ 
 
-  function validateForm() {
-    return (
-      fields.oldPassword.length > 0 &&
-      fields.password.length > 0 &&
-      fields.password === fields.confirmPassword
-    );
-  }
+  // function validateForm() {
+  //   return (
+  //     fields.oldPassword.length > 0 &&
+  //     fields.password.length > 0 &&
+  //     fields.password === fields.confirmPassword
+  //   );
+  // }
 
   const handleChangeClick = (event) => {
     event.preventDefault();
-
-         console.log("name", fields.password);
-         console.log("value", fields.oldPassword);
     setIsChanging(true);
 
     fetch(Password, {
@@ -98,89 +135,95 @@ function alertmessage() {
         })
         
       })
-        .then(response => response.json())
         .then(res => {
-          history.push("/dashboard");
+         
+          history.push("/displaychangepassword");
         })
         .catch(error => console.log(error));
     
    
   }
 
-  
-  
-      
-    
-    // history.push("/settings");
-  
- 
-  // ChangePassword.propTypes = {
-  //   logout: PropTypes.func
-  // };
-  
+return (
+  <div className={sidebar ? classes.root1 : classes.root}>
+    <Card className={classes.bullet1}>
+      <div className="ChangePassword">
+        <form className={classes.form} onSubmit={e => handleChangeClick(e)}>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required="required"
+            fullWidth="fullWidth"
+            id="oldPassword"
+            label="OldPassword"
+            name="oldPassword"
+            placeholder="Enter oldpassword"
+            type="password"
+            autoFocus="autoFocus"
+            onChange={e => handleFieldChange(e)}
+            value={fields.oldPassword}
+          />
 
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required="required"
+            fullWidth="fullWidth"
+            name="password"
+            label="NewPassword"
+            type="password"
+            placeholder="Enter newpassword"
+            id="password"
+            onChange={e => handleFieldChange(e)}
+            value={fields.password}
+          />
 
-  return (
-    <div className={sidebar ? classes.root1 : classes.root}>
-      <Card className={classes.bullet1}>
-        <div className="ChangePassword">
-          <form onSubmit={e => handleChangeClick(e)}>
-            <FormGroup bsSize="large" controlId="oldPassword">
-              <ControlLabel>Old Password :</ControlLabel>
-              <FormControl
-                variant="outlined"
-                margin="normal"
-                required="required"
-                fullWidth="fullWidth"
-                type="password"
-                name="oldPassword"
-                onChange={e => handleFieldChange(e)}
-                value={fields.oldPassword}
-              />
-            </FormGroup>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required="required"
+            fullWidth="fullWidth"
+            name="confirmPassword"
+            label="ConfirmPassword"
+            type="password"
+            placeholder="Enter newpassword"
+            id="confirmPassword"
+            onChange={e => handleFieldChange(e)}
+            value={fields.confirmPassword}
+          />
 
-            <FormGroup bsSize="large" controlId="password">
-              <ControlLabel>New Password :</ControlLabel>
-              <FormControl
-                variant="outlined"
-                margin="normal"
-                required="required"
-                fullWidth="fullWidth"
-                type="password"
-                name="password"
-                onChange={e => handleFieldChange(e)}
-                value={fields.password}
-              />
-            </FormGroup>
-            <FormGroup bsSize="large" controlId="confirmPassword">
-              <ControlLabel>Confirm Password :</ControlLabel>
-              <FormControl
-                variant="outlined"
-                margin="normal"
-                required="required"
-                fullWidth="fullWidth"
-                type="password"
-                name="confirmPassword"
-                onChange={e => handleFieldChange(e)}
-                value={fields.confirmPassword}
-              />
-            </FormGroup>
-            <Button
-              block
-              type="submit"
-              bsSize="large"
-              disabled={!validateForm()}
-              isLoading={isChanging}
-              className={classes.setFields}
-              onClick={alertmessage}
-            >
-              Change Password
-            </Button>
-          </form>
-        </div>
-      </Card>
-    </div>
-  );
+          <Button
+            type="submit"
+            fullWidth="fullWidth"
+            variant="contained"
+            color="primary"
+            className={classes.setFields}
+            onClick={handleClickOpen}
+          >
+            Change Password
+          </Button>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+             Password Successfully updated
+            </DialogTitle>
+          
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Done
+              </Button>
+             
+            </DialogActions>
+          </Dialog>
+        </form>
+      </div>
+    </Card>
+  </div>
+);
   
 }
 

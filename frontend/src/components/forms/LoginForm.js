@@ -3,7 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -11,7 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 //import { AvForm, AvGroup, AvInput, AvFeedback } from "availity-reactstrap-validation";
-import ResetPasswordPage from "../pages/ResetPasswordPageContainer.js";
+import FPasswordLink from "../pages/FPasswordLink";
+import { Link } from "react-router-dom";
 
 
 
@@ -136,7 +136,7 @@ const errors = [];
           </Button>
           <Grid container="container">
             <Grid item="item" xs="xs">
-              <Link href="/resetpasswordpagecontainer" variant="body2">
+              <Link to="/forgotpassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

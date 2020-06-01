@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashBoard';
-import InternalServer from './components/error_pages/InternalServer';
+//import InternalServer from './components/error_pages/InternalServer';
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import AdminRoute from "./components/routes/AdminRoute";
@@ -26,9 +26,9 @@ import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import { ResetPasswordPageContainer } from './components/pages/ResetPasswordPageContainer';
 import {Authentication} from './components/authentication.js'
 import DisplayChangePassword from "./components/pages/DisplayChangePassword";
-
 import CreateUserDisplay from "./components/pages/CreateUserDisplay";
-import NotFound from "./components/pages/NotFound";
+import FPasswordLink from "./components/pages/FPasswordLink";
+import ChangePasswordPage from "./components/pages/ChangePasswordPage";
 
 
 const applicationSetting = data => ({
@@ -87,12 +87,12 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={LoginPage}
       />
-      <GuestRoute
+      {/* <GuestRoute
         location={location}
         path="/500"
         exact
         component={InternalServer}
-      />
+      /> */}
       <UserRoute
         location={location}
         path="/editsample/:id"
@@ -153,7 +153,18 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={EditProfileDisplay}
       />
-      {/* <Route path="*" component={NotFound} /> */}
+      <GuestRoute
+        location={location}
+        path="/forgotpassword"
+        exact
+        component={FPasswordLink}
+      />
+      <GuestRoute
+        location={location}
+        path="/changepasswordpage"
+        exact
+        component={ChangePasswordPage}
+      />
     </div>
   );};
 

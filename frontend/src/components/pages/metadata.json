@@ -232,6 +232,32 @@
         "content": ""
       }
     ]
+  },
+  "reset_passwordlink": {
+    "title": "Reset_passwordlink",
+    "meta": [
+      {
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
+        "content": ""
+      }
+    ]
+  },
+  "password_reset": {
+    "title": "Password_reset",
+    "meta": [
+      {
+        "name": "Description",
+        "content": ""
+      },
+      {
+        "name": "Keywords",
+        "content": ""
+      }
+    ]
   }
 
 }
