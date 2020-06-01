@@ -21,6 +21,7 @@ if (localStorage.ifedsAuthJWT) {
   const payload = decode(localStorage.ifedsAuthJWT);
   const user = {
     token: localStorage.ifedsAuthJWT,
+    permission_level: localStorage.ifedsUserPermissionLevel,
     email: payload.email,
     confirmed: payload.confirmed
   };

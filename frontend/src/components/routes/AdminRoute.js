@@ -9,7 +9,7 @@ const AdminRoute = ({ isAuthenticated, component: Component, ...rest }) => {
   return (<Route
     {...rest}
     render={props =>
-      level === "admin" ? <Component {...props} /> : <Redirect to="/"/> }
+      level === "admin" ? <Component {...props} /> : <Redirect to="/login"/> }
   />)
 };
 
