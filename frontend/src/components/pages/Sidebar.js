@@ -367,7 +367,7 @@ const PersistentDrawerLeft = ({props})=> {
               <PortraitIcon />
               {/* <SendIcon /> */}
             </ListItemIcon>
-            <ListItemText primary="Administor" />
+            <ListItemText primary="Admin" />
             {open ? <ExpandMore /> : <ExpandLess />}
           </ListItem>
           <Collapse in={open4} timeout="auto" unmountOnExit>
@@ -377,8 +377,8 @@ const PersistentDrawerLeft = ({props})=> {
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/CreateUser">
-                  <ListItemText primary="New User" />
+                <Link to="/createuser">
+                  <ListItemText primary=" Create User" />
                 </Link>
               </ListItem>
               <ListItem button className={classes.nested} onClick = {handleUserPermission}>
@@ -394,7 +394,8 @@ const PersistentDrawerLeft = ({props})=> {
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-                <ListItemText primary="Dictionairies" />
+                <ListItemText primary="Dictionary" />
+              
               </ListItem>
             </List>
           </Collapse>

@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useReducer} from 'react';
+import React, {useReducer,useState} from 'react';
 import {useSelector} from 'react-redux';
-import {Link} from 'react-router-dom';
-import ReadMoreAndLess from 'react-read-more-less';
+import {useHistory} from 'react-router-dom';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import {makeStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -9,10 +8,11 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import {CreateUserAPI} from '../../apiCalls'
+import {Link} from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 
 const useStyles = makeStyles(theme => ({
     '@global': {
@@ -49,28 +49,34 @@ const useStyles = makeStyles(theme => ({
       marginTop: theme.spacing(3)
     },
     submit: {
-      margin: theme.spacing(3, 0, 2)
+      //margin: theme.spacing(3, 0, 2),
+      marginTop: 20
     }
   }));
 export default function CreateUser({submit}) {
-
+    const [errors, setErrors] = useState( '' );
+    let serverError = false;
     const formclasses = useStyles();
+    const history = useHistory();
     const [data, setData] = useReducer(
       (state, newState) => ({ ...state, ...newState }),{
         username : "",
-        password: "",
         email: "",
-        department:"",
         name:"",
-        providerGroup:"",
-        providerId:"",
-        affiliation:"",
-        url:""
-
-
+        group:"",
+        department:"",
+        institute:"",
+        url:"",
        })
 
     const handleSubmit = (e) => {
+
+      serverError = false;
+      const errorList = Object.values(errors);
+      for(let i =0;i<errorList.length; i++ ){
+          if(errorList[i])
+          return
+      }
       console.log("data",data)
       e.preventDefault();
       fetch(CreateUserAPI, {
@@ -82,32 +88,33 @@ export default function CreateUser({submit}) {
           "username": data.username,
           "email": data.email,
           "department": data.department,
-          "providerId": data.providerId,
-          "providerGroup": data.providerGroup,
+          "group": data.group,
           "url": data.url,
-          "password": data.password,
-          "affiliation": data.affiliation 
+          "institute": data.institute 
      })
        
-      }).then(response => response.json()).then(res => {
-        
-        console.log("success")
-      }).catch(error => console.log(error));
+      })
+        .then(checkStatus)
+        .then(res => {
+            if(serverError){
+              setErrors({"serverError" : res.message});
+            } else {
+              history.push("./createuser/success");
+            }
+        });
     }
-
+    const checkStatus = res => {
+      if(res.ok) {
+        return res.text()
+      } else {
+        serverError = true;
+        return res.json()
+      }
+    }
   const isAuthenticated = useSelector(state => state.user.token);
   const sidebar = useSelector(state => state.sidebar);
 
   const classes = useToolbarStyles();
-
- 
-
-  const handleDescription = (description) => {
-    if(description!=null) {
-    return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="...read more" readLessText="...read less">
-      {description}
-    </ReadMoreAndLess>);}
-  }
 
   const handleUrl = (url) => {
     return (<Link to={url}>
@@ -116,14 +123,25 @@ export default function CreateUser({submit}) {
   }
 
   const handleChange = e => {
+    const regExMapping ={
+      "username":RegExp(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/),
+      "name":RegExp(/^(?=[a-zA-Z\s]{8,40}$)(?!.*[_.]{2})[^_.].*[^_.]$/),
+      "email":RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
+    };
     const name = e.target.name;
     const newValue = e.target.value;
-    setData({[name]: newValue});
+    if(newValue.match(regExMapping[name])){
+      setData({[name]: newValue});
+      setErrors({[name]: false});
+    }
+    else{
+      setErrors({[name]: true});
+    }
+    console.log(newValue.match(regExMapping[name]));
+    
+    
+
   }
-  
-
-  
-
   return (<div className = {sidebar ? classes.root1 : classes.paper}>
 
 <React.Fragment>
@@ -131,111 +149,105 @@ export default function CreateUser({submit}) {
 
         <main className={formclasses.layout}>
         <Paper className={formclasses.paper}>
-          <Typography component="h1" variant="h4" align="center">
+          <Typography component="h2" variant="h4" align="center">
             Create User
           </Typography>
           <form onSubmit = {handleSubmit}>
+          { errors["serverError"] ?       
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+                {errors["serverError"]}<strong> Check it out!</strong>
+            </Alert> 
+              : 
+              ""
+              }
           <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
-          
           <TextField
             required
+            id="username"
+            name="username"
+            label="Username"
+            autoFocus="autoFocus"
+            onChange={e => handleChange(e)}
+            autoComplete="username"
+            error={errors["username"]}
+            helperText= {errors["username"]?"Enter a valid username":""} 
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+          required
+             id="email"
+             label="Email"
+             name="email"
+             autoComplete="email"
+             onChange={e => handleChange(e)}
+             error={errors["email"]}
+             helperText= {errors["email"]?"Enter a valid email":""} 
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+          required
             id="name"
             name="name"
             label="Name"
-            onChange={e => handleChange(e)}
             autoComplete="name"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-          required
-             id="username"
-             label="Username"
-             name="username"
-             autoComplete="username"
-             autoFocus="autoFocus"
-             onChange={e => handleChange(e)}
-             autoComplete="username"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-          required
-            id="password"
-            name="password"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
             onChange={e => handleChange(e)}
+            error={errors["name"]}
+            helperText= {errors["name"]?"Enter a valid name":""} 
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-           required
-           id="Email"
-           name="email"
-           label="Email"
+           id="group"
+           name="group"
+           label="Group"
            onChange={e => handleChange(e)}
-           autoComplete="Email"
+           autoComplete="Group"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="Department"
+        <Grid item xs={12}>
+          <TextField  
+            id="department"
             name="department"
             label="Department"
+            fullWidth
             onChange={e => handleChange(e)}
             autoComplete="Department"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
-            required
-            id="Provider Group"
-            name="providerGroup"
-            label="Provider Group"
+            id="institute"
+            name="institute"
+            label="Institute"
+            fullWidth
             onChange={e => handleChange(e)}
-            autoComplete="Provider Group"
+            autoComplete="institute"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField required id="Provider ID" name="providerId" label="Provider ID" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
-            required
-            id="Url"
+            id="url"
             name="url"
             label="Url"
+            fullWidth
             onChange={e => handleChange(e)}
             autoComplete="Url"
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="Affiliation"
-            name="affiliation"
-            label="Affiliation"
-            fullWidth
-            autoComplete="Affiliation"
-            onChange={e => handleChange(e)}
-          />
-        </Grid>
         <br></br>
-        <div>&nbsp;</div>
         <Button
             type="submit"
             fullWidth="fullWidth"
             variant="contained"
             color="primary"
-            className={classes.submit}
-          >
+            className={formclasses.submit}
+        >
             Create User
-          </Button>
-          
+        </Button>   
       </Grid>
       </form>
       </Paper>
@@ -284,6 +296,9 @@ const useToolbarStyles = makeStyles(theme => ({
   },
   menu: {
     width: 200,
+  },
+  submit:{
+    marginTop: theme.spacing(3)
   }
 }));
 
