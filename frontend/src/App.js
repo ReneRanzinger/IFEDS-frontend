@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashBoard';
-import InternalServer from './components/error_pages/InternalServer';
+//import InternalServer from './components/error_pages/InternalServer';
 import UserRoute from "./components/routes/UserRoute";
 import GuestRoute from "./components/routes/GuestRoute";
 import AdminRoute from "./components/routes/AdminRoute";
@@ -18,13 +18,26 @@ import AddSampleDisplay from './components/pages/AddSampleDisplay';
 import AddDatasetDisplay from './components/pages/AddDatasetDisplay';
 import EditDatasetPage from './components/pages/EditDatasetPage';
 import EditSampleDisplay from './components/forms/EditSampleDisplay';
-import PasswordChange from './components/pages/PasswordChange';
 import DisplayUserPermission from './components/pages/DisplayUserPermission';
+import EditProfileDisplay from './components/pages/EditProfileDisplay'
 import {APPLICATION_SETTING}  from "./types";
+<<<<<<< HEAD
 import {Setting} from './apiCalls'
 //import ForgotPassword from "./components/pages/ForgotPassword";
 import CreateUserDisplay from "./components/pages/CreateUserDisplay";
 import CreateUserSuccess from "./components/pages/CreateUserSuccess";
+=======
+import {Setting, Authenticate} from './apiCalls'
+import ResetPasswordPage from './components/pages/ResetPasswordPage';
+import { ResetPasswordPageContainer } from './components/pages/ResetPasswordPageContainer';
+import {Authentication} from './components/authentication.js'
+import DisplayChangePassword from "./components/pages/DisplayChangePassword";
+import CreateUserDisplay from "./components/pages/CreateUserDisplay";
+import FPasswordLink from "./components/pages/FPasswordLink";
+import ChangePasswordPage from "./components/pages/ChangePasswordPage";
+
+
+>>>>>>> fb92108da08f19ed09732b235063908a3ea86799
 const applicationSetting = data => ({
   type: APPLICATION_SETTING,
   data
@@ -45,9 +58,19 @@ const App = ({ location, isAuthenticated }) => {
   useHandleSetting()
   return (
     <div>
+<<<<<<< HEAD
       <AdminRoute location={location} path="/" exact component={HomePage} />
       <AdminRoute location={location} path="/createuser" exact component={CreateUserDisplay} />
       <AdminRoute location={location} path="/createuser/success" exact component={CreateUserSuccess} />
+=======
+      <Route location={location} path="/" exact component={HomePage} />
+      <AdminRoute
+        location={location}
+        path="/CreateUser"
+        exact
+        component={CreateUserDisplay}
+      />
+>>>>>>> fb92108da08f19ed09732b235063908a3ea86799
       <UserRoute
         location={location}
         path="/datasettable"
@@ -77,12 +100,12 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={LoginPage}
       />
-      <GuestRoute
+      {/* <GuestRoute
         location={location}
         path="/500"
         exact
         component={InternalServer}
-      />
+      /> */}
       <UserRoute
         location={location}
         path="/editsample/:id"
@@ -113,17 +136,47 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={AddDatasetDisplay}
       />
-      <UserRoute
-        location={location}
-        path="/passwordchange"
-        exact
-        component={PasswordChange}
-      />
-      <UserRoute
+      <AdminRoute
         location={location}
         path="/userpermission"
         exact
         component={DisplayUserPermission}
+      />
+      <UserRoute
+        location={location}
+        path="/resetpasswordpage"
+        exact
+        component={ResetPasswordPage}
+      />
+      <UserRoute
+        location={location}
+        path="/resetpasswordpagecontainer"
+        exact
+        component={ResetPasswordPageContainer}
+      />
+      <UserRoute
+        location={location}
+        path="/displaychangepassword"
+        exact
+        component={DisplayChangePassword}
+      />
+      <UserRoute
+        location={location}
+        path="/editprofile"
+        exact
+        component={EditProfileDisplay}
+      />
+      <GuestRoute
+        location={location}
+        path="/forgotpassword"
+        exact
+        component={FPasswordLink}
+      />
+      <GuestRoute
+        location={location}
+        path="/changepasswordpage"
+        exact
+        component={ChangePasswordPage}
       />
     </div>
   );};

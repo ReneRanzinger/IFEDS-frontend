@@ -24,13 +24,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
-import SendIcon from '@material-ui/icons/Send';
+//import SendIcon from '@material-ui/icons/Send';
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import HomeIcon from "@material-ui/icons/Home";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PortraitIcon from "@material-ui/icons/Portrait";
 import StorageIcon from "@material-ui/icons/Storage";
 import { SIDEBAR_OPEN } from "../../types";
+
 
 const drawerWidth = 240;
 
@@ -118,6 +119,7 @@ const PersistentDrawerLeft = ({props})=> {
   const classes = useStyles();
   const dispatch = useDispatch();
   const applicationSetting = useSelector(state => state.setting);
+  const admin = useSelector(state => state.user.permission_level);
   const sidebar = useSelector(state => state.sidebar);
   const theme = useTheme();
   const [open, setOpen] = React.useState(sidebar);
@@ -141,8 +143,9 @@ const PersistentDrawerLeft = ({props})=> {
      props.history.push("/login");
    };
 
-   const handleUserPermission = () => {
-     props.history.push("/userpermission");
+
+   const handleLinkChange = (url) => {
+     props.history.push(url);
    }
 
    const handleLogout = () => {
@@ -289,15 +292,13 @@ const PersistentDrawerLeft = ({props})=> {
           aria-labelledby="nested-list-subheader"
           className={classes.root1}
         >
-          <ListItem button>
+          <ListItem button onClick = {e => handleLinkChange("/dashboard")}>
             <ListItemIcon>
               <HomeIcon />
               {/* <SendIcon /> */}
             </ListItemIcon>
-            <Link to="/dashboard">
               {" "}
               <ListItemText primary="Home" />
-            </Link>
           </ListItem>
           <ListItem button onClick={handleDataClick}>
             <ListItemIcon>
@@ -309,25 +310,20 @@ const PersistentDrawerLeft = ({props})=> {
           </ListItem>
           <Collapse in={open2} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/datasettable")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/datasettable">
                   {" "}
                   <ListItemText primary="Dataset" />
-                </Link>
               </ListItem>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/samplelist")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-
-                <Link to="/samplelist">
                   <ListItemText primary="Samples" />
-                </Link>
               </ListItem>
             </List>
           </Collapse>
@@ -342,16 +338,14 @@ const PersistentDrawerLeft = ({props})=> {
           </ListItem>
           <Collapse in={open3} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/displaychangepassword")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
-                <Link to="/passwordchange">
                   <ListItemText primary="Password Change" />
-                </Link>
               </ListItem>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/editprofile")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
@@ -362,26 +356,30 @@ const PersistentDrawerLeft = ({props})=> {
             </List>
           </Collapse>
 
-          <ListItem button onClick={handleAdminClick}>
+          {admin === 'admin' &&<div><ListItem button onClick={handleAdminClick}>
             <ListItemIcon>
               <PortraitIcon />
               {/* <SendIcon /> */}
             </ListItemIcon>
             <ListItemText primary="Admin" />
             {open ? <ExpandMore /> : <ExpandLess />}
-          </ListItem>
+            </ListItem>
           <Collapse in={open4} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/CreateUser")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
+<<<<<<< HEAD
                 <Link to="/createuser">
                   <ListItemText primary=" Create User" />
                 </Link>
+=======
+                  <ListItemText primary="New User" />
+>>>>>>> fb92108da08f19ed09732b235063908a3ea86799
               </ListItem>
-              <ListItem button className={classes.nested} onClick = {handleUserPermission}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/userpermission")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
@@ -389,7 +387,7 @@ const PersistentDrawerLeft = ({props})=> {
 
                 <ListItemText primary="User Permission" />
               </ListItem>
-              <ListItem button className={classes.nested}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
@@ -398,7 +396,7 @@ const PersistentDrawerLeft = ({props})=> {
               
               </ListItem>
             </List>
-          </Collapse>
+          </Collapse> </div>}
         </List>
       </Drawer>
       <main

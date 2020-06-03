@@ -17,6 +17,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import ReadMoreAndLess from 'react-read-more-less';
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+import TablePaginationActions from "../../utils/TablePaginationActions";
 //import * as errorHandlerActions from '../../actions/auth';
 import Headcells from '../../utils/setTableHeader';
 import {Datasets} from '../../apiCalls'
@@ -102,9 +103,8 @@ EnhancedTableHead.propTypes = {
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-    textAlign: 'center'
+    paddingLeft: theme.spacing(0),
+    textAlign: 'left'
   },
   highlight: theme.palette.type === 'light'
     ? {
@@ -185,7 +185,13 @@ const useStyles = makeStyles(theme => ({
   },
   tableComp: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    marginBottom : theme.spacing(2)
+  },
+  tableCell: {
+    paddingTop : theme.spacing(2),
+    paddingBottom : theme.spacing(2),
+    paddingRight : theme.spacing(3)
   },
   searchPage: {
     marginLeft: theme.spacing(4)
@@ -207,21 +213,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const useFetch = (url, props, openAlert) => {
-  const [data, setData] = useState([
-    {
-      "datasetId": 1,
-      "datasetName": "Stem Cell Data 1",
-      "sampleName": "Differenciated smooth cell",
-      "providerName": "CCRC tr",
-      "description": "Glycomics analysis performed with the stem cell data set 1."
-    }, {
-      "datasetId": 2,
-      "datasetName": "Stem Cell Data 2",
-      "sampleName": "Differenciated smooth muscle cell",
-      "providerName": "CCRC ry",
-      "description": "Glycomics analysis performed with the stem cell data set 2."
-    }
-  ]);
+  const [data, setData] = useState([  ]);
 
   useEffect(() => {
     fetch(url, {
@@ -320,15 +312,14 @@ export default function EnhancedTable(props) {
 
           <TextField className={classes.searchPage} label="Search" value={query} onChange={e => setQuery(e.target.value)}/>
 
-          <TablePagination className={classes.searchPage} rowsPerPageOptions={[5, 10, 25]} count={data.length} rowsPerPage={rowsPerPage} page={page} backIconButtonProps={{
-              'aria-label' : 'previous page'
-            }} nextIconButtonProps={{
-              'aria-label' : 'next page'
-            }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage}/>
+            <TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={data.length} rowsPerPage={rowsPerPage} page={page} SelectProps={{
+                    inputProps: { 'aria-label': 'rows per page' },
+                    native: true,
+                  }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} ActionsComponent={TablePaginationActions}/>
         </div>
 
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle" size={'medium'}>
+          <Table className={classes.table} aria-labelledby="tableTitle" size={'medium'} padding="none">
             <EnhancedTableHead classes={classes} order={order} orderBy={orderBy} onRequestSort={handleRequestSort}/>
             <TableBody>
               {
@@ -350,17 +341,17 @@ export default function EnhancedTable(props) {
                       key={row.datasetId}
                       selected={isItemSelected}
                     >
-                      <TableCell component="th" id={labelId} scope="row" padding="none">
+                      <TableCell component="th" id={labelId} scope="row" className = {classes.tableCell} >
                         <Link to={`/datasetDetail/${row.datasetId}`}>{row.datasetName}</Link>
                       </TableCell>
-                      <TableCell align="left">{row.providerName}</TableCell>
-                      <TableCell align="left">{row.sampleName}</TableCell>
-                      <TableCell align="left"><ReadMoreAndLess className="read-more-content"
+                      <TableCell align="left" className = {classes.tableCell} >{row.providerName}</TableCell>
+                      <TableCell align="left" className = {classes.tableCell}>{row.sampleName}</TableCell>
+                      <TableCell align="left" className = {classes.tableCell} >{row.description && <ReadMoreAndLess className="read-more-content"
                                                                charLimit={125}
                                                                readMoreText="...read more"
                                                                readLessText="...read less">
                                               {row.description}
-                                                </ReadMoreAndLess>
+                                            </ReadMoreAndLess>}
                       </TableCell>
                     </TableRow>
                   );
@@ -373,11 +364,10 @@ export default function EnhancedTable(props) {
             </TableBody>
           </Table>
         </div>
-        <TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={data.length} rowsPerPage={rowsPerPage} page={page} backIconButtonProps={{
-            'aria-label' : 'previous page'
-          }} nextIconButtonProps={{
-            'aria-label' : 'next page'
-          }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage}/>
+        <TablePagination rowsPerPageOptions={[5, 10, 25]} component="div" count={data.length} rowsPerPage={rowsPerPage} page={page} SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true,
+              }} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} ActionsComponent={TablePaginationActions}/>
       </Paper>
 
     </div>

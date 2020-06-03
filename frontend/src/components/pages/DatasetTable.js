@@ -57,9 +57,9 @@ export default function DatasetTable(props) {
   const classes = useToolbarStyles();
 
   const handleDescription = (description) => {
-    return (<ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="   read more" readLessText="   ...read less">
+    return (<div>{description && <ReadMoreAndLess className="read-more-content" charLimit={125} readMoreText="   read more" readLessText="   ...read less">
       {description}
-    </ReadMoreAndLess>
+    </ReadMoreAndLess>}</div>
 
     );
   }

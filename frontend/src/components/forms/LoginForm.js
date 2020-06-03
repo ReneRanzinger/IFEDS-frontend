@@ -3,13 +3,17 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+//import { AvForm, AvGroup, AvInput, AvFeedback } from "availity-reactstrap-validation";
+import FPasswordLink from "../pages/FPasswordLink";
+import { Link } from "react-router-dom";
+
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -38,25 +42,38 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-
 export default function SignIn({submit}) {
-
-
-   
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+const [username, setUsername] = useState("");
+const [password, setPassword] = useState("");
+// const login = useLogin();
+// const notify = useNotify();
+//const validate = useValidate();
  const classes = useStyles();
 
+ 
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
-    submit({email: username, password: password});
+   submit({email: username, password: password});
+    //.catch( () => notify('Invalid username or password'));
+  };
 
+
+const validate = (values) =>{
+const errors = [];
+
+  if (username.length === 0) {
+    errors.push("Name can't be empty");
   }
 
-   
+ if (password.length < 6) {
+    errors.push("Password should be at least 6 characters long");
+  }
 
+  return errors;
+}
+
+ 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -81,7 +98,11 @@ export default function SignIn({submit}) {
             autoComplete="username"
             autoFocus="autoFocus"
             onChange={e => setUsername(e.target.value)}
+            helpertext="Enter Password"
+            
+           
           />
+
           <TextField
             variant="outlined"
             margin="normal"
@@ -94,6 +115,8 @@ export default function SignIn({submit}) {
             id="password"
             autoComplete="current-password"
             onChange={e => setPassword(e.target.value)}
+            helpertext="Enter Password"
+            
           />
 
           <Button
@@ -102,12 +125,13 @@ export default function SignIn({submit}) {
             variant="contained"
             color="primary"
             className={classes.submit}
+           
           >
             Sign In
           </Button>
           <Grid container="container">
             <Grid item="item" xs="xs">
-              <Link href="" variant="body2">
+              <Link to="/forgotpassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
@@ -118,3 +142,4 @@ export default function SignIn({submit}) {
     </Container>
   );
 }
+

@@ -19,7 +19,7 @@ class Dashboard extends Component {
                   <title>{head.dashboard.title}</title>
                   {getMeta(head.dashboard)}
                 </Helmet>
-                {/* ... */}
+                
               </div>
             </div>
           );

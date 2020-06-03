@@ -86,7 +86,7 @@ export default function SampleList(props) {
       field: 'name',
       title: 'Sample Name'
     }, {
-      field: 'sampleTypeName',
+      field: 'sample_type_name',
       title: 'Sample Type'
     }, {
       field: 'sampleDescriptors',
@@ -191,6 +191,7 @@ const useToolbarStyles = makeStyles(theme => ({
     width: 200,
   },
   chip : {
-    marginRight : theme.spacing(1)
+    marginRight : theme.spacing(1),
+    marginBottom : theme.spacing(1)
   }
 }));

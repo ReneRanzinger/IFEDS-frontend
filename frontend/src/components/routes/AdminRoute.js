@@ -1,15 +1,17 @@
 import React from "react";
+import {useSelector} from 'react-redux';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Route} from "react-router-dom";
+import { Route, Redirect} from "react-router-dom";
 
-const AdminRoute = ({ isAuthenticated, component: Component, ...rest }) => (
-  <Route
+const AdminRoute = ({ isAuthenticated, component: Component, ...rest }) => {
+  const level = useSelector(state => state.user.permission_level)
+  return (<Route
     {...rest}
     render={props =>
-      <Component {...props} /> }
-  />
-);
+      level === "admin" ? <Component {...props} /> : <Redirect to="/login"/> }
+  />)
+};
 
 AdminRoute.propTypes = {
   component: PropTypes.object.isRequired,

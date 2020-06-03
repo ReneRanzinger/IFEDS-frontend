@@ -1,37 +1,35 @@
 import React, { Component } from "react";
 import SideBar from "./Sidebar";
 import { connect } from "react-redux";
-import UserPermission from "./UserPermission";
+import EditProfilePage from "./EditProfilePage";
 import { logout } from "../../actions/auth";
+import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
 import { getMeta } from "./head.js";
-import PropTypes from "prop-types";
 
-
-class DisplayUserPermission extends Component {
+class EditProfileDisplay extends Component {
   render() {
     return (
       <div>
         <SideBar props={this.props} isDashBoard={"true"} />
-        <UserPermission prop={this.props} />
+        <EditProfilePage prop={this.props} />
         <div>
           <Helmet>
-            <title>{head.userpermission.title}</title>
-            {getMeta(head.userpermission)}
+            <title>{head.editprofile.title}</title>
+            {getMeta(head.editprofile)}
           </Helmet>
         </div>
       </div>
     );
   }
-};
+}
 
-DisplayUserPermission.propTypes = {
+EditProfileDisplay.propTypes = {
   logout: PropTypes.func
 };
 
 function mapStateToProps(state) {
   return { isAuthenticated: state.user.token };
 }
-
-export default connect(mapStateToProps, { logout })(DisplayUserPermission);
+export default connect(mapStateToProps, { logout })(EditProfileDisplay);
