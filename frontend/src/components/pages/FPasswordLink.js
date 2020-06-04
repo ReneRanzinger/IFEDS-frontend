@@ -13,7 +13,6 @@ import { Helmet } from "react-helmet";
 import { head } from "./head.js";
 import { getMeta } from "./head.js";
 import ChangePasswordPage from "./ChangePasswordPage";
-import {FPasswordMessage} from "./FPasswordMessage";
 
 
 const useStyles = makeStyles(theme => ({
@@ -53,7 +52,7 @@ const useStyles = makeStyles(theme => ({
 
 
 
-export default function FPasswordLink(props) {
+export default function ChangePassword(props) {
   const isAuthenticated = useSelector(state => state.user.token);
   const history = useHistory();
   const classes = useStyles();
@@ -66,7 +65,7 @@ export default function FPasswordLink(props) {
 
 
 const handleSubmit = (e) => {
-    history.push("/message");
+    history.push("/changepasswordpage");
     e.preventDefault();
     console.log(email)
 fetch(`${Reset}/${email}`, {
@@ -75,7 +74,7 @@ fetch(`${Reset}/${email}`, {
   headers: setAuthorizationHeader(isAuthenticated)
 })
   .then(response => response.json())
-  .then(res => {history.push("/message");})
+  .then(res => {history.push("/changepasswordpage");})
     
    .catch(error => console.log(error));
   }    
@@ -125,5 +124,3 @@ return (
   </div>
 );
 }
-
-
