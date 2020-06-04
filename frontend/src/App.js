@@ -29,6 +29,7 @@ import DisplayChangePassword from "./components/pages/DisplayChangePassword";
 import CreateUserDisplay from "./components/pages/CreateUserDisplay";
 import FPasswordLink from "./components/pages/FPasswordLink";
 import ChangePasswordPage from "./components/pages/ChangePasswordPage";
+import FPasswordMessage from "./components/pages/FPasswordMessage";
 
 
 const applicationSetting = data => ({
@@ -164,6 +165,12 @@ const App = ({ location, isAuthenticated }) => {
         path="/changepasswordpage"
         exact
         component={ChangePasswordPage}
+      />
+      <Route
+        location={location}
+        path="/message"
+        exact
+        component={FPasswordMessage}
       />
     </div>
   );};
