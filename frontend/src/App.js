@@ -21,6 +21,12 @@ import EditSampleDisplay from './components/forms/EditSampleDisplay';
 import DisplayUserPermission from './components/pages/DisplayUserPermission';
 import EditProfileDisplay from './components/pages/EditProfileDisplay'
 import {APPLICATION_SETTING}  from "./types";
+<<<<<<< HEAD
+import {Setting} from './apiCalls'
+//import ForgotPassword from "./components/pages/ForgotPassword";
+import CreateUserDisplay from "./components/pages/CreateUserDisplay";
+import CreateUserSuccess from "./components/pages/CreateUserSuccess";
+=======
 import {Setting, Authenticate} from './apiCalls'
 import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import { ResetPasswordPageContainer } from './components/pages/ResetPasswordPageContainer';
@@ -32,6 +38,7 @@ import ChangePasswordPage from "./components/pages/ChangePasswordPage";
 import FPasswordMessage from "./components/pages/FPasswordMessage";
 
 
+>>>>>>> fb92108da08f19ed09732b235063908a3ea86799
 const applicationSetting = data => ({
   type: APPLICATION_SETTING,
   data
@@ -52,6 +59,11 @@ const App = ({ location, isAuthenticated }) => {
   useHandleSetting()
   return (
     <div>
+<<<<<<< HEAD
+      <AdminRoute location={location} path="/" exact component={HomePage} />
+      <AdminRoute location={location} path="/createuser" exact component={CreateUserDisplay} />
+      <AdminRoute location={location} path="/createuser/success" exact component={CreateUserSuccess} />
+=======
       <Route location={location} path="/" exact component={HomePage} />
       <AdminRoute
         location={location}
@@ -59,6 +71,7 @@ const App = ({ location, isAuthenticated }) => {
         exact
         component={CreateUserDisplay}
       />
+>>>>>>> fb92108da08f19ed09732b235063908a3ea86799
       <UserRoute
         location={location}
         path="/datasettable"
