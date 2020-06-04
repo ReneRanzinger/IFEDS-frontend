@@ -371,10 +371,13 @@ const PersistentDrawerLeft = ({props})=> {
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
+
                 <Link to="/createuser">
                   <ListItemText primary=" Create User" />
                 </Link>
+
                   <ListItemText primary="New User" />
+
               </ListItem>
               <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/userpermission")}>
                 <ListItemIcon>
