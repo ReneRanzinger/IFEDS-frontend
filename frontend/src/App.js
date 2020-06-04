@@ -30,7 +30,7 @@ import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import { ResetPasswordPageContainer } from './components/pages/ResetPasswordPageContainer';
 import {Authentication} from './components/authentication.js'
 import DisplayChangePassword from "./components/pages/DisplayChangePassword";
-
+import FPasswordMessage from "./components/pages/FPasswordMessage";
 import FPasswordLink from "./components/pages/FPasswordLink";
 import ChangePasswordPage from "./components/pages/ChangePasswordPage";
 
@@ -175,6 +175,12 @@ const App = ({ location, isAuthenticated }) => {
         path="/changepasswordpage"
         exact
         component={ChangePasswordPage}
+      />
+      <Route
+        location={location}
+        path="/message"
+        exact
+        component={FPasswordMessage}
       />
     </div>
   );};

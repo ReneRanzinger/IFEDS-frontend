@@ -1,20 +1,13 @@
-import React, { useState, useEffect, useReducer } from "react";
-//import { Auth } from "aws-amplify";
+import React, { useState, useReducer } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import TextField from "@material-ui/core/TextField";
-
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
-import { Password } from "../../apiCalls";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import {forgotpassword} from "../../apiCalls";
 import Navbar from "./Navbar";
