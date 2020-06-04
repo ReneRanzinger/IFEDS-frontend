@@ -55,9 +55,14 @@ const App = ({ location, isAuthenticated }) => {
   useHandleSetting()
   return (
     <div>
-     
-     <AdminRoute location={location} path="/createuser/success" exact component={CreateUserSuccess} />
       <Route location={location} path="/" exact component={HomePage} />
+      <AdminRoute
+        location={location}
+        path="/createuser/success"
+        exact
+        component={CreateUserSuccess}
+      />
+
       <AdminRoute
         location={location}
         path="/CreateUser"
