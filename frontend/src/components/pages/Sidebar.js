@@ -366,15 +366,15 @@ const PersistentDrawerLeft = ({props})=> {
             </ListItem>
           <Collapse in={open4} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/CreateUser")}>
+              <ListItem button className={classes.nested} onClick = {e => handleLinkChange("/createuser")}>
                 <ListItemIcon>
                   <ArrowRightIcon />
                   {/* <StarBorder /> */}
                 </ListItemIcon>
 
-                <Link to="/createuser">
+                {/* <Link to="/createuser">
                   <ListItemText primary=" Create User" />
-                </Link>
+                </Link> */}
 
                   <ListItemText primary="New User" />
 

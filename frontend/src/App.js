@@ -65,7 +65,7 @@ const App = ({ location, isAuthenticated }) => {
 
       <AdminRoute
         location={location}
-        path="/CreateUser"
+        path="/createuser"
         exact
         component={CreateUserDisplay}
       />
