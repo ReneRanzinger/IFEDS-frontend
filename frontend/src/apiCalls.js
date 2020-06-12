@@ -24,3 +24,4 @@ export const CreateUserAPI = `${base_url}/create_user`;
 export const Permission = `${base_url}/permissions`;
 export const Reset = `${base_url}/reset_password`;
 export const forgotpassword = `${base_url}/password_reset`;
+export const DataFiles = `${base_url}/dataFiles`;
