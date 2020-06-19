@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import {forgotpassword} from "../../apiCalls";
+import {ForgotPassword} from "../../apiCalls";
 import Navbar from "./Navbar";
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
@@ -57,6 +57,7 @@ export default function ChangePassword(props) {
   const isAuthenticated = useSelector(state => state.user.token);
   const history = useHistory();
   const classes = useStyles();
+  const { match: { params } } = props;
   const sidebar = useSelector(state => state.sidebar);
   const [isChanging, setIsChanging] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -88,8 +89,8 @@ export default function ChangePassword(props) {
   const handleChangeClick = event => {
     event.preventDefault();
     setIsChanging(true);
-
-    fetch(`${forgotpassword}/${token}`, {
+    console.log(params.token)
+    fetch(`${ForgotPassword}/${params.token}`, {
       method: "POST",
       mode: "cors",
       headers: setAuthorizationHeader(isAuthenticated),

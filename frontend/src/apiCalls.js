@@ -1,4 +1,6 @@
+
 const base_url = process.env.REACT_APP_BASE_URL;
+
 
 export const Datasets = `${base_url}/datasets`
 export const Authenticate = `${base_url}/authenticate`
@@ -23,4 +25,4 @@ export const Password = `${base_url}/change_password`;
 export const CreateUserAPI = `${base_url}/create_user`;
 export const Permission = `${base_url}/permissions`;
 export const Reset = `${base_url}/reset_password`;
-export const forgotpassword = `${base_url}/password_reset`;
+export const ForgotPassword = `${base_url}/password_reset`;

@@ -172,8 +172,8 @@ const App = ({ location, isAuthenticated }) => {
       />
       <GuestRoute
         location={location}
-        path="/changepasswordpage"
-        exact
+        path="/password_reset/:token"
+       
         component={ChangePasswordPage}
       />
       <Route

@@ -271,21 +271,7 @@ const PersistentDrawerLeft = ({props})=> {
             )}
           </IconButton>
         </div>
-        {/* <List>
-          {[
-            ["Home", "/dashboard"],
-            ["Data", "/datasettable"],
-            [" Sample", "/samplelist"]
-          ].map((text, index) => (
-            <Link to ={text[1]}>
-            <ListItem button="button" key={index} component="a" Link to="text[1]">
-              {text[0]}
-            </ListItem>
-              <ListItemText primary="Inbox" />
-              {open ? <ExpandLess /> : <ExpandMore />}
-            </Link>
-          ))}
-        </List> */}
+       
 
         <List
           component="nav"

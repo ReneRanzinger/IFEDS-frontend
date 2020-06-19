@@ -59,19 +59,19 @@ const handleSubmit = (e) => {
   };
 
 
-const validate = (values) =>{
-const errors = [];
+// const validate = (values) =>{
+// const errors = [];
 
-  if (username.length === 0) {
-    errors.push("Name can't be empty");
-  }
+//   if (username.length === 0) {
+//     errors.push("Name can't be empty");
+//   }
 
- if (password.length < 6) {
-    errors.push("Password should be at least 6 characters long");
-  }
+//  if (password.length < 6) {
+//     errors.push("Password should be at least 6 characters long");
+//   }
 
-  return errors;
-}
+//   return errors;
+// }
 
  
   return (

@@ -6,13 +6,14 @@ import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
 import { Reset} from "../../apiCalls";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import PropTypes from "prop-types";
+import { ForgotPassword } from "../../apiCalls";
 import Navbar from "./Navbar";
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
 import { getMeta } from "./head.js";
-
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import { FPasswordMessage } from "./FPasswordMessage";
 
 
@@ -53,32 +54,65 @@ const useStyles = makeStyles(theme => ({
 
 
 
+
 export default function FPasswordLink(props) {
   const isAuthenticated = useSelector(state => state.user.token);
   const history = useHistory();
   const classes = useStyles();
-  const sidebar = useSelector(state => state.sidebar);
+  //const sidebar = useSelector(state => state.sidebar);
   const [isChanging, setIsChanging] = useState(false);
   const [email, setEmail] = useState("");
+  const [token, setToken] = useState("");
+  const [fields, setFields] = useReducer(
+    (state, newState) => ({ ...state, ...newState }),
+    {
+      password: "",
+      confirmPassword: ""
+    }
+  );
 
+  
+  
+//  const handleChange=
  
 
 
 
 const handleSubmit = (e) => {
     history.push("/message");
-    e.preventDefault();
-    console.log(email)
+    //submit({ email: email });
+    e.preventDefault();}
+   // console.log(email)
 fetch(`${Reset}/${email}`, {
   method: "GET",
   mode: "cors",
   headers: setAuthorizationHeader(isAuthenticated)
 })
-  .then(response => response.json())
-  .then(res => {history.push("/message");})
-    
-   .catch(error => console.log(error));
-  }    
+  //.then(response => response.json())
+  // .then(res => {history.push("/message");})
+
+  .catch(error => console.log(error));
+      
+
+  // const handleChangeClick = event => {
+  //   event.preventDefault();
+  //   setIsChanging(true);
+
+  //   fetch(`${ForgotPassword}/${token}`, {
+  //     method: "POST",
+  //     mode: "cors",
+  //     headers: setAuthorizationHeader(isAuthenticated),
+  //     body: JSON.stringify({
+  //       new_password: fields.password,
+  //       confNew_password: fields.confirmPassword
+  //     })
+  //   })
+  //     .then(res => {
+  //       history.push("/login");
+  //     })
+  //     .catch(error => console.log(error));
+  // };
+
 
 
 return (
@@ -92,8 +126,8 @@ return (
     <Navbar props={props} />
     <Card className={classes.bullet1}>
       <div className="Email">
-        <form className={classes.form}>
-          <TextField
+        <ValidatorForm className={classes.form}>
+          <TextValidator
             variant="outlined"
             margin="normal"
             required="required"
@@ -106,6 +140,8 @@ return (
             autoFocus="autoFocus"
             onChange={e => setEmail(e.target.value)}
             value={email}
+            validators={["required", "isEmail"]}
+            errorMessages={["this field is required", "email is not valid"]}
           />
 
           <Button
@@ -115,11 +151,10 @@ return (
             color="primary"
             className={classes}
             onClick={handleSubmit}
-
           >
-            Change Password
+            Submit
           </Button>
-        </form>
+        </ValidatorForm>
       </div>
     </Card>
   </div>
