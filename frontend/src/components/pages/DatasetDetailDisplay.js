@@ -1,7 +1,6 @@
 import React, {useReducer, useState,useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
 import {makeStyles} from '@material-ui/core/styles';
 import Card from "@material-ui/core/Card";
 import IconButton from '@material-ui/core/IconButton';
@@ -10,7 +9,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
-import {Dataset, PaperID} from '../../apiCalls';
+import {Dataset, PaperID, DataFiles} from '../../apiCalls';
 import MaterialTable from 'material-table';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -369,86 +368,131 @@ const EditableDropDownChip1 = props => {
 }
 
 const EditablePublicationDetail = props => {
-  const {name, handleDropDownChangeChip} = props;
-  const [data, setData] = useState();
-  const [error, setError] = useState(false);
-  const [paper, setPaper] = useState();
+  const {name, state,handleDropDownChangeChip, edit, isEditable, variant,classes} = props;
+  const [isPaperAdded,setIsPaperAdded] = useState(state.data ? true : false);
+  const [paperData, setPaperData]  = useReducer(
+    (state, newState) => ({ ...state, ...newState }), { })
+  const [paperDataTotal, setPaperDataTotal] = useState(state)
+  const [error, setError] = useState(false)
 
-  const handleChange = (e) => {
-    setData(e.target.value)
-  }
+
 
   const handleHeaderChangeForChip = (e, edit , head) => {
-
-      handleDropDownChangeChip(data, edit, head)
+      e.preventDefault()
+      handleDropDownChangeChip(paperDataTotal, edit, head)
   }
 
   const handleDelete = (e , index) => {
-    setData()
+    setPaperDataTotal(paper => {
+                const data = [...paperDataTotal.data];
+                data.splice(index, 1);
+                return { ...paperDataTotal, data };
+              });
+    if (paperDataTotal.data.length === 1) {
+      setIsPaperAdded(false)
+      }
   }
 
   const handleSubmit = e => {
     e.preventDefault()
-  //  handleDropDownChangeChip(data, true)
+    handleDropDownChangeChip(paperDataTotal, true, name)
   }
 
-  const handleSubmit1 = e => {
-    e.preventDefault()
 
-      fetch(`${PaperID}/${data}`, {
-        method: "GET",
-        headers: setAuthorizationHeader(props.isAuthenticated)
-      }).then(response => response.json()).then(res => {
-        console.log(res)
-      }).catch(error => {console.log(error); setError(true)});
-  //  document.getElementById("paper").reset();
+  const handleChange1 = e => {
+      const name = e.target.name;
+      const newValue = e.target.value;
+      setPaperData({ [name]: newValue });
+      setError(false)
+    };
 
-  }
+    const handleAdd = e => {
+        e.preventDefault()
+        console.log("paperData",paperData)
+        fetch(`${PaperID}/${paperData.paper}`, {
+          method: "GET",
+          mode: 'cors',
+          headers: setAuthorizationHeader(props.isAuthenticated)
+        }).then(response => {
+          if (response.status === 500 || response.status === 404 || response.status === 400){
+            setError(true)
+          }
+          return response.json()
+        }).then(res => {
+          console.log("res",res)
+            if (res.status === 500 || res.status === 404 || res.status === 400){
+              setError(true)
+            }
+              else {let count=false;
+              setPaperDataTotal(paperDataTotal => {
+                const data = [...paperDataTotal.data]
+                for (var i = 0; i < paperDataTotal["data"].length; i++) {
+                  console.log("paperDataTotal",paperDataTotal)
+                if (paperDataTotal["data"][i][0] === res.pmid ) {
+                  count = true;
+                  break;
+                }
+              }
+              if(!count) {
+                data.push([res]);
+              }
+                return {...paperDataTotal , data}
+              });
+              setIsPaperAdded(true);
+              setPaperData({'paper' : ''})}
+        }).catch(error => console.log(error));
 
-  return(<div>
-    <form onSubmit = {handleSubmit}>
-    <EditableHeader
-      head = {name}
-      edit = 'Save'
-      isEditable = {true}
-      variant = 'h6'
-      handleHeaderChange = {handleHeaderChangeForChip}
-       />
-    <Divider/>
-      <form onSubmit = {handleSubmit1}>
-        <TextField
-          autoFocus
-          error = {!error ? false :  true}
-          color = {!error ? "secondary" : "primary"}
-          id="paper"
-          label="Paper ID"
-          helperText = {error ? "Invalid pmid": "Enter pmid"}
-          size="small"
-          value={data}
-          onChange={handleChange}
-          type="text"
-        />
-      <Button variant="outlined" color="primary" type = "submit">
-          Check
-        </Button>
+      }
+
+      return(<div>
+        <form onSubmit = {handleSubmit}>
+          <EditableHeader
+            head = {name}
+            edit = {edit}
+            isEditable = {isEditable}
+            variant = {variant}
+            handleHeaderChange = {handleHeaderChangeForChip}
+             />
+           <Divider/>
+            <TextField
+              id="paper"
+              name = "paper"
+              label="Paper ID"
+              error = {error === true ? true :false}
+              className={classes.textField1 }
+              value = {paperData.paper}
+              onChange = {handleChange1}
+              helperText={error === true ? " Paper with given pubmed id not found/valid " : "Please type Paper ID"}
+              margin="normal"
+            />
+            <Button className = {classes.button1} color="primary" variant="contained" onClick={e => handleAdd(e)}>
+                Add Paper Id
+            </Button>
+              {isPaperAdded && <div className = {classes.submain}>
+                <Divider className = {classes.divider}/>{paperDataTotal.data.map((row, index) => {
+
+                return (
+                  <ul>
+                    <li>
+                      <Typography variant="subtitle2" >
+                        {row[0]["title"]}
+                      </Typography>
+                    <Typography variant="body2" >
+                      {`Author:\xa0\xa0 ${row[0]["authorList"]}`}
+                    </Typography>
+                    <Typography variant="body2" >
+                      {`PMID:\xa0\xa0 ${row[0]["pmid"]}`}
+                    </Typography>
+                    </li>
+                  </ul>
+                );
+              })}
+              <Divider className = {classes.submain}/></div>}
+        <div >
+        </div>
       </form>
-
-
-    <div>
-    { paper &&
-          <Chip
-            size="medium"
-            variant="outlined"
-            label={data.title}
-            color='primary'
-            onDelete={e => handleDelete(e)}
-          />
+      </div>)
     }
-  </div>
-</form>
-  </div>
-  )
-}
 
 const DataExperiment =props =>{
   const{state,name, edit, isEditable, variant, handleHeaderChange}=props;
@@ -609,8 +653,7 @@ const DataFundingSource = props => {
 }
 
 const DataPublication = props => {
-  const {state,name, edit, isEditable, variant, handleHeaderChange,classes} = props;
-
+  const {state,name, edit, isEditable, variant, handleHeaderChange} = props;
   return (
     <div>
       <EditableHeader
@@ -620,29 +663,27 @@ const DataPublication = props => {
         variant = {variant}
         handleHeaderChange = {handleHeaderChange} />
       <Divider />
-      {state &&
-        state.map((row, index) => {
+      {state.data &&
+        state.data.map((row, index) => {
 
-          const ret = `${row["title"]} \xa0\xa0 ${row["authorList"]} \xa0\xa0  ${row["journalName"]} \xa0\xa0  ${row["pmid"]} \xa0\xa0  ${row["url"]}`;
+
           return (
             <ul>
               <li>
-                <Link href = {row["url"]} >
-                  <Typography variant="subtitle2" >
-                    {row["title"]}
-                  </Typography>
-                </Link>
-                <Typography variant="body2" >
-                  {`Author:\xa0\xa0 ${row["authorList"]}`}
+                <Typography variant="subtitle2" >
+                  {row[0]["title"]}
                 </Typography>
-                <Typography variant="body2" >
-                  {`PMID:\xa0\xa0 ${row["pmid"]}`}
-                </Typography>
+              <Typography variant="body2" >
+                {`Author:\xa0\xa0 ${row[0]["authorList"]}`}
+              </Typography>
+              <Typography variant="body2" >
+                {`PMID:\xa0\xa0 ${row[0]["pmid"]}`}
+              </Typography>
               </li>
             </ul>
           );
         })}
-        {!Object.entries(state).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
+        {!Object.entries(state.data).length > 0 &&<Typography variant = "subtitle2" style={{marginTop: "0px",marginBottom: "12px"}}>N/A</Typography>}
     </div>
   );
 };
@@ -689,7 +730,55 @@ const DataSample = props => {
 }
 
 const DataTable = props => {
-  const {data} = props;
+  const {data} = props
+  let bearer = 'Bearer '
+  // const [file,setFile] = useReducer(
+  //   (state, newState) => ({ ...state, ...newState }), {
+  //   state : data })
+  // console.log("anu",file)
+  const isAuthenticated = useSelector(state => state.user.token);
+
+  const handleDownload = (e,row) => {
+    e.preventDefault()
+    fetch(`${DataFiles}/${row.dataFileId}`, {
+      method: "GET",
+      mode: 'cors',
+      headers: {"Content-Type": "application/octet-stream","Content-Disposition": "attachment", 'Authorization': bearer+isAuthenticated}
+    }).then(response => response.json()).then(res => {
+      console.log(res)
+      // if (res.status === 401) {
+      //   props.props.logout();
+      // }
+      // setFile((prevState) => {
+      //           const data = [...prevState.data];
+      //           data.splice(data.indexOf(oldData), 1);
+      //           return { ...prevState, data };
+      //         });
+    }).catch(error => {
+      console.log(error)
+    });
+
+  }
+
+  const fetchDelete = (oldData, isAuthenticated, props) => {
+    fetch(`${DataFiles}/${oldData.dataFileId}`, {
+      method: "DELETE",
+      mode: 'cors',
+      headers: setAuthorizationHeader(isAuthenticated)
+    }).then(response => response.json()).then(res => {
+      // if (res.status === 401) {
+      //   props.props.logout();
+      // }
+      // setFile((prevState) => {
+      //           const data = [...prevState.data];
+      //           data.splice(data.indexOf(oldData), 1);
+      //           return { ...prevState, data };
+      //         });
+    }).catch(error => {
+      console.log(error)
+    });
+  }
+
   const headCells = [
     {
       field: 'origFileName',
@@ -709,10 +798,10 @@ const DataTable = props => {
 return (
   <MaterialTable
     columns={headCells}
-    data={data}
+    data={data.data}
     localization={{
       header: {
-          actions: 'Download'
+          actions: 'Actions'
       }
         }}
     actions={[
@@ -720,10 +809,19 @@ return (
         icon: GetApp,
         tooltip: "Download",
         onClick: (event, rowData) => {
-
+          handleDownload(event, rowData)
         }
       }
     ]}
+    editable={{
+      onRowDelete: oldData =>
+        new Promise(resolve => {
+          setTimeout(() => {
+            resolve();
+            fetchDelete(oldData, isAuthenticated, props);
+          }, 300);
+        })
+    }}
     options={{
        actionsColumnIndex: -1
      }}
@@ -736,8 +834,11 @@ return (
 
 }
 
+
+
 const DataFile = props => {
   const { state, name, variant, classes } = props;
+  console.log("state",state)
 
   return (
     <div>
@@ -798,8 +899,8 @@ const [sample , setSample] = useState({});
 const [experimentTypes, setExperimentTypes] = useState([]);
 const [keywords, setKeywords] = useState([]);
 const [fundingSource, setFundingSource] = useState([]);
-const [publications, setPublications] = useState([]);
-const [file, setFile] = useState([]);
+const [publications, setPublications] = useState({data: []});
+const [file, setFile] = useState({data: []});
 
 const sampleEx = props.sample;
 const experimentEx = props.experimentType;
@@ -834,6 +935,11 @@ const keywordEx = props.keyword
       handleClick4()
     }
 
+    const handleDropDownChangeChip3 = (data, edit) => {
+      setPublications(data)
+      handleClick6()
+    }
+
   const handleSampleSubmit = e => {
     setDataset({[sample] : sample})
     setEditableSample(!editableSample)
@@ -846,6 +952,9 @@ const keywordEx = props.keyword
       }
       if(head === `Dataset`){
         handleClick()
+      }
+      if(head === "Publications") {
+        handleClick6()
       }
     }
     if (edit === 'Edit') {
@@ -901,8 +1010,8 @@ const keywordEx = props.keyword
       setExperimentTypes(res.experimentTypes)
       setKeywords(res.keywords)
       setFundingSource(res.fundingSources)
-      setPublications(res.papers)
-      setFile(res.dataFiles)
+      setPublications({ data : res.papers})
+      setFile({data : res.dataFiles})
     }).catch(error => console.log(error));
   }, [params.id]);
 
@@ -994,7 +1103,12 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
       /> :
       <EditablePublicationDetail
         name = "Publications"
-        handleHeaderChange = {handleHeaderChange}
+        state = {publications}
+        classes = {classes}
+        edit = "Save"
+        isEditable = {props.editDataset}
+        variant = "h6"
+        handleDropDownChangeChip = {handleDropDownChangeChip3}
         isAuthenticated = {isAuthenticated}/>
 
   }
@@ -1168,6 +1282,10 @@ const useToolbarStyles = makeStyles(theme => ({
   label: {
     marginLeft: theme.spacing(3),
     paddingTop: theme.spacing(5)
+  },
+  button1: {
+    marginLeft: theme.spacing(3),
+    marginTop: theme.spacing(3)
   },
   menu: {
     width: 200
