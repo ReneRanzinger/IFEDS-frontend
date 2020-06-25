@@ -1,15 +1,18 @@
 import React, {useReducer, useState,useEffect} from 'react';
 import {useSelector} from 'react-redux';
+import isEqual from 'lodash.isequal'
 import TextField from '@material-ui/core/TextField';
 import {makeStyles} from '@material-ui/core/styles';
+import CardContent from '@material-ui/core/CardContent';
 import Card from "@material-ui/core/Card";
+import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
 import SaveIcon from '@material-ui/icons/Save';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
-import {Dataset, PaperID, DataFiles} from '../../apiCalls';
+import {Dataset, PaperID, DataFiles, Datasets} from '../../apiCalls';
 import MaterialTable from 'material-table';
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -17,6 +20,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import Button from '@material-ui/core/Button';
 import {GetApp} from '@material-ui/icons'
 import setAuthorizationHeader from "../../utils/setAuthorizationHeader";
+//import isEqual from "../../utils/equalCheck";
 
 
 
@@ -61,10 +65,10 @@ const useEditableHeaderStyles = makeStyles(theme => ({
 }));
 
 const EditableDropDown = props => {
-  const {name, state, handleDropDownChange, classes, list} = props;
+  const {name, state, original,handleDropDownChange, classes, list} = props;
 
   const handleChange = (e) => {
-    handleDropDownChange(e, name)
+    handleDropDownChange(e, name, original)
   }
 
   return(
@@ -97,7 +101,7 @@ const EditableDropDown = props => {
 }
 
 const EditableDropDownChip = props => {
-  const {name, id, id1, state, handleDropDownChangeChip, classes, list} = props;
+  const {name, id, id1, state, original,handleDropDownChangeChip, classes, list} = props;
   const [data, setData] = useState([]);
   const [initialChip, setInitialChip] = useState(true);
 
@@ -134,7 +138,12 @@ const EditableDropDownChip = props => {
         setInitialChip(false)
 
     }
-      handleDropDownChangeChip(data, edit, head)
+
+    const data1 = id === 'experimentType' ? original.experimentTypes.map((row) => (row.experimentType)) : original.fundingSources.map((row) => (row.fundingSource))
+    console.log("dat", data1)
+    isEqual (data , data1) ?
+      handleDropDownChangeChip(data, edit, head, false) : handleDropDownChangeChip(data, edit, head, true)
+
   }
 
   const handleDelete = (e , index) => {
@@ -240,7 +249,7 @@ const EditableDropDownChip = props => {
 }
 
 const EditableDropDownChip1 = props => {
-  const {name, id, id1, state, handleDropDownChangeChip, classes, list} = props;
+  const {name, id, id1, state, original,handleDropDownChangeChip, classes, list} = props;
   const [data, setData] = useState([]);
   const [initialChip, setInitialChip] = useState(true);
 
@@ -273,7 +282,9 @@ const EditableDropDownChip1 = props => {
         setInitialChip(false)
 
     }
-      handleDropDownChangeChip(data, edit, head)
+
+    isEqual (data , original.keywords) ?
+      handleDropDownChangeChip(data, edit, head, false) : handleDropDownChangeChip(data, edit, head, true)
   }
 
   const handleDelete = (e , index) => {
@@ -368,7 +379,7 @@ const EditableDropDownChip1 = props => {
 }
 
 const EditablePublicationDetail = props => {
-  const {name, state,handleDropDownChangeChip, edit, isEditable, variant,classes} = props;
+  const {name, state,handleDropDownChangeChip, original,edit, isEditable, variant,classes} = props;
   const [isPaperAdded,setIsPaperAdded] = useState(state.data ? true : false);
   const [paperData, setPaperData]  = useReducer(
     (state, newState) => ({ ...state, ...newState }), { })
@@ -379,7 +390,13 @@ const EditablePublicationDetail = props => {
 
   const handleHeaderChangeForChip = (e, edit , head) => {
       e.preventDefault()
-      handleDropDownChangeChip(paperDataTotal, edit, head)
+
+      const data = paperDataTotal.data.map(row => {return (row.pmid)})
+      const data1 = original.papers.map(row => {return (row.pmid)})
+
+      isEqual (data , data1) ?
+        handleDropDownChangeChip(paperDataTotal, edit, head, false) : handleDropDownChangeChip(paperDataTotal, edit, head, true)
+
   }
 
   const handleDelete = (e , index) => {
@@ -434,7 +451,7 @@ const EditablePublicationDetail = props => {
                 }
               }
               if(!count) {
-                data.push([res]);
+                data.push(res);
               }
                 return {...paperDataTotal , data}
               });
@@ -475,13 +492,13 @@ const EditablePublicationDetail = props => {
                   <ul>
                     <li>
                       <Typography variant="subtitle2" >
-                        {row[0]["title"]}
+                        {row["title"]}
                       </Typography>
                     <Typography variant="body2" >
-                      {`Author:\xa0\xa0 ${row[0]["authorList"]}`}
+                      {`Author:\xa0\xa0 ${row["authorList"]}`}
                     </Typography>
                     <Typography variant="body2" >
-                      {`PMID:\xa0\xa0 ${row[0]["pmid"]}`}
+                      {`PMID:\xa0\xa0 ${row["pmid"]}`}
                     </Typography>
                     </li>
                   </ul>
@@ -543,11 +560,12 @@ const DatasetDet = props => {
 }
 
 const EditableDatasetDet = props => {
-  const {state, handleChange,handleDatasetSubmit,classes} = props;
+  const {state, original,handleChange,handleDatasetSubmit,classes} = props;
 
   const handleDatasetSubmit1 = e => {
     e.preventDefault()
-    handleDatasetSubmit(e, "Save",  "Dataset")
+    isEqual(state,original)?
+    handleDatasetSubmit(e, "Save",  "Dataset", false) : handleDatasetSubmit(e,"Save","Dataset", true)
   }
 
   return(
@@ -671,13 +689,13 @@ const DataPublication = props => {
             <ul>
               <li>
                 <Typography variant="subtitle2" >
-                  {row[0]["title"]}
+                  {row["title"]}
                 </Typography>
               <Typography variant="body2" >
-                {`Author:\xa0\xa0 ${row[0]["authorList"]}`}
+                {`Author:\xa0\xa0 ${row["authorList"]}`}
               </Typography>
               <Typography variant="body2" >
-                {`PMID:\xa0\xa0 ${row[0]["pmid"]}`}
+                {`PMID:\xa0\xa0 ${row["pmid"]}`}
               </Typography>
               </li>
             </ul>
@@ -855,6 +873,8 @@ const DataFile = props => {
 const DatasetDetailDisplay = (props) =>{
   const classes = useToolbarStyles();
   const [editable, setEditable] = useState(false);
+  const [changed, setChanged] = useState(false);
+  const [changedSet, setChangedSet] = useState([]);
   const [editableSample, setEditableSample] = useState(true);
   const [editableExpType, setEditableExpType] = useState(false);
   const [editableKeyword, setEditableKeyword] = useState(false);
@@ -862,6 +882,7 @@ const DatasetDetailDisplay = (props) =>{
   const [editablePublication, setEditablePublication] = useState(false);
   const isAuthenticated = useSelector(state => state.user.token);
   const sidebar = useSelector(state => state.sidebar);
+  const [datasetOriginal , setDatasetOriginal] = useState({})
   //const [provider, setProvider] = useState({});
   const {match: { params }} = props;
 //  const [editDataset, setEditDataset] = useState(false)
@@ -913,30 +934,59 @@ const keywordEx = props.keyword
       setDataset({ [name]: newValue });
     };
 
-    const handleChangeForDropDown = (e, name) => {
+    const handleChangeForDropDown = (e, name, original) => {
       const newValue = e.target.value;
       if (name === "sample") {
         const sampleTest = sampleEx.filter(e => (e.name === newValue))
-        setSample(sampleTest[0]) }
+        console.log("sampleTest",sampleTest)
+        console.log("orig",original)
+        setSample(sampleTest[0])
+        if (!isEqual(sampleTest[0].sampleId , original.sample.sampleId)) {
+          setChanged(true)
+          changedSet.push("Sample")
+          setChangedSet([...changedSet])}}
     }
 
-    const handleDropDownChangeChip = (data, edit) => {
+    const handleDropDownChangeChip = (data, edit, head, change) => {
       setExperimentTypes(data)
+      console.log("third",data)
+      if (change) {
+        setChanged(true)
+        changedSet.push(head)
+        setChangedSet([...changedSet])
+      }
       handleClick3()
     }
 
-    const handleDropDownChangeChip1 = (data, edit) => {
+    const handleDropDownChangeChip1 = (data, edit, head, change) => {
       setFundingSource(data)
+      console.log("fourth",data)
+      if (change) {
+        setChanged(true)
+        changedSet.push(head)
+        setChangedSet([...changedSet])
+      }
       handleClick5()
     }
 
-    const handleDropDownChangeChip2 = (data, edit) => {
+    const handleDropDownChangeChip2 = (data, edit, head, change) => {
       setKeywords(data)
+      console.log("second",data)
+      if (change) {
+        setChanged(true)
+        changedSet.push(head)
+        setChangedSet([...changedSet])
+      }
       handleClick4()
     }
 
-    const handleDropDownChangeChip3 = (data, edit) => {
+    const handleDropDownChangeChip3 = (data, edit, head, change) => {
       setPublications(data)
+      if (change) {
+        setChanged(true)
+        changedSet.push(head)
+        setChangedSet([...changedSet])
+      }
       handleClick6()
     }
 
@@ -945,13 +995,15 @@ const keywordEx = props.keyword
     setEditableSample(!editableSample)
   }
 
-  const handleHeaderChange = (e, edit, head) =>{
+  const handleHeaderChange = (e, edit, head, change) =>{
     if (edit === 'Save') {
       if (head === "Sample") {
+
         handleClick1();
       }
       if(head === `Dataset`){
-        handleClick()
+        console.log("first",change)
+        handleClick(head, change)
       }
       if(head === "Publications") {
         handleClick6()
@@ -979,8 +1031,52 @@ const keywordEx = props.keyword
     }
   }
 
-  const handleClick = () => {
+  const handleClickSave = e => {
+    e.preventDefault()
+    const paper = publications.data.map(row => {return parseInt((row.pmid))})
+    const keyword = keywords.map(row => {return(row.keywordId)})
+    const sampleid = sample.sampleId
+    const experiment = experimentTypes.map(row => {return({"experiment_type_id" : row.experimentTypeId , "description"  : row.description})})
+    const fund = fundingSource.map(row => {return({"funding_source_id" : row.fundingSourceId , "url"  : row.url, "grant_number"  : "12345"})})
+    fetch(`${Datasets}/${dataset.datasetId}`,{
+       method: "PUT",
+       mode: 'cors',
+       headers: setAuthorizationHeader(isAuthenticated),
+       body: JSON.stringify({
+            "datasetName": dataset.datasetName,
+            "description": dataset.description,
+            "experiment_types": experiment,
+            "funding_grant": fund,
+            "is_public": dataset.isPublic,
+            "keywordsIds": keyword,
+            "paperIds": paper,
+            "sampleIds": sampleid
+       })
+     }).then(res => {if(res.status === 200) {
+       setChanged(false)
+       setChangedSet([])
+     }})
+  }
+
+  const handleClickClear = e => {
+    e.preventDefault()
+    setDataset(datasetOriginal)
+    setProvider(datasetOriginal.provider)
+    setSample(datasetOriginal.sample)
+    setExperimentTypes(datasetOriginal.experimentTypes)
+    setKeywords(datasetOriginal.keywords)
+    setFundingSource(datasetOriginal.fundingSources)
+    setPublications({ data : datasetOriginal.papers})
+    setChanged(false)
+    setChangedSet([])
+  }
+
+  const handleClick = (head , change) => {
     setEditable(!editable)
+    if(change) {
+      setChanged(true)
+      changedSet.push("Dataset")
+      setChangedSet([...changedSet]) }
   }
   const handleClick1 = () => {
     setEditableSample(!editableSample)
@@ -1005,6 +1101,7 @@ const keywordEx = props.keyword
       headers: setAuthorizationHeader(isAuthenticated)
     }).then(response => response.json()).then(res => {
       setDataset(res);
+      setDatasetOriginal(res)
       setProvider(res.provider)
       setSample(res.sample)
       setExperimentTypes(res.experimentTypes)
@@ -1016,7 +1113,21 @@ const keywordEx = props.keyword
   }, [params.id]);
 
 return( <div className = {sidebar ? classes.root1 : classes.root}>
+  <div>{changed &&
+    <Card className = {sidebar ? classes.bullet5 : classes.bullet3}>
+      <CardContent >
+        <Typography>There are unsaved changes. Save/discard changes.</Typography>
+        <Typography variant='subtitle2'>{changedSet.filter((value,index) => changedSet.indexOf(value) === index).map((value,index) => {return (`\xa0 ${value} `)})}</Typography>
+      </CardContent>
+      <CardActions>
+        <Button color="primary" onClick = {handleClickSave}>Save Changes</Button>
+        <Button color="primary" onClick= {handleClickClear}>Clear All Changes</Button>
+      </CardActions>
+    </Card>}
+  </div>
+<div className = {changed ? classes.bullet4 : classes.bullet2}>
 <div style = {{display:"block", width: "66.6%", position: "relative", marginRight: "8px"}}>
+
     <Card className = {classes.bullet} variant="outlined">
 
       { !editable ?
@@ -1030,6 +1141,7 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
           state = {dataset}
           classes = {classes}
           handleChange = {handleChange}
+          original = {datasetOriginal}
           handleDatasetSubmit = {handleHeaderChange}
           />}
       {!editableExpType ?
@@ -1047,6 +1159,7 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
           id1 = 'experimentTypeId'
           name = 'Experiment Type'
           state = {experimentTypes}
+          original = {datasetOriginal}
           classes = {classes}
           list = {experimentEx}
           handleDropDownChangeChip = {handleDropDownChangeChip}/>
@@ -1066,6 +1179,7 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
             id1 = 'keywordId'
             name = 'Keywords'
             state = {keywords}
+            original = {datasetOriginal}
             classes = {classes}
             list = {keywordEx}
             handleDropDownChangeChip = {handleDropDownChangeChip2}/>
@@ -1084,6 +1198,7 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
           id = 'fundingSource'
           id1 = 'fundingSourceId'
           name = 'Funding Source'
+          original = {datasetOriginal}
           state = {fundingSource}
           classes = {classes}
           list = {fundingSourceEx}
@@ -1105,6 +1220,7 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
         name = "Publications"
         state = {publications}
         classes = {classes}
+        original = {datasetOriginal}
         edit = "Save"
         isEditable = {props.editDataset}
         variant = "h6"
@@ -1133,7 +1249,7 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
     variant = "h6"
     classes = {classes}
     handleHeaderChange = {handleHeaderChange}/> :
-  <Card className = {classes.bullet1}>
+  <Card className = {classes.bullet}>
     <form onSubmit={handleSampleSubmit}>
       <EditableHeader
         head = "Sample"
@@ -1145,6 +1261,7 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
       <EditableDropDown
         name="sample"
         state={sample.name}
+        original = {datasetOriginal}
         classes = {classes}
         list= {sampleEx}
         handleDropDownChange = {handleChangeForDropDown}/>
@@ -1197,9 +1314,10 @@ return( <div className = {sidebar ? classes.root1 : classes.root}>
   </Card>
 
 
+</div>
+</div>
+</div>
 
-</div>
-</div>
 )
 
 
@@ -1209,9 +1327,7 @@ const drawerWidth = 240;
 
 const useToolbarStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(3, 2),
     marginTop: theme.spacing(2),
-    display: "flex",
     position: "relative",
     height: "auto",
     backgroundColor : "#ebf0ec",
@@ -1221,9 +1337,7 @@ const useToolbarStyles = makeStyles(theme => ({
     })
   },
   root1: {
-    padding: theme.spacing(3, 2),
     marginTop: theme.spacing(2),
-    display: "flex",
     position: "relative",
     height: "auto",
     backgroundColor : "#ebf0ec",
@@ -1245,6 +1359,40 @@ const useToolbarStyles = makeStyles(theme => ({
     border: "groove",
     boxShadow: "none"
   },
+  bullet3: {
+    display: "flex",
+    position: "fixed",
+    top: theme.spacing(7),
+    left: "0",
+    right: "0",
+    zIndex: "1",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    justifyContent: "space-between",
+    backgroundColor: "#09bad2",
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  bullet5: {
+    display: "flex",
+    position: "fixed",
+    top: theme.spacing(7),
+    left: "0",
+    right: "0",
+    zIndex: "1",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    justifyContent: "space-between",
+    backgroundColor: "#09bad2",
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
   bullet1: {
     marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
@@ -1254,11 +1402,16 @@ const useToolbarStyles = makeStyles(theme => ({
     boxShadow: "none"
   },
   bullet2: {
-    width: "30%",
+    display : "flex",
     marginLeft: theme.spacing(2),
-    marginTop: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
-    paddingLeft: theme.spacing(2)
+    marginRight : theme.spacing(2),
+    marginTop : theme.spacing(4)
+  },
+  bullet4: {
+    display : "flex",
+    marginLeft: theme.spacing(2),
+    marginRight : theme.spacing(2),
+    marginTop: theme.spacing(12.5)
   },
   textField1: {
     marginRight: theme.spacing(15)
