@@ -12,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
 import { getMeta } from "./head.js";
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 
 
 
@@ -50,7 +52,46 @@ const fetchDelete = (id, isAuthenticated, props) => {
 }
 
 export default function DatasetTable(props) {
+  let serverError = false;
+  const [errors, setErrors] = useState('');
   const isAuthenticated = useSelector(state => state.user.token);
+
+  const useFetch = (url, isDeleted, props) => {
+    const isAuthenticated = useSelector(state => state.user.token);
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+      fetch(url, {
+        method: "GET",
+        mode: 'cors',
+        headers: setAuthorizationHeader(isAuthenticated)
+      }).then(checkStatus).then(res => {
+        if(serverError){
+          console.log(res.message)
+        setErrors({"Server Error" : res.message});
+      } }).then(res => {
+        if (res.status === 401) {
+          props.props.logout();
+        } else {
+          setData(res);
+        }
+      }).catch(error => console.log(error));
+    }, [isAuthenticated, url, isDeleted]);
+    return [data, setData];
+  }
+
+  const checkStatus = res => {
+    if(res.ok) {
+      return res.json()
+    } else {
+      serverError = true;
+      return res.json()
+    }
+  }
+
+
+
   const sidebar = useSelector(state => state.sidebar);
   const [isDeleted, setDeleted] = useState(false);
   const [data] = useFetch(ProviderDataset, isDeleted, props);
@@ -100,6 +141,14 @@ export default function DatasetTable(props) {
         {getMeta(head.datasettable)}
       </Helmet>
         </div>
+        { errors["Server Error"] ?
+          <Alert severity="error">
+            <AlertTitle> Server Error</AlertTitle>
+              {errors["Server Error"]}<strong> Check it out! Try to refresh this page.</strong>
+          </Alert>
+            :
+            ""
+            }
   <MaterialTable title="Dataset Table" columns={headCells} data={data}
   actions={[
     {

@@ -22,6 +22,8 @@ import TablePaginationActions from "../../utils/TablePaginationActions";
 import Headcells from '../../utils/setTableHeader';
 import {Datasets} from '../../apiCalls'
 import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -212,26 +214,37 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const useFetch = (url, props, openAlert) => {
-  const [data, setData] = useState([  ]);
 
-  useEffect(() => {
-    fetch(url, {
-      method: "GET",
-      mode: 'cors',
-      headers: setAuthorizationHeader(props.prop.isAuthenticated)
-    }).then(response => response.json()).then(res => {
-      if(res.status === 500) {
-        openAlert()
-        props.prop.logout()
-      }else {setData(res);}
-    }).catch(error => console.log(error));
-  }, [props.prop.isAuthenticated, url]);
-  return [data];
-}
+
+
 
 export default function EnhancedTable(props) {
+  let serverError = false;
+  const [errors, setErrors] = useState('');
+
+  const useFetch = (url, props, openAlert) => {
+    const [data, setData] = useState([  ]);
+    useEffect(() => {
+      fetch(url, {
+        method: "GET",
+        mode: 'cors',
+        headers: setAuthorizationHeader(props.prop.isAuthenticated)
+      }).then(checkStatus).then(res => {
+        if(serverError){
+          console.log(res.message)
+        setErrors({"Server Error" : res.message});
+      } }).then(res => {
+        if(res.status === 500) {
+        //  openAlert()
+        //  props.prop.logout()
+        }else {setData(res);}
+      }).catch(error => console.log(error));
+    }, [props.prop.isAuthenticated, url]);
+    return [data];
+  }
   const classes = useStyles();
+
+
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('datasetName');
   const [selected, setSelected] = React.useState([]);
@@ -242,8 +255,19 @@ export default function EnhancedTable(props) {
   const sidebar = useSelector(state => state.sidebar);
 
 
+
+
   const openAlert= () => {
     setOpen(true)
+  }
+
+  const checkStatus = res => {
+    if(res.ok) {
+      return res.json()
+    } else {
+      serverError = true;
+      return res.json()
+    }
   }
 
   const [data] = useFetch(Datasets, props, openAlert);
@@ -301,6 +325,14 @@ export default function EnhancedTable(props) {
   const lowerCaseQuery = query.toLowerCase();
   return (<div className={classes.super}>
     <div className={sidebar ? classes.root1 : classes.root}>
+      { errors["Server Error"] ?
+        <Alert severity="error">
+          <AlertTitle> Server Error</AlertTitle>
+            {errors["Server Error"]}<strong> Check it out! Try to refresh this page.</strong>
+        </Alert>
+          :
+          ""
+          }
       <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}
         message = "Session Expired !! Logging Out!"/>
 
