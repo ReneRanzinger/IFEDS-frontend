@@ -3,6 +3,11 @@ FROM node:12.2.0-alpine as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY ./package.json /app/package.json
+
+# install git
+RUN apt-get update && \
+sudo apt-get install git
+
 RUN npm install file-saver
 RUN npm install 
 #RUN npm ls webpack
