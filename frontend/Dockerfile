@@ -9,8 +9,8 @@ RUN apk update && \
     apk upgrade && \
     apk add git
 
-RUN npm install file-saver
-RUN npm install 
+#RUN npm install file-saver
+RUN npm install --silent
 #RUN npm ls webpack
 RUN npm install webpack@4.40.2 
 RUN npm install react-scripts@3.1.2 -g 
