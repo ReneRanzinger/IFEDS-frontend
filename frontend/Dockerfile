@@ -5,8 +5,9 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY ./package.json /app/package.json
 
 # install git
-RUN apt-get update && \
-sudo apt-get install git
+RUN apk update && \
+    apk upgrade && \
+    apk add git
 
 RUN npm install file-saver
 RUN npm install 
