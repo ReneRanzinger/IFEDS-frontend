@@ -232,13 +232,13 @@ export default function EnhancedTable(props) {
       }).then(checkStatus).then(res => {
         if(serverError){
           console.log(res.message)
-        setErrors({"Server Error" : res.message});
-      } }).then(res => {
-        if(res.status === 500) {
-        //  openAlert()
-        //  props.prop.logout()
-        }else {setData(res);}
-      }).catch(error => console.log(error));
+          props.prop.logout()
+          setErrors({"Server Error" : res.message});
+          return
+      } else {
+        console.log("res", res)
+        setData(res);
+      } }).catch(error => console.log(error));
     }, [props.prop.isAuthenticated, url]);
     return [data];
   }
@@ -373,6 +373,7 @@ export default function EnhancedTable(props) {
                       key={row.datasetId}
                       selected={isItemSelected}
                     >
+                    {console.log("rowData", row)}
                       <TableCell component="th" id={labelId} scope="row" className = {classes.tableCell} >
                         <Link to={`/datasetDetail/${row.datasetId}`}>{row.datasetName}</Link>
                       </TableCell>
