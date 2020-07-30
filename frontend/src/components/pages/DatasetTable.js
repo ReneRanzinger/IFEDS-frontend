@@ -68,15 +68,12 @@ export default function DatasetTable(props) {
         headers: setAuthorizationHeader(isAuthenticated)
       }).then(checkStatus).then(res => {
         if(serverError){
-          console.log(res.message)
         setErrors({"Server Error" : res.message});
-      } }).then(res => {
-        if (res.status === 401) {
-          props.props.logout();
-        } else {
-          setData(res);
-        }
-      }).catch(error => console.log(error));
+        return
+      }
+    else {
+      setData(res);
+    } }).catch(error => console.log(error));
     }, [isAuthenticated, url, isDeleted]);
     return [data, setData];
   }
