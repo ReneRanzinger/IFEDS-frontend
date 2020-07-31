@@ -379,6 +379,7 @@ export default function EnhancedTable(props) {
                       </TableCell>
                       <TableCell align="left" className = {classes.tableCell} >{row.providerName}</TableCell>
                       <TableCell align="left" className = {classes.tableCell}>{row.sampleName}</TableCell>
+                      <TableCell align="left" className = {classes.tableCell}>{row.created_at}</TableCell>
                       <TableCell align="left" className = {classes.tableCell} >{row.description && <ReadMoreAndLess className="read-more-content"
                                                                charLimit={125}
                                                                readMoreText="...read more"
