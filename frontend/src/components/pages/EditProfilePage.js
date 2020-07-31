@@ -9,10 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import {Provider, UpdateProvider} from '../../apiCalls'
 import { Helmet } from "react-helmet";
+import {regExMapping} from  "../../utils/regExMapping";
 import { head } from "../pages/head.js";
 import { getMeta } from "../pages/head.js";
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
+import {vname, vcontact, vurl, vdepartment, vaffiliation, vproviderGroup} from '../../utils/validationConstant'
 
 import Grid from '@material-ui/core/Grid';
 
@@ -38,17 +40,6 @@ export default function EditProfilePage(props) {
   );
 
   const handleChange = e => {
-      const regExMapping ={
-        "username":RegExp(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/),
-        "name":RegExp(/^[a-zA-Z0-9!@#\$%\^\&*\)\(+=._-]{0,64}$/),
-        "email":RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i),
-        "url":RegExp(/^([-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*))/),
-        "contact" : RegExp(/^((\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}){0,32}$/),
-        "department" : RegExp(/^[a-zA-Z0-9!@ #\$%\^\&*\)\(+=._-]{0,64}$/),
-        "affiliation" : RegExp(/^[a-zA-Z0-9!@ #\$%\^\&*\)\(+=._-]{0,64}$/),
-        "providerGroup" : RegExp(/^[a-zA-Z0-9!@ #\$%\^\&*\)\(+=._-]{0,64}$/),
-
-      };
       const name = e.target.name;
       const newValue = e.target.value;
       if(newValue.match(regExMapping[name])) {
@@ -177,7 +168,7 @@ const checkStatus = res => {
               margin="dense"
               className={classes.textField2}
               error={errors["name"]}
-              helperText= {errors["name"]?"Enter a valid name. Length should be between 4-64":""}
+              helperText= {errors["name"]?vname:""}
               size="medium"
               id="name"
               name="name"
@@ -196,7 +187,7 @@ const checkStatus = res => {
               id="contact"
               name="contact"
               error={errors["contact"]}
-              helperText= {errors["contact"]?"Enter a valid Contact. Format: +12 123 123 1234 or 123 123 1234 ":""}
+              helperText= {errors["contact"]?vcontact:""}
               value={providerData.contact}
               defaultValue={providerData.contact}
               onChange={handleChange}
@@ -215,7 +206,7 @@ const checkStatus = res => {
               id="url"
               name="url"
               error={errors["url"]}
-              helperText= {errors["url"]?"Enter a valid Url":""}
+              helperText= {errors["url"]?vurl:""}
               value={providerData.url}
               defaultValue={providerData.url}
               onChange={handleChange}
@@ -233,7 +224,7 @@ const checkStatus = res => {
               id="department"
               name="department"
               error={errors["department"]}
-              helperText= {errors["department"]?"Enter a valid Department. Length should be less than 64 character":""}
+              helperText= {errors["department"]?vdepartment:""}
               value={providerData.department}
               defaultValue={providerData.department}
               onChange={handleChange}
@@ -248,7 +239,7 @@ const checkStatus = res => {
               id="affiliation"
               name="affiliation"
               error={errors["affiliation"]}
-              helperText= {errors["affiliation"]?"Enter a valid Affiliation. Length should be less than 64 character":""}
+              helperText= {errors["affiliation"]?vaffiliation:""}
               value={providerData.affiliation}
               defaultValue={providerData.affiliation}
               onChange={handleChange}
@@ -263,7 +254,7 @@ const checkStatus = res => {
               id="providerGroup"
               name="providerGroup"
               error={errors["providerGroup"]}
-              helperText= {errors["providerGroup"]?"Enter a valid Provider Group. Length should be less than 64 character":""}
+              helperText= {errors["providerGroup"]?vproviderGroup:""}
               value={providerData.providerGroup}
               defaultValue={providerData.providerGroup}
               onChange={handleChange}

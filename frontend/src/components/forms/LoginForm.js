@@ -12,7 +12,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from "react-router-dom";
 import {regExMapping} from  "../../utils/regExMapping";
-import {username, password} from  "../../utils/validationConstant";
+import {vusername, vpassword} from  "../../utils/validationConstant";
 import Alert from '@material-ui/lab/Alert';
 import AlertTitle from '@material-ui/lab/AlertTitle';
 
@@ -117,7 +117,7 @@ const handleSubmit = (e) => {
             autoComplete="username"
             autoFocus="autoFocus"
             onChange={e => handleChange(e)}
-            helperText= {errors["username"]? username:"Enter Username"}
+            helperText= {errors["username"]? vusername:"Enter Username"}
 
 
           />
@@ -136,7 +136,7 @@ const handleSubmit = (e) => {
             value = {credential.password}
             autoComplete="current-password"
             onChange={e => handleChange(e)}
-            helperText= {errors["password"]? password:"Enter Password"}
+            helperText= {errors["password"]? vpassword:"Enter Password"}
 
           />
 
