@@ -12,6 +12,11 @@ export const vdepartment = "Enter a valid Department. Length should be less than
 export const vaffiliation = "Enter a valid Affiliation. Length should be less than 64 character"
 export const vproviderGroup = "Enter a valid Provider Group. Length should be less than 64 character"
 export const vwrongCredentials = "Incorrect Username or Password"
+export const vsampletypeid = "Please select Sample Type"
+export const vdescription = "Enter a valid Description. Length should be less than 1000 character"
+export const vsampledescriptor = "Required Field or Reset Selection"
+export const vvalue = "Required Field or Reset Selection. Length should be less than 64 character"
+export const vsampleName = "Required Field. Length should be less than 50 characters"
 
 export default   (res) => {
   if(res.ok) {
