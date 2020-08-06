@@ -37,15 +37,6 @@ const useFetch = (url,props) => {
 export default function SampleForm(props) {
   const { match: { params } } = props;
   const classes = useToolbarStyles();
-  const [validateSample, setValidateSample] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    {
-      nameError : "",
-      sample_type_idError : "",
-      urlError : "",
-      descError : ""
-    }
-  );
   const [sampleDescriptor] = useFetch(SampleDescriptors,props);
   const [sampleType] = useFetch(SampleTypes,props);
   const [sDescriptor, setSDescriptor] = useState();
@@ -78,15 +69,7 @@ export default function SampleForm(props) {
       else {
         setErrors({...errors,[name]: true})
         setSampleData({ [name]: newValue });
-        if (sampleData.url === '') {
-          console.log("yahan par");
-          setErrors({...errors,"url" : false})
-        }
-
       }
-      const nameError = `${e.target.name}Error`
-      setValidateSample({...validateSample, [nameError] : "" })
-      setSampleData({ [name]: newValue });
     };
   const isAuthenticated = useSelector(state => state.user.token);
   const sidebar = useSelector(state => state.sidebar);
