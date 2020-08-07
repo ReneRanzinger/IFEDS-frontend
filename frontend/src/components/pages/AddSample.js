@@ -7,10 +7,14 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
+import {regExMapping} from  "../../utils/regExMapping";
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 import { Helmet } from "react-helmet";
 import { head } from "./head.js";
 import { getMeta } from "./head.js";
-import {nullField, lengthField, lengthField1,lengthField2,lengthField3} from "../../utils/validationConstant"
+import {lengthField2} from "../../utils/validationConstant"
+import {vsampleName, vsampletypeid, vurl, vdescription, vsampledescriptor, vvalue} from '../../utils/validationConstant'
 
 import {SampleDescriptors, SampleTypes, Sample} from '../../apiCalls'
 
@@ -35,23 +39,21 @@ const useFetch = (url) => {
 
 export default function AddSample(props) {
   const classes = useToolbarStyles();
-  const [validateSample, setValidateSample] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    {
-      nameError : "",
-      typeError : "",
-      urlError : "",
-      descError : ""
-    }
-  );
-
+  const [errors, setErrors] = useState('');
   const useFormInput = (initialValue) => {
     const [value, setValue] = useState(initialValue);
 
     function handleChange(e) {
-      const name = `${e.target.name}Error`
-      setValidateSample({...validateSample, [name] : "" })
-      setValue(e.target.value);
+      const name = e.target.name;
+      const newValue = e.target.value;
+      if(newValue.match(name === "name" ? regExMapping["sampleName"]: regExMapping[name])) {
+        setErrors({...errors,[name]: false})
+        setValue(newValue);}
+      else {
+        setErrors({...errors,[name]: true})
+        setValue(newValue);
+      }
+
     }
      return {
        value,
@@ -73,16 +75,8 @@ export default function AddSample(props) {
   const [sampleType] = useFetch(SampleTypes);
   const isAuthenticated = useSelector(state => state.user.token);
   const sidebar = useSelector(state => state.sidebar);
-
-
-  const [validateUserDesc, setValidateUserDesc] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    {
-      descError : "",
-      valueError : "",
-      measurementError : ""
-    }
-  );
+  let serverError = false;
+  const [descriptorError, setDescriptorError] = useState('')
 
 
 
@@ -92,34 +86,24 @@ export default function AddSample(props) {
     props.history.push("/samplelist");
   }
 
-  const handleValidationErrorForDesc = () => {
-    if ((sDescriptor == null || sDescriptor  === "") && (value == null || value === "") ) {
-      setValidateUserDesc({descError : nullField , valueError : nullField})
-      return true
-    }
-    else if (sDescriptor == null || sDescriptor === "") {
-      setValidateUserDesc({descError : nullField})
-      return true
-    }
-    else if (value == null || value === "") {
-      setValidateUserDesc({valueError : nullField})
-      return true
-    }
-    else if (value.length > 64) {
-      setValidateUserDesc({valueError : lengthField1})
-      return true
-    }
-    else if (measurement != null  && measurement.length > 256) {
-      setValidateUserDesc({measurementError : lengthField2})
-      return true
-    }
-    return false
-  }
+
 
   const handleAddDescriptor = (e) => {
     e.preventDefault();
-    const error = handleValidationErrorForDesc()
-    if (error === false) {
+    const errorList = Object.values(descriptorError);
+    if(!descriptorError.hasOwnProperty("sample_descriptor_id")) {
+      setDescriptorError({...descriptorError,"sample_descriptor_id": true})
+      return
+    }
+
+    if(!descriptorError.hasOwnProperty("value")) {
+      setDescriptorError({...descriptorError,"value": true})
+      return
+    }
+    for(let i =0;i<errorList.length; i++ ){
+        if(errorList[i])
+        return
+    }
       let count=false;
       setSampleDesc(sampleDesc => {
       const data = [...sampleDesc.data];
@@ -144,54 +128,70 @@ export default function AddSample(props) {
 
       setIsDescriptorAdded(true);
   }
-  }
+
 
   const handleChangeForMeasurement = (e) => {
-    setValidateUserDesc({...validateUserDesc,measurementError : ""})
-    setMeasurement(e.target.value)
+    const newValue = e.target.value;
+    if(newValue.match(regExMapping["unit_of_measurment"])) {
+      setDescriptorError({...descriptorError,"unit_of_measurment": false})
+      setMeasurement(newValue)}
+    else {
+      setDescriptorError({...descriptorError,"unit_of_measurment": true})
+      setMeasurement(newValue)
+    }
   }
 
   const handleChangeForValue = (e) => {
-    setValidateUserDesc({...validateUserDesc,valueError : ""})
-    setValue(e.target.value)
+    const newValue = e.target.value;
+    if(newValue.match(regExMapping["value"])) {
+      setDescriptorError({...descriptorError,"value": false})
+      setValue(newValue)}
+    else {
+      setDescriptorError({...descriptorError,"value": true})
+      setValue(newValue)
+    }
   }
 
   const handleSDescriptorChange = (e) => {
-    setValidateUserDesc({...validateUserDesc,descError : ""})
-    setSDescriptor(e.target.value)
+    const newValue = e.target.value;
+    if(newValue.match(regExMapping["sample_descriptor_id"])) {
+      setDescriptorError({...descriptorError,"sample_descriptor_id": false})
+      setSDescriptor(newValue)}
+    else {
+      setDescriptorError({...descriptorError,"sample_descriptor_id": true})
+      setSDescriptor(newValue)
+    }
   }
 
-  const handleValidationErrorForSample = () => {
-    const pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-
-    if ((name.value == null || name.value  === "") && (sType.value == null || sType.value === "") ) {
-      setValidateSample({nameError : nullField , typeError : nullField})
-      return true
-    }
-    else if (url.value.trim().length !== 0 && !pattern.test(url.value)) {
-      console.log(url.value)
-      setValidateSample({urlError : "Invalid URL"})
-      return true
-    }
-    else if (description.value != null && description.value.length >1000 ) {
-      setValidateSample({descError : lengthField3 })
-      return true
-    }
-    else if (name.length > 50 || url.length > 256) {
-      if(name.length > 50) {
-        setValidateSample({nameError : lengthField})}
-      if(url.length > 256) {
-        setValidateSample({...validateSample, urlError : lengthField2})}
-
-      return true
-    }
-    return false
+  const handleReset = (e) => {
+    setDescriptorError('')
+    setValue("")
+    setMeasurement("")
+    setSDescriptor("")
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const error = handleValidationErrorForSample()
-    if (error === false) {
+    serverError = false;
+    const errorList1 = Object.values(descriptorError)
+    for(let i =0;i<errorList1.length; i++ ){
+        if(errorList1[i])
+        return
+    }
+    const errorList = Object.values(errors);
+    if(!errors.hasOwnProperty("name")) {
+      setErrors({...errors,"name": true})
+      return
+    }
+
+    if(!errors.hasOwnProperty("sample_type_id")) {
+      setErrors({...errors,"sample_type_id": true})
+      return
+    }
+    for(let i =0;i<errorList.length; i++ ){
+        if(errorList[i])
+        return
+    }
         let listOfSampleDesc = sampleDesc['data'].map((a,row) => {
         let sampleDescId = sampleDescriptor.filter(x => x["name"]=== a[0])[0]["sample_descriptor_id"];
         let  sampleDescriptorArray = { "sample_descriptor_id" :sampleDescId,
@@ -210,10 +210,22 @@ export default function AddSample(props) {
            "description": description.value,
            "sample_descriptors" : listOfSampleDesc
        })
-     }).then(res => console.log(res))
-    props.history.push("/samplelist");
+     }).then(checkStatus).then(res => {
+       if(serverError){
+         setErrors({"Server Error" : res.message});
+       } else {props.history.push("/samplelist")}}
+   ).catch(error => console.log(error))
   }
+
+  const checkStatus = res => {
+    if(res.ok) {
+      return res.text()
+    } else {
+      serverError = true;
+      return res.json()
+    }
   }
+
 
   const handleDelete = (e,index) => {
     setSampleDesc(sampleDesc => {
@@ -232,6 +244,14 @@ export default function AddSample(props) {
   return (
     <div>
       <Paper className={sidebar ? classes.root1 : classes.root}>
+        { errors["serverError"] ?
+          <Alert severity="error">
+            <AlertTitle>Error</AlertTitle>
+              {errors["serverError"]}<strong> Check it out!</strong>
+          </Alert>
+            :
+            ""
+            }
         <Typography variant="h5" component="h3">
           Add Sample
         </Typography>
@@ -240,7 +260,7 @@ export default function AddSample(props) {
             <TextField
               autoFocus
               required
-              error = {validateSample.nameError !== "" ? true : false}
+              error = {errors["name"]}
               id="name"
               name = "name"
               label="Sample Name"
@@ -248,7 +268,7 @@ export default function AddSample(props) {
               {...name}
               className={classes.nameField}
               type="text"
-              helperText = {validateSample.nameError ? validateSample.nameError: ""}
+              helperText = {errors["name"]?vsampleName:""}
               fullWidth
             />
           </div>
@@ -256,9 +276,9 @@ export default function AddSample(props) {
             <TextField
               id="sample_type"
               select
-              name="type"
+              name="sample_type_id"
               required
-              error = {validateSample.typeError !== "" ? true : false}
+              error = {errors["sample_type_id"]}
               label="Sample Type"
               className={classes.textField1}
               {...sType}
@@ -268,7 +288,7 @@ export default function AddSample(props) {
                   className: classes.menu
                 }
               }}
-              helperText={validateSample.typeError ? validateSample.typeError: "Please select sample type"}
+              helperText={errors["sample_type_id"]?vsampletypeid:""}
               margin="normal"
             >
               <option value="" />
@@ -280,14 +300,14 @@ export default function AddSample(props) {
             </TextField>
             <TextField
               margin="dense"
-              error = {validateSample.urlError !== "" ? true : false}
+              error = {errors["url"]}
               className={classes.textField2}
               size="medium"
               id="url"
               name="url"
               {...url}
               label="URL"
-              helperText = {validateSample.urlError ? validateSample.urlError: "Please input URL"}
+              helperText = {errors["url"]?vurl:""}
               type="url"
               fullWidth
             />
@@ -297,13 +317,13 @@ export default function AddSample(props) {
             <TextField
               id="standard-multiline-flexible"
               label="Description"
-              name="desc"
-              error = {validateSample.descError !== "" ? true : false}
+              name="description"
+              error = {errors["description"]}
               multiline
               {...description}
               rowsMax="4"
               margin="normal"
-              helperText = {validateSample.descError ? validateSample.descError: "Please input Description"}
+              helperText = {errors["description"]?vdescription:""}
               fullWidth
             />
           </div>
@@ -311,8 +331,9 @@ export default function AddSample(props) {
             <div style={{ display: "flex", marginTop: "20px" }}>
               <TextField
                 id="sample_descriptor"
+                name="sample_descriptor_id"
                 select
-                error = {validateUserDesc.descError !== "" ? true : false}
+                error = {descriptorError["sample_descriptor_id"]}
                 label="Sample Descriptor"
                 className={classes.textField1}
                 value = {sDescriptor}
@@ -323,7 +344,7 @@ export default function AddSample(props) {
                     className: classes.menu
                   }
                 }}
-                helperText= {validateUserDesc.descError ?validateUserDesc.descError: "Please select sample Descriptor"}
+                helperText= {descriptorError["sample_descriptor_id"]?vsampledescriptor:"Select Sample Descriptor"}
 
                 margin="normal"
               >
@@ -335,30 +356,33 @@ export default function AddSample(props) {
                 ))}
               </TextField>
               <TextField
-                error = {validateUserDesc.valueError!== "" ? true : false }
+                error = {descriptorError["value"]}
                 id="value"
                 label="Value"
                 value={value}
                 onChange={e => handleChangeForValue(e)}
                 className={classes.valueField}
                 type="text"
-                helperText = {validateUserDesc.valueError ?validateUserDesc.valueError: "Please fill value"}
+                helperText = {descriptorError["value"]?vvalue:"Select Value"}
               />
               <TextField
                 margin="dense"
-                error = {validateUserDesc.measurementError !== "" ? true : false}
+                error = {descriptorError["unit_of_measurment"]}
                 className={classes.textField2}
                 value={measurement}
                 id="unit_of_measurment"
                 onChange={e => handleChangeForMeasurement(e)}
                 label="Measurement Unit"
                 type="text"
-                helperText = {validateUserDesc.measurementError ?validateUserDesc.measurementError: "Please fill measurement unit"}
+                helperText = {descriptorError["unit_of_measurment"]?lengthField2:"Select Measurement"}
               />
 
             <Button  type = "submit" className={classes.label} variant = "contained" color = "primary" onClick={e => handleAddDescriptor(e)} >
 
-                Add Sample Descriptor
+                Add Descriptor
+              </Button>
+              <Button  className={classes.label} variant = "contained" color = "primary" onClick={e => handleReset(e)} >
+                  Reset Selection
               </Button>
             </div>
           </form>

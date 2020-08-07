@@ -8,10 +8,10 @@ export const regExMapping ={
   "affiliation" : RegExp(/^[a-zA-Z0-9!@ #\$%\^\&*\)\(+=._-]{0,64}$/),
   "providerGroup" : RegExp(/^[a-zA-Z0-9!@ #\$%\^\&*\)\(+=._-]{0,64}$/),
   "password": RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
-  "sample_type_id": RegExp(/^[0-9]+$/),
+  "sample_type_id": RegExp(/^([0-9]*){1,}$/),
   "description" : RegExp(/^[a-zA-Z0-9!@ #\$%\^\&*\)\(+=._-]{0,1000}$/),
   "sample_descriptor_id" : RegExp(/^[a-zA-Z0-9! @#$%^&*)(+=._-]{1,32}$/),
   "value" : RegExp(/^[a-zA-Z0-9! @#$%^&*)(+=._-]{1,64}$/),
   "unit_of_measurment" : RegExp(/^[a-zA-Z0-9! @#$%^&*)(+=._-]{0,256}$/),
-  "sampleName" : RegExp(/^[a-zA-Z0-9! @#$%^&*)(+=._-]{1,50}$/),
+  "sampleName" : RegExp(/^[a-zA-Z0-9! @#$%^&*)(+=._-]{4,50}$/),
 };
