@@ -14,7 +14,7 @@
     "availity-reactstrap-validation": "^2.6.1",
     "aws-amplify": "^3.0.11",
     "aws-amplify-react": "^4.1.10",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "formik": "^2.1.4",
     "jwt-decode": "^2.2.0",
     "lodash.isequal": "^4.5.0",
