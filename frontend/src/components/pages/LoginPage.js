@@ -10,7 +10,7 @@ import { getMeta } from "./head.js";
 
 
 class LoginPage extends React.Component {
-  this.submit = data => this.props.login(data).then(() => this.props.history.push("/dashboard"));
+  const submit = data => this.props.login(data).then(() => this.props.history.push("/dashboard"));
    
 
 
