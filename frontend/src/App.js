@@ -22,13 +22,10 @@ import DisplayUserPermission from './components/pages/DisplayUserPermission';
 import EditProfileDisplay from './components/pages/EditProfileDisplay'
 import {APPLICATION_SETTING}  from "./types";
 import {Setting} from './apiCalls'
-//import ForgotPassword from "./components/pages/ForgotPassword";
 import CreateUserDisplay from "./components/pages/CreateUserDisplay";
 import CreateUserSuccess from "./components/pages/CreateUserSuccess";
-import {Authenticate} from './apiCalls'
 import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import { ResetPasswordPageContainer } from './components/pages/ResetPasswordPageContainer';
-import {Authentication} from './components/authentication.js'
 import DisplayChangePassword from "./components/pages/DisplayChangePassword";
 import FPasswordMessage from "./components/pages/FPasswordMessage";
 import FPasswordLink from "./components/pages/FPasswordLink";
@@ -173,7 +170,7 @@ const App = ({ location, isAuthenticated }) => {
       <GuestRoute
         location={location}
         path="/password_reset/:token"
-       
+
         component={ChangePasswordPage}
       />
       <Route

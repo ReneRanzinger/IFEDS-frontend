@@ -1,6 +1,7 @@
- import React, {useState} from 'react';
+import React, {useState, useReducer} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import { useSelector } from "react-redux";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
@@ -9,9 +10,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-//import { AvForm, AvGroup, AvInput, AvFeedback } from "availity-reactstrap-validation";
-import FPasswordLink from "../pages/FPasswordLink";
 import { Link } from "react-router-dom";
+import {regExMapping} from  "../../utils/regExMapping";
+import {vusername, vpassword} from  "../../utils/validationConstant";
+import Alert from '@material-ui/lab/Alert';
+import AlertTitle from '@material-ui/lab/AlertTitle';
 
 
 
@@ -43,39 +46,43 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function SignIn({submit}) {
-const [username, setUsername] = useState("");
-const [password, setPassword] = useState("");
-// const login = useLogin();
-// const notify = useNotify();
-//const validate = useValidate();
- const classes = useStyles();
+const [errors, setErrors] = useState('');
+const [credential , setCredential] = useReducer(
+  (state, newState) => ({ ...state, ...newState }),{username : '',password : ''});
+const classes = useStyles();
+const serverError = useSelector(state => state.user);
 
- 
 
 const handleSubmit = (e) => {
     e.preventDefault();
-   submit({email: username, password: password});
-    //.catch( () => notify('Invalid username or password'));
+    const errorList = Object.values(errors);
+    for(let i =0;i<errorList.length; i++ ){
+        if(errorList[i])
+        return
+    }
+    submit({"email": credential.username,
+    "password": credential.password})
+
   };
 
 
-// const validate = (values) =>{
-// const errors = [];
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const newValue = e.target.value;
+    if(newValue.match(regExMapping[name])) {
+      setCredential({[name]: newValue });
+      setErrors({...errors,[name]: false})}
+    else {
+      setCredential({[name]: newValue });
+      setErrors({...errors,[name]: true})
+    }
+  }
 
-//   if (username.length === 0) {
-//     errors.push("Name can't be empty");
-//   }
 
-//  if (password.length < 6) {
-//     errors.push("Password should be at least 6 characters long");
-//   }
 
-//   return errors;
-// }
-
- 
   return (
     <Container component="main" maxWidth="xs">
+
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -85,22 +92,34 @@ const handleSubmit = (e) => {
           Login
         </Typography>
 
-        <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
+          { (serverError && serverError.error) ?
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+                {serverError.message}<strong> Check it out!</strong>
+              {localStorage.ifedsAuthJWT && localStorage.removeItem("ifedsAuthJWT")}
+              {localStorage.ifedsUserPermissionLevel && localStorage.removeItem("ifedsUserPermissionLevel")}
+            </Alert>
+              :
+              ""
+              }
           <TextField
             variant="outlined"
             margin="normal"
             required="required"
             fullWidth="fullWidth"
+            error = {errors["username"]}
             id="username"
             label="UserName"
             name="username"
+            value={credential.username}
             placeholder="Enter username"
             autoComplete="username"
             autoFocus="autoFocus"
-            onChange={e => setUsername(e.target.value)}
-            helpertext="Enter Password"
-            
-           
+            onChange={e => handleChange(e)}
+            helperText= {errors["username"]? vusername:"Enter Username"}
+
+
           />
 
           <TextField
@@ -108,15 +127,17 @@ const handleSubmit = (e) => {
             margin="normal"
             required="required"
             fullWidth="fullWidth"
+            error = {errors["password"]}
             name="password"
             label="Password"
             type="password"
             placeholder="Enter password"
             id="password"
+            value = {credential.password}
             autoComplete="current-password"
-            onChange={e => setPassword(e.target.value)}
-            helpertext="Enter Password"
-            
+            onChange={e => handleChange(e)}
+            helperText= {errors["password"]? vpassword:"Enter Password"}
+
           />
 
           <Button
@@ -125,7 +146,7 @@ const handleSubmit = (e) => {
             variant="contained"
             color="primary"
             className={classes.submit}
-           
+
           >
             Sign In
           </Button>
@@ -142,4 +163,3 @@ const handleSubmit = (e) => {
     </Container>
   );
 }
-

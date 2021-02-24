@@ -43,6 +43,7 @@ export const login = credentials => dispatch =>
 
 export const logout = () => dispatch => {
   localStorage.removeItem("ifedsAuthJWT");
+  localStorage.removeItem("ifedsUserPermissionLevel");
   setAuthorizationHeader();
   dispatch(userLoggedOut());
 };
