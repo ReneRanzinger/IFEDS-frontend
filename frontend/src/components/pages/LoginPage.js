@@ -10,9 +10,14 @@ import { getMeta } from "./head.js";
 
 
 class LoginPage extends React.Component {
-  const submit = data => this.props.login(data).then(() => this.props.history.push("/dashboard"));
-   
+  constructor(props) {
+    super(props);
 
+    // bound functions
+    this.submit = this.submit.bind(this);
+  }
+
+  submit = data => this.props.login(data).then(() => this.props.history.push("/dashboard")); 
 
   render() {
     return (
